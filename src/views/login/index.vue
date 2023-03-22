@@ -1,19 +1,24 @@
 <script lang="ts" setup name="Login">
 import { ref } from 'vue';
+import request from '@/utils/request';
 
-const email = ref('');
+const identifier = ref('');
 const password = ref('');
-function login() {
-  console.log('login');
+async function login() {
+  const res = await request.post('/auth/local', {
+    identifier: identifier.value,
+    password: password.value,
+  });
+  console.log(res);
 }
 </script>
 <template>
   <div>
     <el-form>
-      <el-form-item label="Email">
-        <el-input v-model="email"></el-input>
+      <el-form-item label="账号">
+        <el-input v-model="identifier"></el-input>
       </el-form-item>
-      <el-form-item label="Password">
+      <el-form-item label="密码">
         <el-input v-model="password" type="password"></el-input>
       </el-form-item>
       <el-form-item>
