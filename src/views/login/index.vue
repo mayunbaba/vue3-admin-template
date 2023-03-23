@@ -1,6 +1,6 @@
 <script lang="ts" setup name="Login">
+import { request } from '@/utils';
 import { ref } from 'vue';
-import request from '@/utils/request';
 
 const identifier = ref('');
 const password = ref('');
