@@ -16,7 +16,6 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     // 未登录
-    console.log(whiteList.includes(to.name as string));
     if (whiteList.includes(to.name as string)) {
       // 在免登录白名单，直接进入
       next();

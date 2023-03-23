@@ -27,10 +27,18 @@ export default defineStore(
       return res;
     };
 
+    // 获取用户信息
+    const getUserInfo = async () => {
+      const res: User = await request.get('/users/me');
+      if (!res) return;
+      user.value = res;
+    };
+
     return {
       login,
       user,
       token,
+      getUserInfo,
     };
   },
   {

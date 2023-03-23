@@ -14,12 +14,11 @@ async function login() {
     password: password.value,
   });
   if (!res) return;
-  // request.defaults.headers.common['Authorization'] = `Bearer ${res.jwt}`;
   router.push({ path: '/' });
 }
 </script>
 <template>
-  <div>
+  <div class="login-page">
     <el-form>
       <el-form-item label="账号">
         <el-input v-model="identifier"></el-input>
@@ -33,3 +32,12 @@ async function login() {
     </el-form>
   </div>
 </template>
+<style lang="scss" scoped>
+.login-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
