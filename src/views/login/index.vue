@@ -1,15 +1,21 @@
 <script lang="ts" setup name="Login">
-import { request } from '@/utils';
+// import { request } from '@/utils';
 import { ref } from 'vue';
+import useUserStore from '@/stores/user';
+import { useRouter } from 'vue-router';
 
-const identifier = ref('');
-const password = ref('');
+const userStore = useUserStore();
+const router = useRouter();
+const identifier = ref('admin');
+const password = ref('!QA2ws3ed');
 async function login() {
-  const res = await request.post('/auth/local', {
+  const res = await userStore.login({
     identifier: identifier.value,
     password: password.value,
   });
-  console.log(res);
+  if (!res) return;
+  // request.defaults.headers.common['Authorization'] = `Bearer ${res.jwt}`;
+  router.push({ path: '/' });
 }
 </script>
 <template>

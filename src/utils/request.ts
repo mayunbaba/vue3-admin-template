@@ -19,7 +19,6 @@ service.interceptors.response.use(
   },
   (error) => {
     const { data } = error.response;
-    console.log(data.error.message);
     ElMessage.error(data.error.message);
   },
 );
