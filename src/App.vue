@@ -7,9 +7,15 @@ const zIndex = ref(2000);
 const locale = ref(zhCn);
 </script>
 <template>
-  <div>
-    <el-config-provider :size="size" :z-index="zIndex" :locale="locale">
-      <router-view></router-view>
-    </el-config-provider>
-  </div>
+  <el-config-provider :size="size" :z-index="zIndex" :locale="locale">
+    <router-view></router-view>
+  </el-config-provider>
 </template>
+<style lang="scss">
+#app {
+  height: 100vh;
+  * {
+    box-sizing: border-box;
+  }
+}
+</style>

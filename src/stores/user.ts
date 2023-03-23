@@ -7,14 +7,8 @@ export default defineStore(
   () => {
     // state 修改state通过$patch
     const user: Ref<User> = ref({
-      id: 0,
       username: '',
       email: '',
-      provider: 'local',
-      confirmed: true,
-      blocked: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     });
     const token = ref('');
 
@@ -34,11 +28,21 @@ export default defineStore(
       user.value = res;
     };
 
+    // 用户退出
+    const logout = () => {
+      user.value = {
+        username: '',
+        email: '',
+      };
+      token.value = '';
+    };
+
     return {
       login,
       user,
       token,
       getUserInfo,
+      logout,
     };
   },
   {

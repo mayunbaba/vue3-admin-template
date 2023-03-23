@@ -14,7 +14,7 @@ async function login() {
     password: password.value,
   });
   if (!res) return;
-  router.push({ path: '/' });
+  router.replace({ path: '/' });
 }
 </script>
 <template>

@@ -1,4 +1,5 @@
 import * as VueRouter from 'vue-router';
+import Layout from '@/layout/index.vue';
 
 const routes: Array<VueRouter.RouteRecordRaw> = [
   {
@@ -9,6 +10,7 @@ const routes: Array<VueRouter.RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/dashboard',
+    component: Layout,
     children: [
       {
         path: '/dashboard',
