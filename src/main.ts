@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import 'element-plus/dist/index.css';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import './style.css';
