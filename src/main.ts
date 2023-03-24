@@ -2,7 +2,8 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import '@/permission';
-import './style.css';
+import '@/assets/scss/theme.scss';
+import '@/assets/scss/style.scss';
 import App from './App.vue';
 import router from './router';
 

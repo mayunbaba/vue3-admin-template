@@ -11,7 +11,7 @@ const logout = () => {
 };
 </script>
 <template>
-  <div class="header">
+  <div class="header shadow">
     <div></div>
     <div class="right">
       <el-dropdown>
@@ -34,9 +34,7 @@ const logout = () => {
 .header {
   width: 100%;
   height: 50px;
-  background-color: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  background-color: var(--el-bg-color);
   display: flex;
   justify-content: space-between;
   .profile {

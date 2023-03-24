@@ -19,6 +19,11 @@ const routes: Array<VueRouter.RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('@/views/404.vue'),
+  },
 ];
 
 const router = VueRouter.createRouter({

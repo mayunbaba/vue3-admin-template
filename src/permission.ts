@@ -3,7 +3,7 @@ import useUserStore from '@/stores/user';
 import router from '@/router';
 import 'nprogress/nprogress.css';
 
-const whiteList = ['Login']; // no redirect whitelist
+const whiteList = ['Login', '404']; // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();

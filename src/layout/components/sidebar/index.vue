@@ -5,6 +5,6 @@
 <style>
 .side-bar {
   width: 200px;
-  background-color: #333;
+  background-color: var(--el-color-black);
 }
 </style>

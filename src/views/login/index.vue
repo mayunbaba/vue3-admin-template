@@ -8,6 +8,7 @@ const userStore = useUserStore();
 const router = useRouter();
 const identifier = ref('admin');
 const password = ref('!QA2ws3ed');
+userStore.logout();
 async function login() {
   const res = await userStore.login({
     identifier: identifier.value,
