@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/login/index.vue'),
+    component: () => import('@/views/login/login.vue'),
     hidden: true, // 不在侧边栏显示
     meta: {
       title: '登录',
@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
+        component: () => import('@/views/dashboard/dashboard.vue'),
         meta: {
           title: '首页',
           iconName: 'HomeFilled',
