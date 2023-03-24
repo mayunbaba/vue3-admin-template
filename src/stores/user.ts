@@ -1,6 +1,5 @@
 import { request } from '@/utils';
 import { defineStore } from 'pinia';
-import { Ref, ref } from 'vue';
 
 export default defineStore(
   'userStore',

@@ -1,6 +1,4 @@
 <script lang="ts" setup name="Login">
-// import { request } from '@/utils';
-import { ref } from 'vue';
 import useUserStore from '@/stores/user';
 import { useRouter } from 'vue-router';
 

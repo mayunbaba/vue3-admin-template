@@ -1,6 +1,5 @@
 <script lang="ts" setup name="App">
 import zhCn from 'element-plus/lib/locale/lang/zh-cn';
-import { ref } from 'vue';
 
 const size: any = ref('default');
 const zIndex = ref(2000);

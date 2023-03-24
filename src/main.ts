@@ -1,6 +1,6 @@
-import { createApp } from 'vue';
+// import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import '@/permission';
 import '@/assets/scss/theme.scss';
@@ -14,7 +14,7 @@ pinia.use(piniaPluginPersistedstate);
 const app = createApp(App);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
+  app.component(key, component);
 }
 
 app.use(router);
