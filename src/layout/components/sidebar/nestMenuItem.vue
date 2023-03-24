@@ -12,7 +12,7 @@ defineProps({
 
 <template>
   <div>
-    <el-icon>
+    <el-icon v-if="iconName">
       <component :is="iconName" />
     </el-icon>
     <span>{{ title }}</span>

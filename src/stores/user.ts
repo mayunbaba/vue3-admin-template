@@ -1,4 +1,4 @@
-import { request } from '@/utils';
+import request from '@/utils/request';
 import { defineStore } from 'pinia';
 
 export default defineStore(
