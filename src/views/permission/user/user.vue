@@ -9,7 +9,7 @@ const total = ref(0);
 const pageSize = ref(10);
 const currentPage = ref(1);
 const loading = ref(false);
-const list = ref([]);
+const list = ref();
 
 search();
 
@@ -19,33 +19,36 @@ function search() {
 }
 async function query() {
   loading.value = true;
-  const res = await request.get('/factories', {
+  // 此接口不支持分页
+  const res = await request.get('/users', {
     params: {
       filters: {
-        // username: {
-        //   $contains: searchForm.username,
-        // },
+        username: {
+          $contains: searchForm.username,
+        },
       },
-      pagination: {
-        page: currentPage.value,
-        pageSize: pageSize.value,
-        withCount: true,
-      },
+      // populate: '*', // 不明白这个populate是干嘛的
+      // users表分页不能用这个, 原因不详
+      // pagination: {
+      //   page: currentPage.value,
+      //   pageSize: pageSize.value,
+      //   withCount: true,
+      // },
     },
   });
-  list.value = res.data;
-  total.value = res.meta.pagination.total;
+  list.value = res;
   loading.value = false;
 }
 
-function handlePageChange(page: number) {
+function handleCurrentChange(page: number) {
+  console.log('handleCurrentChange', page);
   currentPage.value = page;
-  search();
+  query();
 }
 
 function handleSizeChange(size: number) {
   pageSize.value = size;
-  search();
+  query();
 }
 </script>
 
@@ -82,7 +85,7 @@ function handleSizeChange(size: number) {
       :total="total"
       :disabled="loading"
       @size-change="handleSizeChange"
-      @current-change="handlePageChange"
+      @current-change="handleCurrentChange"
     />
   </div>
 </template>
