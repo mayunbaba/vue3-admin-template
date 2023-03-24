@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/',
+    path: '/首页',
     redirect: '/dashboard',
     component: Layout,
     children: [
@@ -23,6 +23,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/dashboard/dashboard.vue'),
         meta: {
           title: '首页',
+          iconName: 'HomeFilled',
+        },
+      },
+      {
+        path: '/factory',
+        name: 'Factory',
+        component: () => import('@/views/factory/factory.vue'),
+        meta: {
+          title: '工厂管理',
           iconName: 'HomeFilled',
         },
       },
