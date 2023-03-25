@@ -20,6 +20,8 @@ import Header from './components/header.vue';
   }
   .layout__main {
     width: calc(100% - 200px);
+    height: 100%;
+    overflow-y: scroll;
   }
 }
 </style>

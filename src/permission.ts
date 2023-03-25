@@ -10,7 +10,7 @@ router.beforeEach((to, from, next) => {
   // 页面转场动画
   NProgress.start();
   // 设置页面标题
-  window.document.title = (to.meta.title as string) || 'Vue3 Admin';
+  // window.document.title = (to.meta.title as string) || 'Vue3 Admin';
   // 判断是否登录
   if (userStore.token) {
     next();
