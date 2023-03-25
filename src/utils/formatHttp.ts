@@ -30,12 +30,7 @@ function formatResponseList(list: any[]) {
 function insertOrUpdateRequest(url: string, data: any, type: string) {
   const id = data.id;
   delete data.id;
-  // 删除空字符串 strapi的规定
-  Object.keys(data).forEach((key) => {
-    if (data[key].trim() === '') {
-      delete data[key];
-    }
-  });
+  console.log('data', data);
   if (type === 'add') {
     return request.post(url, { data });
   } else {

@@ -32,12 +32,11 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
 
 // 新增或修改
 function updateOrCreate(params: any, type: string) {
-  const data = {
-    ...params,
-    province: params.city[0],
-    city: params.city[1],
-  };
-  return insertOrUpdateRequest('/scenics', data, type);
+  if (typeof params.city === 'object') {
+    params.province = params.city[0];
+    params.city = params.city[1];
+  }
+  return insertOrUpdateRequest('/scenics', params, type);
 }
 
 // 删除
