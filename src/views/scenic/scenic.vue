@@ -37,8 +37,8 @@ const dialogFormInit = {
   id: '',
   name: '',
   city: [],
-  longitude: '',
-  latitude: '',
+  // longitude: '',
+  // latitude: '',
 };
 const rulesDialogForm = reactive({
   name: [
@@ -55,20 +55,20 @@ const rulesDialogForm = reactive({
       trigger: 'change',
     },
   ],
-  longitude: [
-    {
-      required: true,
-      message: '请输入经度',
-      trigger: 'blur',
-    },
-  ],
-  latitude: [
-    {
-      required: true,
-      message: '请输入纬度',
-      trigger: 'blur',
-    },
-  ],
+  // longitude: [
+  //   {
+  //     required: true,
+  //     message: '请输入经度',
+  //     trigger: 'blur',
+  //   },
+  // ],
+  // latitude: [
+  //   {
+  //     required: true,
+  //     message: '请输入纬度',
+  //     trigger: 'blur',
+  //   },
+  // ],
 });
 const {
   dialogVisible,
@@ -164,9 +164,6 @@ const {
         :rules="rulesDialogForm"
         :disabled="dialogOpreation.includes('view')"
       >
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="dialogForm.name" placeholder="" clearable />
-        </el-form-item>
         <el-form-item label="城市" prop="city">
           <el-cascader
             :show-all-levels="false"
@@ -176,12 +173,15 @@ const {
             clearable
           />
         </el-form-item>
-        <el-form-item label="经度" prop="longitude">
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="dialogForm.name" placeholder="" clearable />
+        </el-form-item>
+        <!-- <el-form-item label="经度" prop="longitude">
           <el-input v-model="dialogForm.longitude" clearable disabled />
         </el-form-item>
         <el-form-item label="纬度" prop="latitude">
           <el-input v-model="dialogForm.latitude" clearable disabled />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <span
         slot="footer"
