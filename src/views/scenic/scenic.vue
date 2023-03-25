@@ -55,20 +55,20 @@ const rulesDialogForm = reactive({
       trigger: 'change',
     },
   ],
-  // longitude: [
-  //   {
-  //     required: true,
-  //     message: '请输入经度',
-  //     trigger: 'blur',
-  //   },
-  // ],
-  // latitude: [
-  //   {
-  //     required: true,
-  //     message: '请输入纬度',
-  //     trigger: 'blur',
-  //   },
-  // ],
+  longitude: [
+    {
+      required: true,
+      message: '请输入经度',
+      trigger: 'blur',
+    },
+  ],
+  latitude: [
+    {
+      required: true,
+      message: '请输入纬度',
+      trigger: 'blur',
+    },
+  ],
 });
 const {
   dialogVisible,
@@ -128,18 +128,14 @@ const {
         <el-table-column prop="city" label="市" />
         <el-table-column label="操作">
           <template #default="{ row }">
-            <el-button type="primary" size="small" link @click="edit(row)">
-              编辑
-            </el-button>
-            <el-button type="primary" size="small" link @click="view(row)">
-              查看
-            </el-button>
+            <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
+            <el-button type="primary" link @click="view(row)"> 查看 </el-button>
             <el-popconfirm
               title="删除后将无法恢复，确定删除？"
               @confirm="del(row)"
             >
               <template #reference>
-                <el-button type="danger" size="small" link>Delete</el-button>
+                <el-button type="danger" link>Delete</el-button>
               </template>
             </el-popconfirm>
           </template>
@@ -147,6 +143,7 @@ const {
       </el-table>
       <el-pagination
         v-if="total > 0"
+        small
         background
         class="pagination"
         layout="total, sizes, prev, pager, next, jumper"
