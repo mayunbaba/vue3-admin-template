@@ -1,9 +1,7 @@
-import { insertOrUpdateRequest } from '@/utils/formatRequest';
-
 export function useEditFormList({
-  url,
   dialogFormRef,
   dialogFormInit,
+  updateOrCreate,
   search,
 }: any) {
   const loading = ref(false);
@@ -43,15 +41,13 @@ export function useEditFormList({
         if (loading.value) return;
         loading.value = true;
         console.log(dialogForm);
-        insertOrUpdateRequest(url, dialogForm, dialogOpreation.value).then(
-          (res) => {
-            loading.value = false;
-            if (res) {
-              dialogVisible.value = false;
-              search();
-            }
-          },
-        );
+        updateOrCreate(dialogForm, dialogOpreation.value).then((res) => {
+          loading.value = false;
+          if (res) {
+            dialogVisible.value = false;
+            search();
+          }
+        });
       } else {
         console.log('error submit!', fields);
       }

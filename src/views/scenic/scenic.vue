@@ -2,6 +2,7 @@
 import { usePagination } from '@/hooks/pagination';
 import { useEditFormList } from '@/hooks/editFormList';
 import district from '@/utils/district';
+import scenincs from '@/api/scenics';
 
 // 级联选择器交互
 const props = {
@@ -26,8 +27,8 @@ const {
   reset,
   searchForm,
 } = usePagination({
-  url: '/scenics',
   searchFormInit,
+  queryList: scenincs.queryList,
 });
 
 // 编辑table
@@ -50,8 +51,8 @@ const rulesDialogForm = reactive({
   city: [
     {
       required: true,
-      message: '请输入市',
-      trigger: 'blur',
+      message: '请选择城市',
+      trigger: 'change',
     },
   ],
   // longitude: [
@@ -72,6 +73,7 @@ const rulesDialogForm = reactive({
 const {
   dialogVisible,
   dialogTitle,
+  dialogOpreation,
   dialogForm,
   add,
   edit,
@@ -79,9 +81,9 @@ const {
   submit,
   loading: loadingDialog,
 } = useEditFormList({
-  url: '/scenics',
   dialogFormRef,
   dialogFormInit,
+  updateOrCreate: scenincs.updateOrCreate,
   search,
 });
 </script>
@@ -98,6 +100,7 @@ const {
           v-model="searchForm.city"
           :options="district"
           :props="props"
+          clearable
         />
       </el-form-item>
       <el-form-item>
@@ -117,6 +120,7 @@ const {
       element-loading-background="rgba(122, 122, 122, 0.8)"
     >
       <el-table :data="tableData" border>
+        <!-- <el-table-column prop="id" label="序号" /> -->
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="province" label="省" />
         <el-table-column prop="city" label="市" />
@@ -151,17 +155,18 @@ const {
         :model="dialogForm"
         label-width="80px"
         :rules="rulesDialogForm"
+        :disabled="dialogOpreation.includes('view')"
       >
         <el-form-item label="名称" prop="name">
           <el-input v-model="dialogForm.name" placeholder="" clearable />
         </el-form-item>
         <el-form-item label="城市" prop="city">
-          <el-input v-model="dialogForm.city" placeholder="" clearable />
           <el-cascader
             :show-all-levels="false"
             v-model="dialogForm.city"
             :options="district"
             :props="props"
+            clearable
           />
         </el-form-item>
         <el-form-item label="经度" prop="longitude">
