@@ -1,13 +1,19 @@
 <script lang="ts" setup>
 import { usePagination } from '@/hooks/pagination';
 import { useEditFormList } from '@/hooks/editFormList';
-// 搜索table
-const searchForm = reactive({
-  name: '',
-  province: '',
-  city: '',
-});
+import district from '@/utils/district';
 
+// 级联选择器交互
+const props = {
+  expandTrigger: 'hover' as const,
+  value: 'label',
+};
+
+// 搜索table
+const searchFormInit = {
+  name: '',
+  city: [],
+};
 const {
   tableData,
   total,
@@ -17,9 +23,11 @@ const {
   search,
   handleCurrentChange,
   handleSizeChange,
+  reset,
+  searchForm,
 } = usePagination({
   url: '/scenics',
-  searchForm,
+  searchFormInit,
 });
 
 // 编辑table
@@ -27,24 +35,15 @@ const dialogFormRef = ref();
 const dialogFormInit = {
   id: '',
   name: '',
-  province: '北京市',
-  city: '北京市',
+  city: [],
   longitude: '',
   latitude: '',
 };
-
 const rulesDialogForm = reactive({
   name: [
     {
       required: true,
       message: '请输入名称',
-      trigger: 'blur',
-    },
-  ],
-  province: [
-    {
-      required: true,
-      message: '请输入省',
       trigger: 'blur',
     },
   ],
@@ -55,22 +54,21 @@ const rulesDialogForm = reactive({
       trigger: 'blur',
     },
   ],
-  longitude: [
-    {
-      required: true,
-      message: '请输入经度',
-      trigger: 'blur',
-    },
-  ],
-  latitude: [
-    {
-      required: true,
-      message: '请输入纬度',
-      trigger: 'blur',
-    },
-  ],
+  // longitude: [
+  //   {
+  //     required: true,
+  //     message: '请输入经度',
+  //     trigger: 'blur',
+  //   },
+  // ],
+  // latitude: [
+  //   {
+  //     required: true,
+  //     message: '请输入纬度',
+  //     trigger: 'blur',
+  //   },
+  // ],
 });
-
 const {
   dialogVisible,
   dialogTitle,
@@ -95,15 +93,16 @@ const {
       <el-form-item label="名称">
         <el-input v-model="searchForm.name" placeholder="" clearable />
       </el-form-item>
-      <el-form-item label="省">
-        <el-input v-model="searchForm.province" placeholder="" clearable />
-      </el-form-item>
-      <el-form-item label="市">
-        <el-input v-model="searchForm.city" placeholder="" clearable />
+      <el-form-item label="城市">
+        <el-cascader
+          v-model="searchForm.city"
+          :options="district"
+          :props="props"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
-        <el-button>清空</el-button>
+        <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
     <!-- 功能区 -->
@@ -156,11 +155,14 @@ const {
         <el-form-item label="名称" prop="name">
           <el-input v-model="dialogForm.name" placeholder="" clearable />
         </el-form-item>
-        <el-form-item label="省" prop="province">
-          <el-input v-model="dialogForm.province" placeholder="" clearable />
-        </el-form-item>
-        <el-form-item label="市" prop="city">
+        <el-form-item label="城市" prop="city">
           <el-input v-model="dialogForm.city" placeholder="" clearable />
+          <el-cascader
+            :show-all-levels="false"
+            v-model="dialogForm.city"
+            :options="district"
+            :props="props"
+          />
         </el-form-item>
         <el-form-item label="经度" prop="longitude">
           <el-input v-model="dialogForm.longitude" clearable disabled />

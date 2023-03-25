@@ -42,6 +42,7 @@ export function useEditFormList({
       if (valid) {
         if (loading.value) return;
         loading.value = true;
+        console.log(dialogForm);
         insertOrUpdateRequest(url, dialogForm, dialogOpreation.value).then(
           (res) => {
             loading.value = false;

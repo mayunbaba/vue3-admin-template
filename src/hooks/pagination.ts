@@ -1,19 +1,16 @@
 import { formatResponseList } from '@/utils/formatRequest';
 import request from '@/utils/request';
 
-export function usePagination({
-  url,
-  searchForm,
-}: {
-  url: string;
-  searchForm: any;
-}) {
+export function usePagination({ url, searchFormInit }: any) {
   // 分页相关
   const total = ref(0);
   const pageSize = ref(10);
   const currentPage = ref(1);
   const loading = ref(false);
   const tableData = ref();
+  const searchForm = reactive({
+    ...searchFormInit,
+  });
 
   search();
 
@@ -32,9 +29,9 @@ export function usePagination({
             name: {
               $contains: searchForm.name,
             },
-            city: {
-              $contains: searchForm.name,
-            },
+            // city: {
+            //   $contains: searchForm.name,
+            // },
           },
           // populate: '*', // 不明白这个populate是干嘛的
           pagination: {
@@ -67,6 +64,13 @@ export function usePagination({
     query();
   }
 
+  function reset() {
+    Object.assign(searchForm, {
+      ...searchFormInit,
+    });
+    search();
+  }
+
   return {
     tableData,
     total,
@@ -76,5 +80,7 @@ export function usePagination({
     search,
     handleCurrentChange,
     handleSizeChange,
+    reset,
+    searchForm,
   };
 }
