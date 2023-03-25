@@ -36,7 +36,9 @@ async function query() {
       // },
     },
   });
-  list.value = res;
+  if (res) {
+    list.value = res;
+  }
   loading.value = false;
 }
 

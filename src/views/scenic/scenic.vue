@@ -1,27 +1,12 @@
 <script lang="ts" setup>
 import { usePagination } from '@/hooks/pagination';
-import request from '@/utils/request';
-
+import { useEditFormList } from '@/hooks/editFormList';
+// 搜索table
 const searchForm = reactive({
   name: '',
   province: '',
   city: '',
 });
-
-const tableCloums = reactive([
-  {
-    prop: 'name',
-    label: '名称',
-  },
-  {
-    prop: 'province',
-    label: '省',
-  },
-  {
-    prop: 'city',
-    label: '市',
-  },
-]);
 
 const {
   tableData,
@@ -37,19 +22,16 @@ const {
   searchForm,
 });
 
-const scenicsInitState = {
+// 编辑table
+const dialogFormRef = ref();
+const dialogFormInit = {
   id: '',
   name: '',
-  province: '',
-  city: '',
+  province: '北京市',
+  city: '北京市',
   longitude: '',
   latitude: '',
 };
-const dialogVisible = ref(false);
-const dialogTitle = ref('新增');
-const dialogForm = reactive({
-  ...scenicsInitState,
-});
 
 const rulesDialogForm = reactive({
   name: [
@@ -89,43 +71,21 @@ const rulesDialogForm = reactive({
   ],
 });
 
-function edit(row: any) {
-  dialogTitle.value = '编辑';
-  dialogVisible.value = true;
-  Object.assign(dialogForm, row);
-}
-function view(row: any) {
-  dialogTitle.value = '查看';
-  dialogVisible.value = true;
-  Object.assign(dialogForm, row);
-}
-function add() {
-  dialogTitle.value = '新增';
-  dialogVisible.value = true;
-  Object.assign(dialogForm, {
-    ...scenicsInitState,
-  });
-}
-function submit(dialogForm: any, type: string) {
-  const url = type === '新增' ? '/scenics' : `/scenics/${dialogForm.id}`;
-  const method = type === '新增' ? 'post' : 'put';
-  const params = type === '新增' ? dialogForm : { ...dialogForm };
-  delete params.id;
-  request({
-    url,
-    method,
-    data: {
-      data: params,
-    },
-  })
-    .then((res) => {
-      dialogVisible.value = false;
-      search();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
+const {
+  dialogVisible,
+  dialogTitle,
+  dialogForm,
+  add,
+  edit,
+  view,
+  submit,
+  loading: loadingDialog,
+} = useEditFormList({
+  url: '/scenics',
+  dialogFormRef,
+  dialogFormInit,
+  search,
+});
 </script>
 
 <template>
@@ -151,11 +111,16 @@ function submit(dialogForm: any, type: string) {
       <el-button type="primary" class="last-one" @click="add">新增</el-button>
     </div>
     <!-- 表格 -->
-    <div class="area-wrap">
+    <div
+      class="area-wrap"
+      v-loading="loading"
+      element-loading-text="Loading..."
+      element-loading-background="rgba(122, 122, 122, 0.8)"
+    >
       <el-table :data="tableData" border>
-        <template v-for="cloums in tableCloums" :key="cloums.label">
-          <el-table-column :prop="cloums.prop" :label="cloums.label" />
-        </template>
+        <el-table-column prop="name" label="名称" />
+        <el-table-column prop="province" label="省" />
+        <el-table-column prop="city" label="市" />
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button type="primary" size="small" link @click="edit(row)">
@@ -182,7 +147,12 @@ function submit(dialogForm: any, type: string) {
     </div>
     <!-- 查看、编辑、新增弹窗 -->
     <el-dialog v-model="dialogVisible" center :title="dialogTitle">
-      <el-form :model="dialogForm" label-width="80px" :rules="rulesDialogForm">
+      <el-form
+        ref="dialogFormRef"
+        :model="dialogForm"
+        label-width="80px"
+        :rules="rulesDialogForm"
+      >
         <el-form-item label="名称" prop="name">
           <el-input v-model="dialogForm.name" placeholder="" clearable />
         </el-form-item>
@@ -205,7 +175,7 @@ function submit(dialogForm: any, type: string) {
         v-if="!dialogTitle.includes('查看')"
       >
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit(dialogForm, dialogTitle)">
+        <el-button type="primary" @click="submit" :loading="loadingDialog">
           确 定
         </el-button>
       </span>

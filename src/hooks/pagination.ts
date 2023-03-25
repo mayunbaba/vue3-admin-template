@@ -1,4 +1,4 @@
-import { formatResponseList } from '@/utils/formatResponse';
+import { formatResponseList } from '@/utils/formatRequest';
 import request from '@/utils/request';
 
 export function usePagination({
@@ -23,6 +23,7 @@ export function usePagination({
   }
 
   function query() {
+    if (loading.value) return;
     loading.value = true;
     request
       .get(url, {
@@ -44,14 +45,13 @@ export function usePagination({
         },
       })
       .then((res: any) => {
-        formatResponseList(res.data);
-        tableData.value = res.data;
-        total.value = res.meta.pagination.total;
-        pageSize.value = res.meta.pagination.pageSize;
-        currentPage.value = res.meta.pagination.page;
-        loading.value = false;
-      })
-      .catch(() => {
+        if (res) {
+          formatResponseList(res.data);
+          tableData.value = res.data;
+          total.value = res.meta.pagination.total;
+          pageSize.value = res.meta.pagination.pageSize;
+          currentPage.value = res.meta.pagination.page;
+        }
         loading.value = false;
       });
   }
