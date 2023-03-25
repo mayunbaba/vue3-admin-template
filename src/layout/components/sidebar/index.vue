@@ -49,9 +49,7 @@ function treeDeleteHidden(route: RouteRecordRaw) {
 
 <style lang="scss" scoped>
 .side-bar {
-  width: 300px;
   background-color: var(--el-menu-bg-color);
-  color: azure;
 }
 
 .sub-menu-wrap {

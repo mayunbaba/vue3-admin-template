@@ -4,7 +4,7 @@ import Header from './components/header.vue';
 </script>
 <template>
   <div class="layout-page">
-    <Sidebar />
+    <Sidebar class="sidebar" />
     <div class="layout__main">
       <Header />
       <router-view />
@@ -15,8 +15,11 @@ import Header from './components/header.vue';
 .layout-page {
   display: flex;
   height: 100%;
+  .sidebar {
+    width: 200px;
+  }
   .layout__main {
-    flex: 1;
+    width: calc(100% - 200px);
   }
 }
 </style>

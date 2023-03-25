@@ -23,6 +23,14 @@ service.interceptors.response.use(
   },
   (error) => {
     const { data } = error.response;
+    const code = data.error.status;
+    if (code === 401) {
+      const userStore = useUserStore();
+      userStore.logout();
+    } else if (code === 403) {
+      ElMessage.error('没有权限');
+      return;
+    }
     ElMessage.error(data.error.message);
   },
 );

@@ -10,12 +10,3 @@ const locale = ref(zhCn);
     <router-view></router-view>
   </el-config-provider>
 </template>
-<style lang="scss">
-#app {
-  height: 100vh;
-  box-sizing: border-box;
-  * {
-    box-sizing: inherit;
-  }
-}
-</style>
