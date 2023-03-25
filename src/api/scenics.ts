@@ -40,7 +40,15 @@ function updateOrCreate(params: any, type: string) {
   return insertOrUpdateRequest('/scenics', data, type);
 }
 
+// 删除
+function deleteById(id: string) {
+  return request(`/scenics/${id}`, {
+    method: 'DELETE',
+  });
+}
+
 export default {
   queryList,
   updateOrCreate,
+  deleteById,
 };

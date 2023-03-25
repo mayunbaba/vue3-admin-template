@@ -10,7 +10,7 @@ const props = {
   value: 'label',
 };
 
-// 搜索table
+// 查询
 const searchFormInit = {
   name: '',
   city: [],
@@ -31,7 +31,7 @@ const {
   queryList: scenincs.queryList,
 });
 
-// 编辑table
+// 编辑、查看、新增
 const dialogFormRef = ref();
 const dialogFormInit = {
   id: '',
@@ -76,6 +76,7 @@ const {
   dialogOpreation,
   dialogForm,
   add,
+  del,
   edit,
   view,
   submit,
@@ -84,6 +85,7 @@ const {
   dialogFormRef,
   dialogFormInit,
   updateOrCreate: scenincs.updateOrCreate,
+  deleteById: scenincs.deleteById,
   search,
 });
 </script>
@@ -132,6 +134,14 @@ const {
             <el-button type="primary" size="small" link @click="view(row)">
               查看
             </el-button>
+            <el-popconfirm
+              title="删除后将无法恢复，确定删除？"
+              @confirm="del(row)"
+            >
+              <template #reference>
+                <el-button type="danger" size="small" link>Delete</el-button>
+              </template>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>

@@ -2,6 +2,7 @@ export function useEditFormList({
   dialogFormRef,
   dialogFormInit,
   updateOrCreate,
+  deleteById,
   search,
 }: any) {
   const loading = ref(false);
@@ -11,7 +12,22 @@ export function useEditFormList({
   const dialogForm = reactive({
     ...dialogFormInit,
   });
-
+  function add() {
+    dialogTitle.value = '新增';
+    dialogVisible.value = true;
+    dialogOpreation.value = 'add';
+    dialogFormRef.value?.resetFields();
+    Object.assign(dialogForm, {
+      ...dialogFormInit,
+    });
+  }
+  function del(row: any) {
+    deleteById(row.id).then((res: any) => {
+      if (res) {
+        search();
+      }
+    });
+  }
   function edit(row: any) {
     dialogTitle.value = '编辑';
     dialogVisible.value = true;
@@ -26,22 +42,12 @@ export function useEditFormList({
     dialogFormRef.value?.resetFields();
     Object.assign(dialogForm, row);
   }
-  function add() {
-    dialogTitle.value = '新增';
-    dialogVisible.value = true;
-    dialogOpreation.value = 'add';
-    dialogFormRef.value?.resetFields();
-    Object.assign(dialogForm, {
-      ...dialogFormInit,
-    });
-  }
   function submit() {
     dialogFormRef.value.validate((valid: boolean, fields: any) => {
       if (valid) {
         if (loading.value) return;
         loading.value = true;
-        console.log(dialogForm);
-        updateOrCreate(dialogForm, dialogOpreation.value).then((res) => {
+        updateOrCreate(dialogForm, dialogOpreation.value).then((res: any) => {
           loading.value = false;
           if (res) {
             dialogVisible.value = false;
@@ -62,6 +68,7 @@ export function useEditFormList({
     edit,
     view,
     add,
+    del,
     submit,
     loading,
   };
