@@ -21,6 +21,7 @@ function formatRequestList(
 }
 
 function formatResponseList(list: any[]) {
+  if (!list) return;
   list.forEach((item) => {
     Object.assign(item, item.attributes);
     delete item.attributes;

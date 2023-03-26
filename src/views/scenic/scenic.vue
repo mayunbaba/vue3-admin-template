@@ -126,6 +126,8 @@ const {
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="province" label="省" />
         <el-table-column prop="city" label="市" />
+        <el-table-column prop="longitude" label="经度" />
+        <el-table-column prop="latitude" label="纬度" />
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
