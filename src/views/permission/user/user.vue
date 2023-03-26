@@ -49,11 +49,11 @@ const {
   view,
   submit,
   del,
-  loading: loadingDialog,
+  loadingDialog,
 } = useEditFormList({
   dialogFormRef,
   dialogFormInit,
-  updateOrCreate: users.updateOrCreate,
+  editAndAdd: users.editAndAdd,
   deleteById: users.deleteById,
   search,
 });

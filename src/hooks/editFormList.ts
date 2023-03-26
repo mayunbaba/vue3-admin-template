@@ -1,7 +1,7 @@
 export function useEditFormList({
   dialogFormRef,
   dialogFormInit,
-  updateOrCreate,
+  editAndAdd,
   deleteById,
   search,
 }: any) {
@@ -47,7 +47,7 @@ export function useEditFormList({
       if (valid) {
         if (loading.value) return;
         loading.value = true;
-        updateOrCreate(dialogForm, dialogOpreation.value).then((res: any) => {
+        editAndAdd(dialogForm, dialogOpreation.value).then((res: any) => {
           loading.value = false;
           if (res) {
             dialogVisible.value = false;
@@ -70,6 +70,6 @@ export function useEditFormList({
     add,
     del,
     submit,
-    loading,
+    loadingDialog: loading,
   };
 }

@@ -31,7 +31,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
 }
 
 // 新增或修改
-function updateOrCreate(params: any, type: string) {
+function editAndAdd(params: any, type: string) {
   if (typeof params.city === 'object') {
     params.province = params.city[0];
     params.city = params.city[1];
@@ -48,6 +48,6 @@ function deleteById(id: string) {
 
 export default {
   queryList,
-  updateOrCreate,
+  editAndAdd,
   deleteById,
 };

@@ -28,7 +28,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
 }
 
 // 新增或修改
-function updateOrCreate(data: any, type: string) {
+function editAndAdd(data: any, type: string) {
   if (type === 'add') {
     delete data.id;
     data.confirmed = true;
@@ -48,6 +48,6 @@ function deleteById(id: string) {
 
 export default {
   queryList,
-  updateOrCreate,
+  editAndAdd,
   deleteById,
 };

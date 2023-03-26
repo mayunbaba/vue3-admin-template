@@ -56,34 +56,10 @@ const dialogFormInit = {
   latitude: '',
 };
 const rulesDialogForm = reactive({
-  name: [
-    {
-      required: true,
-      message: '请输入名称',
-      trigger: 'blur',
-    },
-  ],
-  city: [
-    {
-      required: true,
-      message: '请选择城市',
-      trigger: 'change',
-    },
-  ],
-  longitude: [
-    {
-      required: true,
-      message: '请获取经度',
-      trigger: 'change',
-    },
-  ],
-  latitude: [
-    {
-      required: true,
-      message: '请获取纬度',
-      trigger: 'change',
-    },
-  ],
+  name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+  city: [{ required: true, message: '请选择城市', trigger: 'change' }],
+  longitude: [{ required: true, message: '请获取经度', trigger: 'change' }],
+  latitude: [{ required: true, message: '请获取纬度', trigger: 'change' }],
 });
 const {
   dialogVisible,
@@ -95,11 +71,11 @@ const {
   edit,
   view,
   submit,
-  loading: loadingDialog,
+  loadingDialog,
 } = useEditFormList({
   dialogFormRef,
   dialogFormInit,
-  updateOrCreate: scenincs.updateOrCreate,
+  editAndAdd: scenincs.editAndAdd,
   deleteById: scenincs.deleteById,
   search,
 });
