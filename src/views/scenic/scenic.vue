@@ -213,16 +213,9 @@ const {
         v-if="!dialogTitle.includes('查看')"
       >
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-popconfirm
-          title="请确认已经获取经纬度，确定提交？"
-          @confirm="submit"
-        >
-          <template #reference>
-            <el-button type="primary" :loading="loadingDialog">
-              确 定
-            </el-button>
-          </template>
-        </el-popconfirm>
+        <el-button type="primary" :loading="loadingDialog" @click="submit">
+          确 定
+        </el-button>
       </span>
     </el-dialog>
   </div>
