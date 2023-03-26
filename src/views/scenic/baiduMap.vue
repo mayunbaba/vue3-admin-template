@@ -15,13 +15,11 @@ function getPoint(city, address) {
     myGeo.getPoint(
       address,
       function (point) {
-        console.log(point);
         if (point) {
-          const { lng, lat } = point;
           map.centerAndZoom(point, 16);
-          map.addOverlay(
-            new BMapGL.Marker(point, { title: '北京市海淀区上地10街' }),
-          );
+          const marker = new BMapGL.Marker(point);
+          map.clearOverlays(); // 清除地图上所有覆盖物
+          map.addOverlay(marker); // 将标注添加到地图中
           resolve(point);
         } else {
           reject('您选择的地址没有解析到结果！');

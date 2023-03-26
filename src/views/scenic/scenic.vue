@@ -118,6 +118,7 @@ const {
           :options="district"
           :props="props"
           clearable
+          filterable
         />
       </el-form-item>
       <el-form-item>
@@ -191,6 +192,7 @@ const {
             :options="district"
             :props="props"
             clearable
+            filterable
           />
           <el-button type="primary" @click="getLngLat">获取经纬度</el-button>
         </el-form-item>
