@@ -11,11 +11,11 @@ const baiduMapRef = ref();
 async function getLngLat() {
   try {
     const res = await baiduMapRef.value.getPoint(
-      dialogForm.city,
-      dialogForm.name,
+      dialogForm.value.city,
+      dialogForm.value.name,
     );
-    dialogForm.longitude = res.lng;
-    dialogForm.latitude = res.lat;
+    dialogForm.value.longitude = res.lng;
+    dialogForm.value.latitude = res.lat;
   } catch (error) {}
 }
 
