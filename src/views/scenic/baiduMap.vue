@@ -1,8 +1,6 @@
 <script setup>
 let map;
 let myGeo;
-const longitude = ref('');
-const latitude = ref('');
 
 function getPoint(city, address) {
   return new Promise((resolve, reject) => {
