@@ -9,7 +9,7 @@ export function useEditForm({
   const dialogVisible = ref(false);
   const dialogTitle = ref('新增');
   const dialogOpreation = ref('add');
-  const dialogForm = reactive({
+  const dialogForm = ref({
     ...dialogFormInit,
   });
   function add() {
@@ -17,9 +17,9 @@ export function useEditForm({
     dialogVisible.value = true;
     dialogOpreation.value = 'add';
     dialogFormRef.value?.resetFields();
-    Object.assign(dialogForm, {
+    dialogForm.value = {
       ...dialogFormInit,
-    });
+    };
   }
   function del(row: any) {
     deleteById(row.id).then((res: any) => {
@@ -33,21 +33,25 @@ export function useEditForm({
     dialogVisible.value = true;
     dialogOpreation.value = 'edit';
     dialogFormRef.value?.resetFields();
-    Object.assign(dialogForm, row);
+    dialogForm.value = {
+      ...row,
+    };
   }
   function view(row: any) {
     dialogTitle.value = '查看';
     dialogVisible.value = true;
     dialogOpreation.value = 'view';
     dialogFormRef.value?.resetFields();
-    Object.assign(dialogForm, row);
+    dialogForm.value = {
+      ...row,
+    };
   }
   function submit() {
     dialogFormRef.value.validate((valid: boolean, fields: any) => {
       if (valid) {
         if (loading.value) return;
         loading.value = true;
-        editAndAdd(dialogForm, dialogOpreation.value).then((res: any) => {
+        editAndAdd(dialogForm.value, dialogOpreation.value).then((res: any) => {
           loading.value = false;
           if (res) {
             dialogVisible.value = false;
