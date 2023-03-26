@@ -3,6 +3,21 @@ import { usePagination } from '@/hooks/pagination';
 import { useEditFormList } from '@/hooks/editFormList';
 import district from '@/utils/district';
 import scenincs from '@/api/scenics';
+import BaiduMap from './baiduMap.vue';
+
+const baiduMapRef = ref();
+
+// 级联选择器获取经纬度
+async function getLngLat() {
+  try {
+    const res = await baiduMapRef.value.getPoint(
+      dialogForm.city,
+      dialogForm.name,
+    );
+    dialogForm.longitude = res.lng;
+    dialogForm.latitude = res.lat;
+  } catch (error) {}
+}
 
 // 级联选择器交互
 const props = {
@@ -10,7 +25,7 @@ const props = {
   value: 'label',
 };
 
-// 查询
+// 查询 ==========================
 const searchFormInit = {
   name: '',
   city: [],
@@ -37,8 +52,8 @@ const dialogFormInit = {
   id: '',
   name: '',
   city: [],
-  // longitude: '',
-  // latitude: '',
+  longitude: '',
+  latitude: '',
 };
 const rulesDialogForm = reactive({
   name: [
@@ -55,20 +70,20 @@ const rulesDialogForm = reactive({
       trigger: 'change',
     },
   ],
-  // longitude: [
-  //   {
-  //     required: true,
-  //     message: '请输入经度',
-  //     trigger: 'blur',
-  //   },
-  // ],
-  // latitude: [
-  //   {
-  //     required: true,
-  //     message: '请输入纬度',
-  //     trigger: 'blur',
-  //   },
-  // ],
+  longitude: [
+    {
+      required: true,
+      message: '请获取经度',
+      trigger: 'change',
+    },
+  ],
+  latitude: [
+    {
+      required: true,
+      message: '请获取纬度',
+      trigger: 'change',
+    },
+  ],
 });
 const {
   dialogVisible,
@@ -166,6 +181,9 @@ const {
         :rules="rulesDialogForm"
         :disabled="dialogOpreation.includes('view')"
       >
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="dialogForm.name" placeholder="" clearable />
+        </el-form-item>
         <el-form-item label="城市" prop="city">
           <el-cascader
             :show-all-levels="false"
@@ -174,16 +192,18 @@ const {
             :props="props"
             clearable
           />
+          <el-button type="primary" @click="getLngLat">获取经纬度</el-button>
         </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="dialogForm.name" placeholder="" clearable />
-        </el-form-item>
-        <!-- <el-form-item label="经度" prop="longitude">
+        <el-form-item label="经度" prop="longitude">
           <el-input v-model="dialogForm.longitude" clearable disabled />
         </el-form-item>
         <el-form-item label="纬度" prop="latitude">
           <el-input v-model="dialogForm.latitude" clearable disabled />
-        </el-form-item> -->
+        </el-form-item>
+        <BaiduMap
+          style="width: 100%; height: 300px; margin-bottom: 10px"
+          ref="baiduMapRef"
+        />
       </el-form>
       <span
         slot="footer"
@@ -191,9 +211,16 @@ const {
         v-if="!dialogTitle.includes('查看')"
       >
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit" :loading="loadingDialog">
-          确 定
-        </el-button>
+        <el-popconfirm
+          title="请确认已经获取经纬度，确定提交？"
+          @confirm="submit"
+        >
+          <template #reference>
+            <el-button type="primary" :loading="loadingDialog">
+              确 定
+            </el-button>
+          </template>
+        </el-popconfirm>
       </span>
     </el-dialog>
   </div>
