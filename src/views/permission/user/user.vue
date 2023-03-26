@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { usePagination } from '@/hooks/pagination';
-import { useEditFormList } from '@/hooks/editFormList';
+import { useEditForm } from '@/hooks/editForm';
 import users from '@/api/users';
 
 // 查询 ===================
@@ -50,7 +50,7 @@ const {
   submit,
   del,
   loadingDialog,
-} = useEditFormList({
+} = useEditForm({
   dialogFormRef,
   dialogFormInit,
   editAndAdd: users.editAndAdd,

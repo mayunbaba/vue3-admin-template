@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { usePagination } from '@/hooks/pagination';
-import { useEditFormList } from '@/hooks/editFormList';
+import { useEditForm } from '@/hooks/editForm';
 import district from '@/utils/district';
 import scenincs from '@/api/scenics';
 import BaiduMap from './baiduMap.vue';
@@ -72,7 +72,7 @@ const {
   view,
   submit,
   loadingDialog,
-} = useEditFormList({
+} = useEditForm({
   dialogFormRef,
   dialogFormInit,
   editAndAdd: scenincs.editAndAdd,

@@ -1,4 +1,4 @@
-export function useEditFormList({
+export function useEditForm({
   dialogFormRef,
   dialogFormInit,
   editAndAdd,
