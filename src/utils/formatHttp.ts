@@ -29,11 +29,11 @@ function formatResponseList(list: any[]) {
 }
 
 function insertOrUpdateRequest(url: string, data: any, type: string) {
-  const id = data.id;
   if (type === 'add') {
-    data.id = null;
+    delete data.id;
     return request.post(url, { data });
   } else {
+    const id = data.id;
     return request.put(`${url}/${id}`, { data });
   }
 }
