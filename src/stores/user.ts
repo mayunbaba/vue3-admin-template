@@ -1,5 +1,6 @@
 import request from '@/utils/request';
 import { defineStore } from 'pinia';
+import users from '@/api/users';
 
 export default defineStore(
   'userStore',
@@ -13,7 +14,7 @@ export default defineStore(
 
     // Actions
     const login = async (data: LoginRequest) => {
-      const res: LoginResponse = await request.post('/api/auth/local', data);
+      const res: LoginResponse = await users.login(data);
       if (!res) return;
       token.value = res.jwt;
       user.value = res.user;
@@ -22,13 +23,13 @@ export default defineStore(
 
     // 获取用户信息
     const getUserInfo = async () => {
-      const res: User = await request.get('/api/users/me');
+      const res: User = await users.getUserInfo();
       if (!res) return;
       user.value = res;
     };
 
     // 用户退出
-    const logout = () => {
+    const logout = async () => {
       user.value = {
         username: '',
         email: '',

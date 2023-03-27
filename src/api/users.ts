@@ -1,6 +1,16 @@
 import { formatRequestList } from '@/utils/formatHttp';
 import request from '@/utils/request';
 
+// 登录
+function login(data: any) {
+  return request.post('/api/auth/local', data);
+}
+
+// 获取用户信息
+function getUserInfo() {
+  return request('/api/users/me');
+}
+
 // 查询列表
 function queryList(searchForm: any, currentPage: number, pageSize: number) {
   // 定义查询规则
@@ -47,6 +57,8 @@ function deleteById(id: string) {
 }
 
 export default {
+  login,
+  getUserInfo,
   queryList,
   editAndAdd,
   deleteById,
