@@ -18,7 +18,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
       $eq: searchForm.city[1],
     },
   };
-  return queryListFactory('/api/scenics', filters, currentPage, pageSize);
+  return queryListFactory('/scenics', filters, currentPage, pageSize);
 }
 
 // 新增或修改
@@ -27,12 +27,12 @@ function editAndAdd(params: any, type: string) {
     params.province = params.city[0];
     params.city = params.city[1];
   }
-  return insertOrUpdateFactory('/api/scenics', params, type);
+  return insertOrUpdateFactory('/scenics', params, type);
 }
 
 // 删除
 function deleteById(id: string) {
-  return request(`/api/scenics/${id}`, {
+  return request(`/scenics/${id}`, {
     method: 'DELETE',
   });
 }

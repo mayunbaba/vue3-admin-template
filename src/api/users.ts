@@ -3,12 +3,12 @@ import request from '@/utils/request';
 
 // 登录
 function login(data: any) {
-  return request.post('/api/auth/local', data);
+  return request.post('/auth/local', data);
 }
 
 // 获取用户信息
 function getUserInfo() {
-  return request('/api/users/me');
+  return request('/users/me');
 }
 
 // 查询列表
@@ -20,7 +20,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
     },
   };
   return request(
-    '/api/users',
+    '/users',
     // 格式化入参
     beforeQueryList(filters, currentPage, pageSize),
   ).then((res: any) => {
