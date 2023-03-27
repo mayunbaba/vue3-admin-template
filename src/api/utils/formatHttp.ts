@@ -41,7 +41,7 @@ function queryListFactory(
   });
 }
 
-function insertOrUpdateRequest(url: string, data: any, type: string) {
+function insertOrUpdateFactory(url: string, data: any, type: string) {
   if (type === 'add') {
     delete data.id;
     return request.post(url, { data });
@@ -53,7 +53,7 @@ function insertOrUpdateRequest(url: string, data: any, type: string) {
 
 export {
   afterQueryList,
-  insertOrUpdateRequest,
+  insertOrUpdateFactory,
   beforeQueryList,
   queryListFactory,
 };

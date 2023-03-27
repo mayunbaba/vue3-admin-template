@@ -1,5 +1,5 @@
 import {
-  insertOrUpdateRequest,
+  insertOrUpdateFactory,
   queryListFactory,
 } from '@/api/utils/formatHttp';
 import request from '@/utils/request';
@@ -27,7 +27,7 @@ function editAndAdd(params: any, type: string) {
     params.province = params.city[0];
     params.city = params.city[1];
   }
-  return insertOrUpdateRequest('/api/scenics', params, type);
+  return insertOrUpdateFactory('/api/scenics', params, type);
 }
 
 // 删除
