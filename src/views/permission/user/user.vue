@@ -2,6 +2,7 @@
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import users from '@/api/users';
+import roles from '@/api/roles';
 
 // 查询 ===================
 const searchFormInit = {
@@ -68,6 +69,19 @@ const {
   deleteById: users.deleteById,
   search,
 });
+// =========================== 页面逻辑 ===========================
+const rolesOptions = ref();
+getRoles();
+async function getRoles() {
+  const res: any = await roles.getRoles();
+  if (!res) return;
+  rolesOptions.value = res.roles.map((item: any) => {
+    return {
+      label: item.name,
+      value: item.id,
+    };
+  });
+}
 </script>
 
 <template>
@@ -143,7 +157,14 @@ const {
           v-if="dialogOpreation.includes('add')"
           prop="role"
         >
-          <el-input v-model="dialogForm.role" placeholder="" clearable />
+          <el-select v-model="dialogForm.role">
+            <el-option
+              v-for="item in rolesOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           label="密码"
