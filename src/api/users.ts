@@ -10,7 +10,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
     },
   };
   return request(
-    '/users',
+    '/api/users',
     // 格式化入参
     formatRequestList(filters, currentPage, pageSize),
   ).then((res: any) => {

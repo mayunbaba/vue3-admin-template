@@ -2,7 +2,7 @@ import axios from 'axios';
 import useUserStore from '@/stores/user';
 
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: '',
   timeout: 5000,
 });
 

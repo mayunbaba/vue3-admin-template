@@ -13,7 +13,7 @@ export default defineStore(
 
     // Actions
     const login = async (data: LoginRequest) => {
-      const res: LoginResponse = await request.post('/auth/local', data);
+      const res: LoginResponse = await request.post('/api/auth/local', data);
       if (!res) return;
       token.value = res.jwt;
       user.value = res.user;
@@ -22,7 +22,7 @@ export default defineStore(
 
     // 获取用户信息
     const getUserInfo = async () => {
-      const res: User = await request.get('/users/me');
+      const res: User = await request.get('/api/users/me');
       if (!res) return;
       user.value = res;
     };

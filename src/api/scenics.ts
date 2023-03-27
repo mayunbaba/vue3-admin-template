@@ -20,7 +20,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
     },
   };
   return request(
-    '/scenics',
+    '/api/scenics',
     // 格式化入参
     formatRequestList(filters, currentPage, pageSize),
   ).then((res: any) => {
@@ -36,12 +36,12 @@ function editAndAdd(params: any, type: string) {
     params.province = params.city[0];
     params.city = params.city[1];
   }
-  return insertOrUpdateRequest('/scenics', params, type);
+  return insertOrUpdateRequest('/api/scenics', params, type);
 }
 
 // 删除
 function deleteById(id: string) {
-  return request(`/scenics/${id}`, {
+  return request(`/api/scenics/${id}`, {
     method: 'DELETE',
   });
 }
