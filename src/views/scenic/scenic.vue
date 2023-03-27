@@ -192,6 +192,7 @@ const {
         <el-popconfirm
           title="请确认地图上点位是否正确，确定后将无法修改，确定提交？"
           @confirm="submit"
+          width="300px"
         >
           <template #reference>
             <el-button type="primary" :loading="loadingDialog">
