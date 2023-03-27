@@ -30,7 +30,7 @@ const dialogFormInit = {
   username: '',
   email: '',
 };
-const rulesDialogForm = reactive({
+const rulesDialogForm: any = reactive({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     {
@@ -94,7 +94,6 @@ const {
       element-loading-background="rgba(122, 122, 122, 0.8)"
     >
       <el-table :data="tableData" border>
-        <el-table-column prop="id" label="用户ID" />
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="email" label="邮箱" />
         <el-table-column label="操作">
