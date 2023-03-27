@@ -1,4 +1,3 @@
-import request from '@/utils/request';
 import { defineStore } from 'pinia';
 import users from '@/api/users';
 
@@ -6,15 +5,15 @@ export default defineStore(
   'userStore',
   () => {
     // state 修改state通过$patch
-    const user: Ref<User> = ref({
+    const user = ref({
       username: '',
       email: '',
     });
     const token = ref('');
 
     // Actions
-    const login = async (data: LoginRequest) => {
-      const res: LoginResponse = await users.login(data);
+    const login = async (data: any) => {
+      const res: any = await users.login(data);
       if (!res) return;
       token.value = res.jwt;
       user.value = res.user;
@@ -23,7 +22,7 @@ export default defineStore(
 
     // 获取用户信息
     const getUserInfo = async () => {
-      const res: User = await users.getUserInfo();
+      const res: any = await users.getUserInfo();
       if (!res) return;
       user.value = res;
     };
