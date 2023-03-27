@@ -34,6 +34,7 @@ export default defineStore(
         email: '',
       };
       token.value = '';
+      window.location.href = '';
     };
 
     return {

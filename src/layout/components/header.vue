@@ -7,7 +7,6 @@ const { user } = storeToRefs(userStore);
 
 const logout = () => {
   userStore.logout();
-  window.location.href = '';
 };
 </script>
 <template>
