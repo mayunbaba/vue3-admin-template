@@ -31,8 +31,19 @@ const dialogFormInit = {
   email: '',
 };
 const rulesDialogForm = reactive({
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    {
+      min: 3,
+      max: 20,
+      message: '用户名长度在 3 到 20 个字符',
+      trigger: 'blur',
+    },
+  ],
+  email: [
+    { required: true, message: '请输入邮箱', trigger: 'blur' },
+    { type: 'email', message: '请输入正确的邮箱', trigger: 'blur' },
+  ],
   role: [{ required: true, message: '请输入角色', trigger: 'blur' }],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
