@@ -1,11 +1,7 @@
 import request from '@/utils/request';
 
 // 这里的格式化入参和出参是为了适配strapi的接口
-function formatRequestList(
-  filters: any,
-  currentPage: number,
-  pageSize: number,
-) {
+function beforeQueryList(filters: any, currentPage: number, pageSize: number) {
   return {
     params: {
       sort: ['updatedAt:desc'],
@@ -20,7 +16,7 @@ function formatRequestList(
   };
 }
 
-function formatResponseList(list: any[]) {
+function afterQueryList(list: any[]) {
   if (!list) return;
   list.forEach((item) => {
     Object.assign(item, item.attributes);
@@ -38,4 +34,4 @@ function insertOrUpdateRequest(url: string, data: any, type: string) {
   }
 }
 
-export { formatResponseList, insertOrUpdateRequest, formatRequestList };
+export { afterQueryList, insertOrUpdateRequest, beforeQueryList };

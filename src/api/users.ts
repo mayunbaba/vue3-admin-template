@@ -1,4 +1,4 @@
-import { formatRequestList } from '@/api/utils/formatHttp';
+import { beforeQueryList } from '@/api/utils/formatHttp';
 import request from '@/utils/request';
 
 // 登录
@@ -22,7 +22,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
   return request(
     '/api/users',
     // 格式化入参
-    formatRequestList(filters, currentPage, pageSize),
+    beforeQueryList(filters, currentPage, pageSize),
   ).then((res: any) => {
     return {
       data: res,

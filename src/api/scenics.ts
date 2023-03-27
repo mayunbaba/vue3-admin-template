@@ -1,6 +1,6 @@
 import {
-  formatRequestList,
-  formatResponseList,
+  beforeQueryList,
+  afterQueryList,
   insertOrUpdateRequest,
 } from '@/api/utils/formatHttp';
 import request from '@/utils/request';
@@ -22,10 +22,10 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
   return request(
     '/api/scenics',
     // 格式化入参
-    formatRequestList(filters, currentPage, pageSize),
+    beforeQueryList(filters, currentPage, pageSize),
   ).then((res: any) => {
     // 格式化出参
-    if (res) formatResponseList(res.data);
+    if (res) afterQueryList(res.data);
     return res;
   });
 }
