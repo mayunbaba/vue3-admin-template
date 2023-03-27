@@ -1,4 +1,4 @@
-import request from './request';
+import request from '@/utils/request';
 
 // 这里的格式化入参和出参是为了适配strapi的接口
 function formatRequestList(

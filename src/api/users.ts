@@ -1,4 +1,4 @@
-import { formatRequestList } from '@/utils/formatHttp';
+import { formatRequestList } from '@/api/utils/formatHttp';
 import request from '@/utils/request';
 
 // 登录

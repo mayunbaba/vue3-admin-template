@@ -2,7 +2,7 @@ import {
   formatRequestList,
   formatResponseList,
   insertOrUpdateRequest,
-} from '@/utils/formatHttp';
+} from '@/api/utils/formatHttp';
 import request from '@/utils/request';
 
 // 查询列表
