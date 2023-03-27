@@ -27,9 +27,13 @@ function getPoint(city, address) {
     );
   });
 }
+
+function setCenter() {
+  map.centerAndZoom(new BMapGL.Point(116.40396298757886, 39.91511908708907), 8);
+}
 onMounted(() => {
   map = new BMapGL.Map('map');
-  map.centerAndZoom(new BMapGL.Point(116.331398, 39.897445), 5);
+  setCenter();
   //创建地址解析器实例
   myGeo = new BMapGL.Geocoder();
   var zoomCtrl = new BMapGL.ZoomControl(); // 添加缩放控件
@@ -38,6 +42,7 @@ onMounted(() => {
 
 defineExpose({
   getPoint,
+  setCenter,
 });
 </script>
 <template>

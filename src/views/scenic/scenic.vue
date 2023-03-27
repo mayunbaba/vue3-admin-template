@@ -9,14 +9,19 @@ const baiduMapRef = ref();
 
 // 级联选择器获取经纬度
 async function getLngLat() {
-  try {
-    const res = await baiduMapRef.value.getPoint(
-      dialogForm.value.city,
-      dialogForm.value.name,
-    );
-    dialogForm.value.longitude = res.lng;
-    dialogForm.value.latitude = res.lat;
-  } catch (error) {}
+  if (dialogForm.value.city && dialogForm.value.address) {
+    console.log('获取经纬度');
+    try {
+      const res = await baiduMapRef.value.getPoint(
+        dialogForm.value.city,
+        dialogForm.value.address,
+      );
+      dialogForm.value.longitude = res.lng;
+      dialogForm.value.latitude = res.lat;
+    } catch (error) {}
+  } else {
+    baiduMapRef.value.setCenter();
+  }
 }
 
 // 级联选择器交互
@@ -59,6 +64,7 @@ const dialogFormInit = {
 const rulesDialogForm = reactive({
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
   city: [{ required: true, message: '请选择城市', trigger: 'change' }],
+  address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
   longitude: [{ required: true, message: '请获取经度', trigger: 'change' }],
   latitude: [{ required: true, message: '请获取纬度', trigger: 'change' }],
 });
@@ -80,6 +86,19 @@ const {
   deleteById: scenincs.deleteById,
   search,
 });
+
+watch(
+  () => dialogVisible.value,
+  () => {
+    if (dialogVisible.value) {
+      // 第一次打开地图，地图可能还未初始化
+      nextTick(() => {
+        getLngLat();
+      });
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -168,8 +187,12 @@ const {
             :props="props"
             clearable
             filterable
+            @change="getLngLat"
           />
           <el-button type="primary" @click="getLngLat">获取经纬度</el-button>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="address">
+          <el-input v-model="dialogForm.address" clearable @blur="getLngLat" />
         </el-form-item>
         <el-form-item label="经度" prop="longitude">
           <el-input v-model="dialogForm.longitude" clearable disabled />
