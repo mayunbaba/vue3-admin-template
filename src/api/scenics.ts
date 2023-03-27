@@ -1,7 +1,6 @@
 import {
-  beforeQueryList,
-  afterQueryList,
   insertOrUpdateRequest,
+  queryListFactory,
 } from '@/api/utils/formatHttp';
 import request from '@/utils/request';
 
@@ -19,15 +18,7 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
       $eq: searchForm.city[1],
     },
   };
-  return request(
-    '/api/scenics',
-    // 格式化入参
-    beforeQueryList(filters, currentPage, pageSize),
-  ).then((res: any) => {
-    // 格式化出参
-    if (res) afterQueryList(res.data);
-    return res;
-  });
+  return queryListFactory('/api/scenics', filters, currentPage, pageSize);
 }
 
 // 新增或修改

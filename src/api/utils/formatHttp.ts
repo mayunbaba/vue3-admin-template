@@ -24,6 +24,23 @@ function afterQueryList(list: any[]) {
   });
 }
 
+function queryListFactory(
+  url: string,
+  filters: any,
+  currentPage: number,
+  pageSize: number,
+) {
+  return request(
+    url,
+    // 格式化入参
+    beforeQueryList(filters, currentPage, pageSize),
+  ).then((res: any) => {
+    // 格式化出参
+    if (res) afterQueryList(res.data);
+    return res;
+  });
+}
+
 function insertOrUpdateRequest(url: string, data: any, type: string) {
   if (type === 'add') {
     delete data.id;
@@ -34,4 +51,9 @@ function insertOrUpdateRequest(url: string, data: any, type: string) {
   }
 }
 
-export { afterQueryList, insertOrUpdateRequest, beforeQueryList };
+export {
+  afterQueryList,
+  insertOrUpdateRequest,
+  beforeQueryList,
+  queryListFactory,
+};
