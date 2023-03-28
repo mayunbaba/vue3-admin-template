@@ -6,32 +6,7 @@ import district from '@/utils/district';
 import scenincs from '@/api/scenics';
 import BaiduMap from './baiduMap.vue';
 
-const baiduMapRef = ref();
-
-// 级联选择器获取经纬度
-async function getLngLat() {
-  if (dialogForm.value.city && dialogForm.value.address) {
-    console.log('获取经纬度');
-    try {
-      const res = await baiduMapRef.value.getPoint(
-        dialogForm.value.city,
-        dialogForm.value.address,
-      );
-      dialogForm.value.longitude = res.lng;
-      dialogForm.value.latitude = res.lat;
-    } catch (error) {}
-  } else {
-    baiduMapRef.value.setCenter();
-  }
-}
-
-// 级联选择器交互
-const props = {
-  expandTrigger: 'hover' as const,
-  value: 'label',
-};
-
-// 查询 ==========================
+// 查询
 const searchFormInit = {
   name: '',
   city: [],
@@ -87,6 +62,31 @@ const {
   deleteById: scenincs.deleteById,
   search,
 });
+// =========================== 页面逻辑 ===========================
+const baiduMapRef = ref();
+
+// 获取取经纬度
+async function getLngLat() {
+  if (dialogForm.value.city && dialogForm.value.address) {
+    console.log('获取经纬度');
+    try {
+      const res = await baiduMapRef.value.getPoint(
+        dialogForm.value.city,
+        dialogForm.value.address,
+      );
+      dialogForm.value.longitude = res.lng;
+      dialogForm.value.latitude = res.lat;
+    } catch (error) {}
+  } else {
+    baiduMapRef.value.setCenter();
+  }
+}
+
+// 级联选择器交互
+const props = {
+  expandTrigger: 'hover' as const,
+  value: 'label',
+};
 
 watch(
   () => dialogVisible.value,
