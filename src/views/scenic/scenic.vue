@@ -135,6 +135,7 @@ watch(
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
       >
+        <el-table-column type="index" width="50" />
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="province" label="省" />
         <el-table-column prop="city" label="市" />

@@ -19,18 +19,18 @@ function queryList(searchForm: any, currentPage: number, pageSize: number) {
       $contains: searchForm.username,
     },
   };
-  return request(
-    '/users',
-    // 格式化入参
-    beforeQueryList(filters, currentPage, pageSize),
-  ).then((res: any) => {
+  return Promise.all([
+    request('/users', beforeQueryList(filters, currentPage, pageSize)),
+    request('/users/count'),
+  ]).then((resArr: any) => {
+    const [data, total] = resArr;
     return {
-      data: res,
+      data,
       meta: {
         pagination: {
-          page: 1,
-          pageSize: 10,
-          total: 100,
+          page: currentPage,
+          pageSize,
+          total,
         },
       },
     };

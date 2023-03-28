@@ -109,6 +109,7 @@ async function getRoles() {
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
       >
+        <el-table-column type="index" width="50" />
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="email" label="邮箱" />
         <el-table-column label="操作">
