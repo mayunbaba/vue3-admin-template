@@ -56,10 +56,16 @@ function deleteById(id: string) {
   });
 }
 
+// 通过id获取用户信息
+function viewById(id: string) {
+  return request(`/users/${id}`);
+}
+
 export default {
   login,
   getUserInfo,
   queryList,
   editAndAdd,
   deleteById,
+  viewById,
 };

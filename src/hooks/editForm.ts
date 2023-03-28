@@ -1,6 +1,7 @@
 export function useEditForm({
   dialogFormRef,
   dialogFormInit,
+  viewById,
   editAndAdd,
   deleteById,
   search,
@@ -33,18 +34,14 @@ export function useEditForm({
     dialogVisible.value = true;
     dialogOpreation.value = 'edit';
     dialogFormRef.value?.resetFields();
-    dialogForm.value = {
-      ...row,
-    };
+    getDetail(row);
   }
   function view(row: any) {
     dialogTitle.value = '查看';
     dialogVisible.value = true;
     dialogOpreation.value = 'view';
     dialogFormRef.value?.resetFields();
-    dialogForm.value = {
-      ...row,
-    };
+    getDetail(row);
   }
   function submit() {
     dialogFormRef.value.validate((valid: boolean, fields: any) => {
@@ -62,6 +59,16 @@ export function useEditForm({
         console.log('error submit!', fields);
       }
     });
+  }
+
+  function getDetail(row: any) {
+    if (viewById) {
+      viewById(row.id).then((res: any) => {
+        dialogForm.value = res;
+      });
+    } else {
+      dialogForm.value = { ...row };
+    }
   }
 
   return {

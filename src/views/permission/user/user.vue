@@ -66,6 +66,7 @@ const {
 } = useEditForm({
   dialogFormRef,
   dialogFormInit,
+  viewById: users.viewById,
   editAndAdd: users.editAndAdd,
   deleteById: users.deleteById,
   search,
@@ -155,11 +156,7 @@ async function getRoles() {
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="dialogForm.email" placeholder="" clearable />
         </el-form-item>
-        <el-form-item
-          label="角色"
-          v-if="dialogOpreation.includes('add')"
-          prop="role"
-        >
+        <el-form-item label="角色" prop="role">
           <el-select v-model="dialogForm.role">
             <el-option
               v-for="item in rolesOptions"
