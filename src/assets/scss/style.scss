@@ -12,49 +12,9 @@ body {
 
 #app {
   width: 100vw;
-  height: 100vh;
   box-sizing: border-box;
   * {
     box-sizing: inherit;
   }
 }
 
-.page-container {
-  padding: 0px 20px;
-}
-
-.shadow {
-  box-shadow: var(--el-box-shadow-light);
-}
-
-.area-wrap {
-  margin: 20px 0;
-  padding: 20px;
-  @extend .shadow;
-}
-
-.cloums-wrap {
-  margin-right: auto;
-}
-
-.pagination {
-  margin-top: 20px;
-  justify-content: flex-end;
-}
-
-.search-from {
-  display: flex;
-  padding-bottom: 0;
-  flex-wrap: wrap;
-  .last-one {
-    margin-left: auto;
-  }
-  .el-form-item__content {
-    width: 170px;
-  }
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: center;
-}
