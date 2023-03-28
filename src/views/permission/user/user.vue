@@ -101,13 +101,14 @@ async function getRoles() {
         </el-form-item>
       </el-form>
     </template>
-    <template
-      #table
-      v-loading="loading"
-      element-loading-text="Loading..."
-      element-loading-background="rgba(122, 122, 122, 0.8)"
-    >
-      <el-table :data="tableData" border>
+    <template #table>
+      <el-table
+        :data="tableData"
+        border
+        v-loading="loading"
+        element-loading-text="Loading..."
+        element-loading-background="rgba(122, 122, 122, 0.8)"
+      >
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="email" label="邮箱" />
         <el-table-column label="操作">

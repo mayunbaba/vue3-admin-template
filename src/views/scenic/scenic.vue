@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import listPage from '@/layout/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import district from '@/utils/district';
@@ -102,38 +103,38 @@ watch(
 </script>
 
 <template>
-  <div class="page-container">
-    <!-- 搜索 -->
-    <el-form :inline="true" :model="searchForm" class="area-wrap search-from">
-      <el-form-item label="名称">
-        <el-input v-model="searchForm.name" placeholder="" clearable />
-      </el-form-item>
-      <el-form-item label="城市">
-        <el-cascader
-          v-model="searchForm.city"
-          :options="district"
-          :props="props"
-          clearable
-          filterable
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="search">搜索</el-button>
-        <el-button @click="reset">重置</el-button>
-      </el-form-item>
-    </el-form>
-    <!-- 功能区 -->
-    <div class="flex">
-      <el-button type="primary" class="last-one" @click="add">新增</el-button>
-    </div>
-    <!-- 表格 -->
-    <div
-      class="area-wrap"
-      v-loading="loading"
-      element-loading-text="Loading..."
-      element-loading-background="rgba(122, 122, 122, 0.8)"
-    >
-      <el-table :data="tableData" border>
+  <list-page>
+    <template #add>
+      <el-button type="primary" @click="add">新增</el-button>
+    </template>
+    <template #searchForm>
+      <el-form :inline="true" :model="searchForm">
+        <el-form-item label="名称">
+          <el-input v-model="searchForm.name" placeholder="" clearable />
+        </el-form-item>
+        <el-form-item label="城市">
+          <el-cascader
+            v-model="searchForm.city"
+            :options="district"
+            :props="props"
+            clearable
+            filterable
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="search">搜索</el-button>
+          <el-button @click="reset">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template #table>
+      <el-table
+        :data="tableData"
+        border
+        v-loading="loading"
+        element-loading-text="Loading..."
+        element-loading-background="rgba(122, 122, 122, 0.8)"
+      >
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="province" label="省" />
         <el-table-column prop="city" label="市" />
@@ -153,11 +154,12 @@ watch(
           </template>
         </el-table-column>
       </el-table>
+    </template>
+    <template #pagination>
       <el-pagination
         v-if="total > 0"
         small
         background
-        class="pagination"
         layout="total, sizes, prev, pager, next, jumper"
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
@@ -166,7 +168,7 @@ watch(
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
-    </div>
+    </template>
     <!-- 查看、编辑、新增弹窗 -->
     <el-dialog v-model="dialogVisible" center :title="dialogTitle">
       <el-form
@@ -227,5 +229,5 @@ watch(
         </el-button> -->
       </span>
     </el-dialog>
-  </div>
+  </list-page>
 </template>
