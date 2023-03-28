@@ -7,6 +7,7 @@
       <div class="table"><slot name="table"></slot></div>
       <div class="pagination"><slot name="pagination"></slot></div>
     </div>
+    <slot></slot>
   </div>
 </template>
 <style lang="scss">
