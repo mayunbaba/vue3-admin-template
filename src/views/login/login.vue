@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 const userStore = useUserStore();
 const router = useRouter();
 const identifier = ref('admin');
-const password = ref('!QA2ws3ed');
+const password = ref('abc888888');
 async function login() {
   const res = await userStore.login({
     identifier: identifier.value,

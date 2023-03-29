@@ -2,7 +2,7 @@ import axios from 'axios';
 import useUserStore from '@/stores/user';
 
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: '/admin',
   timeout: 5000,
 });
 
@@ -23,15 +23,12 @@ service.interceptors.response.use(
   },
   (error) => {
     const { data } = error.response;
-    const code = data.error.status;
-    if (code === 401) {
-      const userStore = useUserStore();
-      userStore.logout();
-    } else if (code === 403) {
-      ElMessage.error('没有权限');
-      return;
+    const { code } = data;
+    console.log('error', data);
+    if (code === 40009) {
+      console.log(data.msg, '请联系FE');
     }
-    ElMessage.error(data.error.message);
+    ElMessage.error(data.msg);
   },
 );
 

@@ -3,7 +3,7 @@ import request from '@/utils/request';
 
 // 登录
 function login(data: any) {
-  return request.post('/auth/local', data);
+  return request.post('/users/login', data);
 }
 
 // 获取用户信息

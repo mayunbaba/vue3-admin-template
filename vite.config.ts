@@ -65,8 +65,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:1337',
+        // target: 'http://localhost:1337',
+        target: 'http://localhost:7001',
         // rewrite: (path) => path.replace(/^\/api/, '/api'),
+      },
+      '/admin': {
+        // target: 'http://localhost:1337',
+        target: 'http://localhost:7001',
       },
     },
   },
