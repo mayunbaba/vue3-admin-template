@@ -22,10 +22,11 @@ export function usePagination({ searchFormInit, queryList }: any) {
     queryList(searchForm, currentPage.value, pageSize.value).then(
       (res: any) => {
         if (res) {
-          tableData.value = res.data;
-          total.value = res.meta.pagination.total;
-          pageSize.value = res.meta.pagination.pageSize;
-          currentPage.value = res.meta.pagination.page;
+          const { data } = res;
+          tableData.value = data.data;
+          total.value = data.total;
+          pageSize.value = data.per_page;
+          currentPage.value = data.current_page;
         }
         loading.value = false;
       },

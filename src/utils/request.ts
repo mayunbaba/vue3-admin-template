@@ -18,7 +18,8 @@ service.interceptors.request.use((config) => {
 // 响应拦截器
 service.interceptors.response.use(
   (response) => {
-    // 200 为成功状态码，只返回正常的数据，凡是报错都是reject
+    // 200 为成功状态码，只返回正常的数据
+    // 非 200 状态码，直接返回undefined，不会进入catch
     const res = response.data;
     return res;
   },
@@ -31,8 +32,6 @@ service.interceptors.response.use(
       console.log(data.msg, '请联系FE');
     }
     ElMessage.error(data.msg);
-    // 业务逻辑中可以不处理错误，直接返回错误信息
-    return Promise.reject(error);
   },
 );
 

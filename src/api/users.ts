@@ -11,30 +11,32 @@ function getUserInfo() {
   return request('/users/info');
 }
 
-// 查询列表
+// 查询用户列表
 function queryList(searchForm: any, currentPage: number, pageSize: number) {
-  // 定义查询规则
-  const filters = {
-    username: {
-      $contains: searchForm.username,
-    },
-  };
-  return Promise.all([
-    request('/users', beforeQueryList(filters, currentPage, pageSize)),
-    request('/users/count'),
-  ]).then((resArr: any) => {
-    const [data, total] = resArr;
-    return {
-      data,
-      meta: {
-        pagination: {
-          page: currentPage,
-          pageSize,
-          total,
-        },
-      },
-    };
+  return request('/users', {
+    params: { page: currentPage, limit: pageSize, ...searchForm },
   });
+  // const filters = {
+  //   username: {
+  //     $contains: searchForm.username,
+  //   },
+  // };
+  // return Promise.all([
+  //   request('/users', beforeQueryList(filters, currentPage, pageSize)),
+  //   request('/users/count'),
+  // ]).then((resArr: any) => {
+  //   const [data, total] = resArr;
+  //   return {
+  //     data,
+  //     meta: {
+  //       pagination: {
+  //         page: currentPage,
+  //         pageSize,
+  //         total,
+  //       },
+  //     },
+  //   };
+  // });
 }
 
 // 新增或修改
