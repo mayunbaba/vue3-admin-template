@@ -6,9 +6,6 @@ import users from '@/api/users';
 import roles from '@/api/roles';
 
 // 查询
-const searchFormInit = {
-  keyword: '',
-};
 const {
   tableData,
   total,
@@ -21,7 +18,6 @@ const {
   reset,
   searchForm,
 } = usePagination({
-  searchFormInit,
   queryList: users.queryList,
 });
 
@@ -86,8 +82,8 @@ async function getRoles() {
     </template>
     <template #searchForm>
       <el-form :inline="true" :model="searchForm">
-        <el-form-item label="用户名">
-          <el-input v-model="searchForm.username" placeholder="请输入用户名" />
+        <el-form-item prop="keyword">
+          <el-input v-model="searchForm.keyword" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="search">搜索</el-button>

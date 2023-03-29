@@ -1,13 +1,11 @@
-export function usePagination({ searchFormInit, queryList }: any) {
+export function usePagination({ queryList }: any) {
   // 分页相关
   const total = ref(0);
   const pageSize = ref(10);
   const currentPage = ref(1);
   const loading = ref(false);
   const tableData = ref();
-  const searchForm = reactive({
-    ...searchFormInit,
-  });
+  const searchForm = ref({ keyword: '' });
 
   search();
 
@@ -19,7 +17,7 @@ export function usePagination({ searchFormInit, queryList }: any) {
   function query() {
     if (loading.value) return;
     loading.value = true;
-    queryList(searchForm, currentPage.value, pageSize.value).then(
+    queryList(searchForm.value, currentPage.value, pageSize.value).then(
       (res: any) => {
         if (res) {
           const { data } = res;
@@ -45,9 +43,7 @@ export function usePagination({ searchFormInit, queryList }: any) {
   }
 
   function reset() {
-    Object.assign(searchForm, {
-      ...searchFormInit,
-    });
+    searchForm.value = {};
     search();
   }
 
