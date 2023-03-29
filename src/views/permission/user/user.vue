@@ -4,6 +4,8 @@ import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import users from '@/api/users';
 import roles from '@/api/roles';
+import dictTableList from '@/api/dictTableList';
+import { getLabelByValue } from '@/utils/common';
 
 // 查询
 const searchFormInit = {
@@ -77,6 +79,7 @@ async function getRoles() {
     };
   });
 }
+const statusOptions = dictTableList('status');
 </script>
 
 <template>
@@ -108,7 +111,14 @@ async function getRoles() {
         <el-table-column prop="nickname" label="昵称" />
         <el-table-column prop="mobile" label="手机号" />
         <el-table-column prop="email" label="邮箱" />
-        <el-table-column prop="status" label="状态" />
+        <el-table-column prop="status" label="状态">
+          <template #default="{ row }">
+            <el-tag
+              :type="row.status === 1 ? 'success' : 'danger'"
+              v-text="getLabelByValue(statusOptions, row.status)"
+            />
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
@@ -159,7 +169,14 @@ async function getRoles() {
           <el-input v-model="dialogForm.email" placeholder="" clearable />
         </el-form-item>
         <el-form-item label="启用状态" prop="status">
-          <el-input v-model="dialogForm.status" placeholder="" clearable />
+          <el-select v-model="dialogForm.status" placeholder="" clearable>
+            <el-option
+              v-for="item in statusOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select v-model="dialogForm.role">

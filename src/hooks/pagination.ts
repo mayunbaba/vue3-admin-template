@@ -32,7 +32,6 @@ export function usePagination({ searchFormInit, queryList }: any) {
   }
 
   function handleCurrentChange(page: number) {
-    console.log('handleCurrentChange', page);
     currentPage.value = page;
     query();
   }
