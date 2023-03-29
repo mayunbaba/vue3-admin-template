@@ -7,7 +7,7 @@ import roles from '@/api/roles';
 
 // 查询
 const searchFormInit = {
-  username: '',
+  keyword: '',
 };
 const {
   tableData,
@@ -28,7 +28,6 @@ const {
 // 编辑、查看、新增
 const dialogFormRef = ref();
 const dialogFormInit = {
-  id: '',
   username: '',
   email: '',
 };
@@ -66,7 +65,6 @@ const {
 } = useEditForm({
   dialogFormRef,
   dialogFormInit,
-  viewById: users.viewById,
   editAndAdd: users.editAndAdd,
   deleteById: users.deleteById,
   search,
@@ -112,7 +110,11 @@ async function getRoles() {
       >
         <el-table-column type="index" width="50" />
         <el-table-column prop="username" label="用户名" />
+        <el-table-column prop="nickname" label="昵称" />
+        <el-table-column prop="avatar" label="头像" />
+        <el-table-column prop="mobile" label="手机号" />
         <el-table-column prop="email" label="邮箱" />
+        <el-table-column prop="status" label="状态" />
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
