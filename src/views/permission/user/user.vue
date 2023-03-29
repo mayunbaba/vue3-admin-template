@@ -6,6 +6,9 @@ import users from '@/api/users';
 import roles from '@/api/roles';
 
 // 查询
+const searchFormInit = {
+  keyword: '',
+};
 const {
   tableData,
   total,
@@ -18,6 +21,7 @@ const {
   reset,
   searchForm,
 } = usePagination({
+  searchFormInit,
   queryList: users.queryList,
 });
 

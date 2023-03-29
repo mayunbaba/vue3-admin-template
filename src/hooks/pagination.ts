@@ -1,11 +1,11 @@
-export function usePagination({ queryList }: any) {
+export function usePagination({ searchFormInit, queryList }: any) {
   // 分页相关
   const total = ref(0);
   const pageSize = ref(10);
   const currentPage = ref(1);
   const loading = ref(false);
   const tableData = ref();
-  const searchForm = ref({ keyword: '' });
+  const searchForm = ref({ ...searchFormInit });
 
   search();
 
@@ -43,7 +43,7 @@ export function usePagination({ queryList }: any) {
   }
 
   function reset() {
-    searchForm.value = {};
+    searchForm.value = { ...searchFormInit };
     search();
   }
 

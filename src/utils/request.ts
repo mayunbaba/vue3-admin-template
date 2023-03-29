@@ -34,7 +34,7 @@ service.interceptors.response.use(
       const userStore = useUserStore();
       userStore.logout();
     }
-    ElMessage.error(data.msg);
+    ElMessage.error(data.msg || data.message);
   },
 );
 
