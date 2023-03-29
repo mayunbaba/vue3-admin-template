@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 // 角色列表
 function getRoles() {
-  return request('/users-permissions/roles');
+  return request('/roles');
 }
 
 // 新增或修改

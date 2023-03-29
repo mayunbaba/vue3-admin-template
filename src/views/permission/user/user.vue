@@ -72,7 +72,8 @@ getRoles();
 async function getRoles() {
   const res: any = await roles.getRoles();
   if (!res) return;
-  rolesOptions.value = res.roles.map((item: any) => {
+  const { data } = res.data;
+  rolesOptions.value = data.map((item: any) => {
     return {
       label: item.name,
       value: item.id,
@@ -117,6 +118,16 @@ const statusOptions = dictTableList('status');
               :type="row.status === 1 ? 'success' : 'danger'"
               v-text="getLabelByValue(statusOptions, row.status)"
             />
+          </template>
+        </el-table-column>
+        <el-table-column prop="roles" label="角色">
+          <template #default="{ row }">
+            <el-tag
+              v-for="item in row.roles"
+              :key="item.role_id"
+              v-text="getLabelByValue(rolesOptions, item.role_id)"
+            >
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -172,16 +183,6 @@ const statusOptions = dictTableList('status');
           <el-select v-model="dialogForm.status" placeholder="" clearable>
             <el-option
               v-for="item in statusOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="角色" prop="role">
-          <el-select v-model="dialogForm.role">
-            <el-option
-              v-for="item in rolesOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
