@@ -27,25 +27,21 @@ const {
 
 // 编辑、查看、新增
 const dialogFormRef = ref();
-const dialogFormInit = {
-  username: '',
-  email: '',
-};
 const rulesDialogForm: any = reactive({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     {
-      min: 3,
+      min: 4,
       max: 20,
-      message: '用户名长度在 3 到 20 个字符',
+      message: '用户名长度在 4 到 20 个字符',
       trigger: 'blur',
     },
   ],
-  email: [
-    { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱', trigger: 'blur' },
-  ],
-  role: [{ required: true, message: '请输入角色', trigger: 'blur' }],
+  // email: [
+  //   { required: true, message: '请输入邮箱', trigger: 'blur' },
+  //   { type: 'email', message: '请输入正确的邮箱', trigger: 'blur' },
+  // ],
+  // role: [{ required: true, message: '请输入角色', trigger: 'blur' }],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' },
@@ -64,7 +60,6 @@ const {
   loadingDialog,
 } = useEditForm({
   dialogFormRef,
-  dialogFormInit,
   editAndAdd: users.editAndAdd,
   deleteById: users.deleteById,
   search,
@@ -111,7 +106,6 @@ async function getRoles() {
         <el-table-column type="index" width="50" />
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="nickname" label="昵称" />
-        <el-table-column prop="avatar" label="头像" />
         <el-table-column prop="mobile" label="手机号" />
         <el-table-column prop="email" label="邮箱" />
         <el-table-column prop="status" label="状态" />
@@ -155,8 +149,17 @@ async function getRoles() {
         <el-form-item label="用户名" prop="username">
           <el-input v-model="dialogForm.username" placeholder="" clearable />
         </el-form-item>
+        <el-form-item label="昵称" prop="nickname">
+          <el-input v-model="dialogForm.nickname" placeholder="" clearable />
+        </el-form-item>
+        <el-form-item label="手机号" prop="mobile">
+          <el-input v-model="dialogForm.mobile" placeholder="" clearable />
+        </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="dialogForm.email" placeholder="" clearable />
+        </el-form-item>
+        <el-form-item label="启用状态" prop="status">
+          <el-input v-model="dialogForm.status" placeholder="" clearable />
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select v-model="dialogForm.role">

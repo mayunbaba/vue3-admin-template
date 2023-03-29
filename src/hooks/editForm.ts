@@ -1,6 +1,5 @@
 export function useEditForm({
   dialogFormRef,
-  dialogFormInit,
   viewById,
   editAndAdd,
   deleteById,
@@ -10,17 +9,13 @@ export function useEditForm({
   const dialogVisible = ref(false);
   const dialogTitle = ref('新增');
   const dialogOpreation = ref('add');
-  const dialogForm = ref({
-    ...dialogFormInit,
-  });
+  const dialogForm = ref();
   function add() {
     dialogTitle.value = '新增';
     dialogVisible.value = true;
     dialogOpreation.value = 'add';
     dialogFormRef.value?.resetFields();
-    dialogForm.value = {
-      ...dialogFormInit,
-    };
+    dialogForm.value = {};
   }
   function del(row: any) {
     deleteById(row.id).then((res: any) => {
@@ -69,6 +64,7 @@ export function useEditForm({
     } else {
       dialogForm.value = { ...row };
     }
+    console.log('dialogForm', dialogForm.value);
   }
 
   return {

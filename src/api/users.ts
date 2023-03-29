@@ -18,8 +18,6 @@ class Users {
   // 新增或编辑用户
   editAndAdd(data: any, type: string) {
     if (type === 'add') {
-      delete data.id;
-      data.confirmed = true;
       return request.post('/users', data);
     } else {
       const id = data.id;
