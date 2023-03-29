@@ -15,8 +15,8 @@ export default defineStore(
     const login = async (data: any) => {
       const res: any = await users.login(data);
       if (!res) return;
-      token.value = res.jwt;
-      user.value = res.user;
+      token.value = res.data.token;
+      getUserInfo(); // 获取用户信息
       return res;
     };
 

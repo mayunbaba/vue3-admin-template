@@ -8,7 +8,7 @@ function login(data: any) {
 
 // 获取用户信息
 function getUserInfo() {
-  return request('/users/me');
+  return request('/users/info');
 }
 
 // 查询列表

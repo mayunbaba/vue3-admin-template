@@ -4,11 +4,11 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
-const identifier = ref('admin');
+const username = ref('admin');
 const password = ref('abc888888');
 async function login() {
   const res = await userStore.login({
-    identifier: identifier.value,
+    username: username.value,
     password: password.value,
   });
   if (!res) return;
@@ -19,7 +19,7 @@ async function login() {
   <div class="login-page">
     <el-form>
       <el-form-item label="账号">
-        <el-input v-model="identifier"></el-input>
+        <el-input v-model="username"></el-input>
       </el-form-item>
       <el-form-item label="密码">
         <el-input v-model="password" type="password"></el-input>
