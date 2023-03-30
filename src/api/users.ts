@@ -6,24 +6,15 @@ export default {
   // 获取用户信息
   getUserInfo: () => request('/users/info'),
   // 查询列表
-  queryList: (searchForm: any, currentPage: any, pageSize: any) => {
+  getUsers: (searchForm: any, currentPage: any, pageSize: any) => {
     return request('/users', {
       params: { page: currentPage, limit: pageSize, ...searchForm },
     });
   },
-  // 编辑和新增
-  editAndAdd: (data: { id: any }, type: string) => {
-    if (type === 'add') {
-      return request.post('/users', data);
-    } else {
-      const id = data.id;
-      return request.put(`/users/${id}`, data);
-    }
-  },
+  // 新增
+  addUser: (data: any) => request.post('/users', data),
+  // 修改
+  updateUser: (id: number, data: any) => request.put(`/users/${id}`, data),
   // 删除
-  deleteById: (id: string) => {
-    return request(`/users/${id}`, {
-      method: 'DELETE',
-    });
-  },
+  deleteUser: (id: number) => request.delete(`/users/${id}`),
 };

@@ -12,7 +12,7 @@ export default {
     {
       path: '/permission/users',
       name: 'Users',
-      component: () => import('@/views/permission/user/users.vue'),
+      component: () => import('@/views/permission/users/users.vue'),
       meta: {
         title: '用户管理',
       },
