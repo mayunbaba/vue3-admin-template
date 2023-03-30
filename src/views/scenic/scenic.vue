@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import listPage from '@/layout/listPage.vue';
+import listPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import district from '@/utils/district';

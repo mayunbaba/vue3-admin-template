@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import listPage from '@/layout/listPage.vue';
+import listPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
 import { getLabelByValue } from '@/utils/common';
 // 查询
-const searchFormInit = {
+const searchFormInitData = {
   keyword: '',
 };
 const {
@@ -20,13 +20,16 @@ const {
   reset,
   searchForm,
 } = usePagination({
-  searchFormInit,
-  queryList: api.users.queryList,
+  searchFormInitData,
+  queryList: api.users.getUsers,
 });
 
 // 编辑、查看、新增
 const dialogFormRef = ref();
-const rulesDialogForm: any = reactive({
+const dialogFormInitData = {
+  status: 1,
+};
+const dialogFormRules: any = reactive({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     {
@@ -59,8 +62,10 @@ const {
   loadingDialog,
 } = useEditForm({
   dialogFormRef,
-  editAndAdd: api.users.editAndAdd,
-  deleteById: api.users.deleteById,
+  dialogFormInitData,
+  addApi: api.users.addUser,
+  editApi: api.users.updateUser,
+  delApi: api.users.deleteUser,
   search,
 });
 // =========================== 页面逻辑 ===========================
@@ -170,7 +175,7 @@ async function getStatus() {
         ref="dialogFormRef"
         :model="dialogForm"
         label-width="80px"
-        :rules="rulesDialogForm"
+        :rules="dialogFormRules"
         :disabled="dialogOpreation.includes('view')"
       >
         <el-form-item label="用户名" prop="username">
@@ -186,7 +191,7 @@ async function getStatus() {
           <el-input v-model="dialogForm.email" placeholder="" clearable />
         </el-form-item>
         <el-form-item label="启用状态" prop="status">
-          <el-select v-model="dialogForm.status" placeholder="" clearable>
+          <el-select v-model="dialogForm.status" placeholder="">
             <el-option
               v-for="item in statusOptions"
               :key="item.value"

@@ -1,24 +1,30 @@
 export function useEditForm({
   dialogFormRef,
+  dialogFormInitData,
   viewById,
-  editAndAdd,
-  deleteById,
+  addApi,
+  editApi,
+  delApi,
   search,
 }: any) {
   const loading = ref(false);
   const dialogVisible = ref(false);
   const dialogTitle = ref('新增');
   const dialogOpreation = ref('add');
-  const dialogForm = ref();
+  const dialogForm = ref({
+    ...dialogFormInitData,
+  });
   function add() {
     dialogTitle.value = '新增';
     dialogVisible.value = true;
     dialogOpreation.value = 'add';
     dialogFormRef.value?.resetFields();
-    dialogForm.value = {};
+    dialogForm.value = {
+      ...dialogFormInitData,
+    };
   }
   function del(row: any) {
-    deleteById(row.id).then((res: any) => {
+    delApi(row.id).then((res: any) => {
       if (res) {
         search();
       }
@@ -43,7 +49,7 @@ export function useEditForm({
       if (valid) {
         if (loading.value) return;
         loading.value = true;
-        editAndAdd(dialogForm.value, dialogOpreation.value).then((res: any) => {
+        addOrEdit().then((res: any) => {
           loading.value = false;
           if (res) {
             dialogVisible.value = false;
@@ -54,6 +60,14 @@ export function useEditForm({
         console.log('error submit!', fields);
       }
     });
+  }
+
+  function addOrEdit() {
+    if (dialogOpreation.value === 'add') {
+      return addApi(dialogForm.value);
+    } else {
+      return editApi(dialogForm.value.id, dialogForm.value);
+    }
   }
 
   function getDetail(row: any) {
