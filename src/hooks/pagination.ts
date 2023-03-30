@@ -1,4 +1,4 @@
-export function usePagination({ searchFormInitData, queryList }: any) {
+export function usePagination({ searchFormInitData, queryApi }: any) {
   // 分页相关
   const total = ref(0);
   const pageSize = ref(10);
@@ -17,7 +17,7 @@ export function usePagination({ searchFormInitData, queryList }: any) {
   function query() {
     if (loading.value) return;
     loading.value = true;
-    queryList(searchForm.value, currentPage.value, pageSize.value).then(
+    queryApi(searchForm.value, currentPage.value, pageSize.value).then(
       (res: any) => {
         if (res) {
           const { data } = res;

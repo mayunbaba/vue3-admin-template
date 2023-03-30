@@ -1,3 +1,5 @@
+import { dialogTitleObj } from '@/utils/common';
+
 export function useEditForm({
   dialogFormRef,
   dialogFormInitData,
@@ -9,13 +11,14 @@ export function useEditForm({
 }: any) {
   const loading = ref(false);
   const dialogVisible = ref(false);
-  const dialogTitle = ref('新增');
   const dialogOpreation = ref('add');
   const dialogForm = ref({
     ...dialogFormInitData,
   });
+  const dialogTitle = computed(() => {
+    return dialogTitleObj[dialogOpreation.value as 'add'];
+  });
   function add() {
-    dialogTitle.value = '新增';
     dialogVisible.value = true;
     dialogOpreation.value = 'add';
     dialogFormRef.value?.resetFields();
@@ -31,14 +34,12 @@ export function useEditForm({
     });
   }
   function edit(row: any) {
-    dialogTitle.value = '编辑';
     dialogVisible.value = true;
     dialogOpreation.value = 'edit';
     dialogFormRef.value?.resetFields();
     getDetail(row);
   }
   function view(row: any) {
-    dialogTitle.value = '查看';
     dialogVisible.value = true;
     dialogOpreation.value = 'view';
     dialogFormRef.value?.resetFields();

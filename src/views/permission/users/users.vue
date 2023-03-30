@@ -21,7 +21,7 @@ const {
   searchForm,
 } = usePagination({
   searchFormInitData,
-  queryList: api.users.getUsers,
+  queryApi: api.users.getUsers,
 });
 
 // 编辑、查看、新增
@@ -211,7 +211,7 @@ async function getStatus() {
       <span
         slot="footer"
         class="dialog-footer"
-        v-if="!dialogTitle.includes('查看')"
+        v-if="!dialogOpreation.includes('view')"
       >
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" :loading="loadingDialog" @click="submit">
