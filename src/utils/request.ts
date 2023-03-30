@@ -1,5 +1,5 @@
 import axios from 'axios';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/store/user';
 
 const service = axios.create({
   baseURL: '/admin',
