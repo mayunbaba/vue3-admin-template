@@ -2,8 +2,7 @@
 import listPage from '@/layout/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
-import users from '@/api/users';
-import roles from '@/api/roles';
+import api from '@/api';
 import dictTableList from '@/api/dictTableList';
 import { getLabelByValue } from '@/utils/common';
 
@@ -24,7 +23,7 @@ const {
   searchForm,
 } = usePagination({
   searchFormInit,
-  queryList: users.queryList,
+  queryList: api.users.queryList,
 });
 
 // 编辑、查看、新增
@@ -62,15 +61,15 @@ const {
   loadingDialog,
 } = useEditForm({
   dialogFormRef,
-  editAndAdd: users.editAndAdd,
-  deleteById: users.deleteById,
+  editAndAdd: api.users.editAndAdd,
+  deleteById: api.users.deleteById,
   search,
 });
 // =========================== 页面逻辑 ===========================
 const rolesOptions = ref();
 getRoles();
 async function getRoles() {
-  const res: any = await roles.getRoles();
+  const res: any = await api.roles.getRoles();
   if (!res) return;
   const { data } = res.data;
   rolesOptions.value = data.map((item: any) => {
