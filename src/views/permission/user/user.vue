@@ -3,9 +3,8 @@ import listPage from '@/layout/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
-import dictTableList from '@/api/dictTableList';
+import dictTableList from '@/api/dict';
 import { getLabelByValue } from '@/utils/common';
-
 // 查询
 const searchFormInit = {
   keyword: '',

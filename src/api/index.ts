@@ -1,6 +1,5 @@
-import users from './users';
-import roles from './roles';
-
+import users from '@/api/users';
+import roles from '@/api/roles';
 export default {
   users,
   roles,
