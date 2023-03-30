@@ -5,7 +5,10 @@ const dict: any = {
   ],
 };
 
-function dictTableList(key: string) {
-  return dict[key];
+function queryDict(key: string) {
+  return new Promise((resolve) => {
+    resolve(dict[key]);
+  });
 }
-export default dictTableList;
+
+export default queryDict;

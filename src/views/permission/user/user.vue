@@ -3,7 +3,6 @@ import listPage from '@/layout/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
-import dictTableList from '@/api/dict';
 import { getLabelByValue } from '@/utils/common';
 // 查询
 const searchFormInit = {
@@ -66,7 +65,13 @@ const {
 });
 // =========================== 页面逻辑 ===========================
 const rolesOptions = ref();
-getRoles();
+const statusOptions = ref();
+queryDict();
+function queryDict() {
+  getRoles();
+  getStatus();
+}
+
 async function getRoles() {
   const res: any = await api.roles.getRoles();
   if (!res) return;
@@ -78,7 +83,10 @@ async function getRoles() {
     };
   });
 }
-const statusOptions = dictTableList('status');
+
+async function getStatus() {
+  statusOptions.value = await api.dict('status');
+}
 </script>
 
 <template>
