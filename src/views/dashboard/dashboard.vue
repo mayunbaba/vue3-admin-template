@@ -1,6 +1,6 @@
 <script lang="ts" setup name="Dashboard">
-import useUserStore from '@/store/users';
-const userStore = useUserStore();
+import useUsersStore from '@/store/users';
+const userStore = useUsersStore();
 </script>
 <template>
   <div>

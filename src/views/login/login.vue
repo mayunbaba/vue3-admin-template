@@ -1,8 +1,8 @@
 <script lang="ts" setup name="Login">
-import useUserStore from '@/store/users';
+import useUsersStore from '@/store/users';
 import { useRouter } from 'vue-router';
 
-const userStore = useUserStore();
+const userStore = useUsersStore();
 const router = useRouter();
 const username = ref('admin');
 const password = ref('abc888888');

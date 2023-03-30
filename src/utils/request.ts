@@ -1,5 +1,5 @@
 import axios from 'axios';
-import useUserStore from '@/store/users';
+import useUsersStore from '@/store/users';
 
 const service = axios.create({
   baseURL: '/admin',
@@ -8,7 +8,7 @@ const service = axios.create({
 
 // 请求拦截器
 service.interceptors.request.use((config) => {
-  const userStore = useUserStore();
+  const userStore = useUsersStore();
   if (userStore.token) {
     config.headers.Authorization = userStore.token;
   }
@@ -31,7 +31,7 @@ service.interceptors.response.use(
     if (code === 40009) {
       console.log(data.msg, '请联系FE');
     } else if (code === 10003) {
-      const userStore = useUserStore();
+      const userStore = useUsersStore();
       userStore.logout();
     }
     ElMessage.error(data.msg || data.message);

@@ -1,12 +1,12 @@
 import NProgress from 'nprogress';
-import useUserStore from '@/store/users';
+import useUsersStore from '@/store/users';
 import router from '@/router';
 import 'nprogress/nprogress.css';
 
 const whiteList = ['Login', '404']; // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
-  const userStore = useUserStore();
+  const userStore = useUsersStore();
   // 页面转场动画
   NProgress.start();
   // 设置页面标题
