@@ -1,9 +1,9 @@
 <script lang="ts" setup name="Dashboard">
 import useUsersStore from '@/store/users';
-const userStore = useUsersStore();
+const usersStore = useUsersStore();
 </script>
 <template>
   <div>
-    <h1>Hello {{ userStore.user.username }}!</h1>
+    <h1>Hello {{ usersStore.user.username }}!</h1>
   </div>
 </template>

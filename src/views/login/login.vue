@@ -2,12 +2,12 @@
 import useUsersStore from '@/store/users';
 import { useRouter } from 'vue-router';
 
-const userStore = useUsersStore();
+const usersStore = useUsersStore();
 const router = useRouter();
 const username = ref('admin');
 const password = ref('abc888888');
 async function login() {
-  const res = await userStore.login({
+  const res = await usersStore.login({
     username: username.value,
     password: password.value,
   });

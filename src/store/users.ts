@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import users from '@/api/users';
 
 export default defineStore(
-  'userStore',
+  'usersStore',
   () => {
     // state 修改state通过$patch
     const user = ref({

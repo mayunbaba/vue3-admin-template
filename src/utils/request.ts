@@ -8,9 +8,9 @@ const service = axios.create({
 
 // 请求拦截器
 service.interceptors.request.use((config) => {
-  const userStore = useUsersStore();
-  if (userStore.token) {
-    config.headers.Authorization = userStore.token;
+  const usersStore = useUsersStore();
+  if (usersStore.token) {
+    config.headers.Authorization = usersStore.token;
   }
   return config;
 });
@@ -31,8 +31,8 @@ service.interceptors.response.use(
     if (code === 40009) {
       console.log(data.msg, '请联系FE');
     } else if (code === 10003) {
-      const userStore = useUsersStore();
-      userStore.logout();
+      const usersStore = useUsersStore();
+      usersStore.logout();
     }
     ElMessage.error(data.msg || data.message);
   },

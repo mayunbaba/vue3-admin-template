@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import useUsersStore from '@/store/users';
 import { storeToRefs } from 'pinia';
-const userStore = useUsersStore();
+const usersStore = useUsersStore();
 
-const { user } = storeToRefs(userStore);
+const { user } = storeToRefs(usersStore);
 
 const logout = () => {
-  userStore.logout();
+  usersStore.logout();
 };
 </script>
 <template>

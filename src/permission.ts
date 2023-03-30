@@ -6,13 +6,13 @@ import 'nprogress/nprogress.css';
 const whiteList = ['Login', '404']; // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
-  const userStore = useUsersStore();
+  const usersStore = useUsersStore();
   // 页面转场动画
   NProgress.start();
   // 设置页面标题
   // window.document.title = (to.meta.title as string) || 'Vue3 Admin';
   // 判断是否登录
-  if (userStore.token) {
+  if (usersStore.token) {
     next();
   } else {
     // 未登录
