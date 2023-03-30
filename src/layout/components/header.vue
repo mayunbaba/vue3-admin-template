@@ -4,10 +4,6 @@ import { storeToRefs } from 'pinia';
 const identityStore = useIdentityStore();
 
 const { user } = storeToRefs(identityStore);
-
-const logout = () => {
-  identityStore.logout();
-};
 </script>
 <template>
   <div class="header shadow">
@@ -22,7 +18,9 @@ const logout = () => {
           <el-dropdown-menu>
             <el-dropdown-item>个人中心</el-dropdown-item>
             <el-dropdown-item disabled>修改密码</el-dropdown-item>
-            <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
+            <el-dropdown-item divided @click="identityStore.logout()">
+              退出
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
