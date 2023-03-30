@@ -1,13 +1,13 @@
 <script lang="ts" setup name="Login">
-import useUsersStore from '@/store/users';
+import useIdentityStore from '@/store/identity';
 import { useRouter } from 'vue-router';
 
-const usersStore = useUsersStore();
+const identityStore = useIdentityStore();
 const router = useRouter();
 const username = ref('admin');
 const password = ref('abc888888');
 async function login() {
-  const res = await usersStore.login({
+  const res = await identityStore.login({
     username: username.value,
     password: password.value,
   });

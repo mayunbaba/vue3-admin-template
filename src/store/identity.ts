@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import users from '@/api/users';
 
 export default defineStore(
-  'usersStore',
+  'identityStore',
   () => {
     // state 修改state通过$patch
     const user = ref({
@@ -24,7 +24,7 @@ export default defineStore(
     const getUserInfo = async () => {
       const res: any = await users.getUserInfo();
       if (!res) return;
-      user.value = res;
+      user.value = res.data;
     };
 
     // 用户退出
