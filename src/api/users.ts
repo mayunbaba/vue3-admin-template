@@ -6,10 +6,17 @@ export default {
   // 获取用户信息
   getUserInfo: () => request('/users/info'),
   // 查询列表
-  getUsers: (searchForm: any, currentPage: any, pageSize: any) => {
-    return request('/users', {
+  getUsers: async (searchForm: any, currentPage: any, pageSize: any) => {
+    const res: any = await request('/users', {
       params: { page: currentPage, limit: pageSize, ...searchForm },
     });
+    if (!res) return;
+    const { data } = res.data;
+    data.forEach((item: any) => {
+      const { roles } = item;
+      item.roles = roles.map((role: any) => role.role_id);
+    });
+    return res;
   },
   // 新增
   addUser: (data: any) => request.post('/users', data),
