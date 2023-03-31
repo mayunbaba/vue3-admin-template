@@ -20,7 +20,7 @@ export default {
     {
       path: '/permission/role',
       name: 'PermissionRole',
-      component: () => import('@/views/permission/role/role.vue'),
+      component: () => import('@/views/permission/roles/roles.vue'),
       meta: {
         title: '角色管理',
       },

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import listPage from '@/components/listPage.vue';
+import ListPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
@@ -84,7 +84,7 @@ api.dict('status').then((res) => {
 </script>
 
 <template>
-  <list-page>
+  <ListPage>
     <template #add>
       <el-button type="primary" @click="add">新增</el-button>
     </template>
@@ -208,5 +208,5 @@ api.dict('status').then((res) => {
         </el-button>
       </span>
     </el-dialog>
-  </list-page>
+  </ListPage>
 </template>
