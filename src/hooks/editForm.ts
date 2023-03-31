@@ -27,7 +27,7 @@ export function useEditForm({
     };
   }
   function del(row: any) {
-    delApi(row.id).then((res: any) => {
+    delApi(row).then((res: any) => {
       if (res) {
         search();
       }

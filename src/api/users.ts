@@ -16,5 +16,5 @@ export default {
   // 修改
   updateUser: (data: any) => request.put(`/users/${data.id}`, data),
   // 删除
-  deleteUser: (id: number) => request.delete(`/users/${id}`),
+  deleteUser: (data: any) => request.delete(`/users/${data.id}`),
 };
