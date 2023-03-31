@@ -31,6 +31,7 @@ service.interceptors.response.use(
     if (code === 40009) {
       console.log(data.msg, '请联系FE');
     } else if (code === 10003) {
+      // 10003 为 token 过期
       const identityStore = useIdentityStore();
       identityStore.logout();
     }

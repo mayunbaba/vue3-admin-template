@@ -80,6 +80,7 @@ const {
         default-expand-all
       >
         <!-- <el-table-column prop="id" width="50" /> -->
+        <el-table-column type="selection" width="55" />
         <el-table-column prop="title" label="菜单名称" />
         <el-table-column prop="route_name" label="route_name" />
         <el-table-column prop="api_route_name" label="api_route_name" />

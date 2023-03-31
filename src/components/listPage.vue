@@ -40,4 +40,10 @@
 .pagination {
   margin-top: 20px;
 }
+
+.el-dialog__body {
+  .el-select {
+    width: 100%;
+  }
+}
 </style>
