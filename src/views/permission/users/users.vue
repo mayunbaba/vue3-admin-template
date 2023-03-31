@@ -39,11 +39,6 @@ const dialogFormRules: any = reactive({
       trigger: 'blur',
     },
   ],
-  // email: [
-  //   { required: true, message: '请输入邮箱', trigger: 'blur' },
-  //   { type: 'email', message: '请输入正确的邮箱', trigger: 'blur' },
-  // ],
-  // role: [{ required: true, message: '请输入角色', trigger: 'blur' }],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' },
@@ -69,16 +64,10 @@ const {
   search,
 });
 // =========================== 页面逻辑 ===========================
+// 字典
 const rolesOptions = ref();
 const statusOptions = ref();
-queryDict();
-function queryDict() {
-  getRoles();
-  getStatus();
-}
-
-async function getRoles() {
-  const res: any = await api.roles.getRoles();
+api.roles.getRoles().then((res) => {
   if (!res) return;
   const { data } = res.data;
   rolesOptions.value = data.map((item: any) => {
@@ -87,11 +76,11 @@ async function getRoles() {
       value: item.id,
     };
   });
-}
-
-async function getStatus() {
-  statusOptions.value = await api.dict('status');
-}
+});
+api.dict('status').then((res) => {
+  if (!res) return;
+  statusOptions.value = res;
+});
 </script>
 
 <template>
