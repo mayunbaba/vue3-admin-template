@@ -3,7 +3,6 @@ import ListPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
-import { getLabelByValue } from '@/utils/common';
 // 查询
 const searchFormInitData = {
   keyword: '',
@@ -21,28 +20,15 @@ const {
   searchForm,
 } = usePagination({
   searchFormInitData,
-  queryApi: api.users.getUsers,
+  queryApi: api.menus.getMenuTree,
 });
 
 // 编辑、查看、新增
 const dialogFormRef = ref();
-const dialogFormInitData = {
-  status: 1,
-};
+const dialogFormInitData = {};
 const dialogFormRules: any = reactive({
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    {
-      min: 4,
-      max: 20,
-      message: '用户名长度在 4 到 20 个字符',
-      trigger: 'blur',
-    },
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' },
-  ],
+  name: [{ required: true, message: '请输入角色', trigger: 'blur' }],
+  remarks: [{ required: true, message: '请输入备注', trigger: 'blur' }],
 });
 const {
   dialogVisible,
@@ -58,29 +44,13 @@ const {
 } = useEditForm({
   dialogFormRef,
   dialogFormInitData,
-  addApi: api.users.addUser,
-  editApi: api.users.updateUser,
-  delApi: api.users.deleteUser,
+  addApi: api.roles.addRole,
+  editApi: api.roles.updateRole,
+  delApi: api.roles.deleteRole,
+  viewApi: api.roles.getRole,
   search,
 });
 // =========================== 页面逻辑 ===========================
-// 字典
-const rolesOptions = ref();
-const statusOptions = ref();
-api.roles.getRoles().then((res) => {
-  if (!res) return;
-  const { data } = res.data;
-  rolesOptions.value = data.map((item: any) => {
-    return {
-      label: item.name,
-      value: item.id,
-    };
-  });
-});
-api.dict('status').then((res) => {
-  if (!res) return;
-  statusOptions.value = res;
-});
 </script>
 
 <template>
@@ -99,6 +69,7 @@ api.dict('status').then((res) => {
         </el-form-item>
       </el-form>
     </template>
+    {{ tableData }}
     <template #table>
       <el-table
         :data="tableData"
@@ -108,28 +79,8 @@ api.dict('status').then((res) => {
         element-loading-background="rgba(122, 122, 122, 0.8)"
       >
         <el-table-column prop="id" width="50" />
-        <el-table-column prop="username" label="用户名" />
-        <el-table-column prop="nickname" label="昵称" />
-        <el-table-column prop="mobile" label="手机号" />
-        <el-table-column prop="email" label="邮箱" />
-        <el-table-column prop="status" label="状态">
-          <template #default="{ row }">
-            <el-tag
-              :type="row.status === 1 ? 'success' : 'danger'"
-              v-text="getLabelByValue(statusOptions, row.status)"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column prop="roles" label="角色">
-          <template #default="{ row }">
-            <el-tag
-              v-for="item in row.roles"
-              :key="item.role_id"
-              v-text="getLabelByValue(rolesOptions, item.role_id)"
-            >
-            </el-tag>
-          </template>
-        </el-table-column>
+        <el-table-column prop="name" label="角色" />
+        <el-table-column prop="remarks" label="备注" />
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
@@ -167,34 +118,11 @@ api.dict('status').then((res) => {
         :rules="dialogFormRules"
         :disabled="dialogOpreation.includes('view')"
       >
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="dialogForm.username" placeholder="" clearable />
+        <el-form-item label="角色" prop="username">
+          <el-input v-model="dialogForm.name" placeholder="" clearable />
         </el-form-item>
-        <el-form-item label="昵称" prop="nickname">
-          <el-input v-model="dialogForm.nickname" placeholder="" clearable />
-        </el-form-item>
-        <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="dialogForm.mobile" placeholder="" clearable />
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="dialogForm.email" placeholder="" clearable />
-        </el-form-item>
-        <el-form-item label="启用状态" prop="status">
-          <el-select v-model="dialogForm.status" placeholder="">
-            <el-option
-              v-for="item in statusOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          label="密码"
-          v-if="dialogOpreation.includes('add')"
-          prop="password"
-        >
-          <el-input v-model="dialogForm.password" placeholder="" clearable />
+        <el-form-item label="备注" prop="nickname">
+          <el-input v-model="dialogForm.remarks" placeholder="" clearable />
         </el-form-item>
       </el-form>
       <span

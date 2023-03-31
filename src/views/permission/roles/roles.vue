@@ -3,11 +3,9 @@ import ListPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
-import { getLabelByValue } from '@/utils/common';
 // 查询
 const searchFormInitData = {
   keyword: '',
-  status: '', // 启用状态
 };
 const {
   tableData,
@@ -27,23 +25,10 @@ const {
 
 // 编辑、查看、新增
 const dialogFormRef = ref();
-const dialogFormInitData = {
-  status: 1,
-};
+const dialogFormInitData = {};
 const dialogFormRules: any = reactive({
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    {
-      min: 4,
-      max: 20,
-      message: '用户名长度在 4 到 20 个字符',
-      trigger: 'blur',
-    },
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' },
-  ],
+  name: [{ required: true, message: '请输入角色', trigger: 'blur' }],
+  remarks: [{ required: true, message: '请输入备注', trigger: 'blur' }],
 });
 const {
   dialogVisible,
@@ -92,8 +77,8 @@ const {
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
       >
-        <el-table-column type="index" width="50" />
-        <el-table-column prop="name" label="角色名称" />
+        <el-table-column prop="id" width="50" />
+        <el-table-column prop="name" label="角色" />
         <el-table-column prop="remarks" label="备注" />
         <el-table-column label="操作">
           <template #default="{ row }">

@@ -25,5 +25,13 @@ export default {
         title: '角色管理',
       },
     },
+    {
+      path: '/permission/menus',
+      name: 'PermissionMenus',
+      component: () => import('@/views/permission/menus/menus.vue'),
+      meta: {
+        title: '菜单管理',
+      },
+    },
   ],
 };
