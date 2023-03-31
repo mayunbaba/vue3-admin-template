@@ -3,7 +3,7 @@ import { dialogTitleObj } from '@/utils/common';
 export function useEditForm({
   dialogFormRef,
   dialogFormInitData,
-  viewById,
+  viewApi,
   addApi,
   editApi,
   delApi,
@@ -67,19 +67,18 @@ export function useEditForm({
     if (dialogOpreation.value === 'add') {
       return addApi(dialogForm.value);
     } else {
-      return editApi(dialogForm.value.id, dialogForm.value);
+      return editApi(dialogForm.value);
     }
   }
 
   function getDetail(row: any) {
-    if (viewById) {
-      viewById(row.id).then((res: any) => {
+    if (viewApi) {
+      viewApi(row).then((res: any) => {
         dialogForm.value = res;
       });
     } else {
       dialogForm.value = { ...row };
     }
-    console.log('dialogForm', dialogForm.value);
   }
 
   return {
