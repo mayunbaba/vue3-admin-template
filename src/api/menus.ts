@@ -26,7 +26,7 @@ export default {
     });
   },
   // 获取菜单详情
-  getMenusDetail: (id: any) => {
-    return request(`/menus/${id}`);
+  getMenu: (row: any) => {
+    return request(`/menus/${row.id}`);
   },
 };

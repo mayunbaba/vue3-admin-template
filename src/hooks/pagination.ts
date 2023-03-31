@@ -21,10 +21,17 @@ export function usePagination({ searchFormInitData, queryApi }: any) {
       (res: any) => {
         if (res) {
           const { data } = res;
-          tableData.value = data.data;
-          total.value = data.total;
-          pageSize.value = data.per_page;
-          currentPage.value = data.current_page;
+          if (data.data) {
+            // 有分页
+            tableData.value = data.data;
+            total.value = data.total;
+            pageSize.value = data.per_page;
+            currentPage.value = data.current_page;
+          } else {
+            // 无分页
+            tableData.value = data;
+            total.value = 0;
+          }
         }
         loading.value = false;
       },

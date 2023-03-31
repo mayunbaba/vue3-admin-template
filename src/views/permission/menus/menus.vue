@@ -47,7 +47,7 @@ const {
   addApi: api.roles.addRole,
   editApi: api.roles.updateRole,
   delApi: api.roles.deleteRole,
-  viewApi: api.roles.getRole,
+  viewApi: api.menus.getMenu,
   search,
 });
 // =========================== 页面逻辑 ===========================
@@ -69,7 +69,6 @@ const {
         </el-form-item>
       </el-form>
     </template>
-    {{ tableData }}
     <template #table>
       <el-table
         :data="tableData"
@@ -77,9 +76,13 @@ const {
         v-loading="loading"
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
+        row-key="id"
+        default-expand-all
       >
-        <el-table-column prop="id" width="50" />
-        <el-table-column prop="name" label="角色" />
+        <!-- <el-table-column prop="id" width="50" /> -->
+        <el-table-column prop="title" label="菜单名称" />
+        <el-table-column prop="route_name" label="route_name" />
+        <el-table-column prop="api_route_name" label="api_route_name" />
         <el-table-column prop="remarks" label="备注" />
         <el-table-column label="操作">
           <template #default="{ row }">
