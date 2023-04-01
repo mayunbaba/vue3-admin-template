@@ -52,9 +52,34 @@ const {
 });
 // =========================== 页面逻辑 ===========================
 // 获取菜单树
+const menuTree = ref([]);
+const menuTreeRef = ref();
+const defaultProps = {
+  children: 'children',
+  label: 'title',
+};
 api.menus.getMenuTree().then((res) => {
-  console.log(res);
+  menuTree.value = res.data;
 });
+function hanldeEdit(row: any) {
+  edit(row);
+  api.roles.getRoleMenus(row).then((res) => {
+    const roleMenus = res.data;
+    menuTreeRef.value.setCheckedNodes(roleMenus);
+  });
+}
+function handleSubmit() {
+  const checkedNodes = menuTreeRef.value.getCheckedNodes();
+  const checkedKeys = checkedNodes.map((item: any) => item.id);
+  api.roles
+    .updateRoleMenus({
+      id: dialogForm.value.id,
+      menu_ids: checkedKeys,
+    })
+    .then(() => {
+      submit();
+    });
+}
 </script>
 
 <template>
@@ -86,7 +111,9 @@ api.menus.getMenuTree().then((res) => {
         <el-table-column prop="remarks" label="备注" />
         <el-table-column label="操作">
           <template #default="{ row }">
-            <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
+            <el-button type="primary" link @click="hanldeEdit(row)">
+              编辑
+            </el-button>
             <el-button type="primary" link @click="view(row)"> 查看 </el-button>
             <el-popconfirm
               title="删除后将无法恢复，确定删除？"
@@ -128,16 +155,24 @@ api.menus.getMenuTree().then((res) => {
           <el-input v-model="dialogForm.remarks" placeholder="" clearable />
         </el-form-item>
       </el-form>
-      <el-table></el-table>
+      <el-tree
+        :data="menuTree"
+        :props="defaultProps"
+        show-checkbox
+        node-key="id"
+        default-expand-all
+        ref="menuTreeRef"
+        class="mb-20"
+      />
       <span
         slot="footer"
         class="dialog-footer"
         v-if="!dialogOpreation.includes('view')"
       >
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" :loading="loadingDialog" @click="submit">
-          确 定
-        </el-button>
+        <el-button type="primary" :loading="loadingDialog" @click="handleSubmit"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </ListPage>
