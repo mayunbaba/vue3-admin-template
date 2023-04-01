@@ -50,13 +50,16 @@ export function useEditForm({
       if (valid) {
         if (loading.value) return;
         loading.value = true;
-        addOrEdit().then((res: any) => {
-          loading.value = false;
-          if (res) {
-            dialogVisible.value = false;
-            search();
-          }
-        });
+        addOrEdit()
+          .then((res: any) => {
+            if (res) {
+              dialogVisible.value = false;
+              search();
+            }
+          })
+          .finally(() => {
+            loading.value = false;
+          });
       } else {
         console.log('error submit!', fields);
       }

@@ -17,8 +17,8 @@ export function usePagination({ searchFormInitData, queryApi }: any) {
   function query() {
     if (loading.value) return;
     loading.value = true;
-    queryApi(searchForm.value, currentPage.value, pageSize.value).then(
-      (res: any) => {
+    queryApi(searchForm.value, currentPage.value, pageSize.value)
+      .then((res: any) => {
         if (res) {
           const { data } = res;
           if (data.data) {
@@ -33,9 +33,10 @@ export function usePagination({ searchFormInitData, queryApi }: any) {
             total.value = 0;
           }
         }
+      })
+      .finally(() => {
         loading.value = false;
-      },
-    );
+      });
   }
 
   function handleCurrentChange(page: number) {
