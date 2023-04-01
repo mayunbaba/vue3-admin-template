@@ -82,9 +82,10 @@ const {
         <!-- <el-table-column prop="id" width="50" /> -->
         <el-table-column type="selection" width="55" />
         <el-table-column prop="title" label="菜单名称" />
-        <el-table-column prop="route_name" label="route_name" />
-        <el-table-column prop="api_route_name" label="api_route_name" />
-        <el-table-column prop="remarks" label="备注" />
+        <el-table-column prop="route_name" label="routeName" />
+        <el-table-column prop="api_route_name" label="apiRouteName" />
+        <el-table-column prop="hidden" label="hide" />
+        <el-table-column prop="icon" label="icon" />
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>

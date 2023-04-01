@@ -4,6 +4,7 @@ import Header from './components/header.vue';
 </script>
 <template>
   <div class="layout-page">
+    <div class="sidebar-empty"></div>
     <Sidebar class="sidebar" />
     <div class="layout__main">
       <Header />
@@ -15,8 +16,12 @@ import Header from './components/header.vue';
 .layout-page {
   display: flex;
   height: 100%;
+  .sidebar-empty {
+    width: 200px;
+  }
   .sidebar {
     width: 200px;
+    position: fixed;
   }
   .layout__main {
     width: calc(100% - 200px);

@@ -14,6 +14,7 @@ router.beforeEach((to, from, next) => {
   // 判断是否登录
   if (identityStore.token) {
     next();
+    identityStore.getUserInfo();
   } else {
     // 未登录
     if (whiteList.includes(to.name as string)) {
