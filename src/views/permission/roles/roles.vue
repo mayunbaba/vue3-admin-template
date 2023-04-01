@@ -51,6 +51,10 @@ const {
   search,
 });
 // =========================== 页面逻辑 ===========================
+// 获取菜单树
+api.menus.getMenuTree().then((res) => {
+  console.log(res);
+});
 </script>
 
 <template>
@@ -124,6 +128,7 @@ const {
           <el-input v-model="dialogForm.remarks" placeholder="" clearable />
         </el-form-item>
       </el-form>
+      <el-table></el-table>
       <span
         slot="footer"
         class="dialog-footer"

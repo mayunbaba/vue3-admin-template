@@ -14,7 +14,6 @@ export default defineStore(
     // Actions
     const login = async (data: any) => {
       const res: any = await users.login(data);
-      if (!res) return;
       token.value = res.data.token;
       getUserInfo(); // 获取用户信息
       return res;
@@ -23,7 +22,6 @@ export default defineStore(
     // 获取用户信息
     const getUserInfo = async () => {
       const res: any = await users.getUserInfo();
-      if (!res) return;
       user.value = res.data;
     };
 

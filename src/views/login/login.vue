@@ -11,7 +11,6 @@ async function login() {
     username: username.value,
     password: password.value,
   });
-  if (!res) return;
   router.replace({ path: '/' });
 }
 </script>

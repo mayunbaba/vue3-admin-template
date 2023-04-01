@@ -10,7 +10,6 @@ export default {
     const res: any = await request('/users', {
       params: { page: currentPage, limit: pageSize, ...searchForm },
     });
-    if (!res) return;
     const { data } = res.data;
     data.forEach((item: any) => {
       const { roles } = item;

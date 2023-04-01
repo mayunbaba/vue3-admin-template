@@ -74,7 +74,6 @@ export function useEditForm({
   function getDetail(row: any) {
     if (viewApi) {
       viewApi(row).then((res: any) => {
-        if (!res) return;
         dialogForm.value = res.data;
       });
     } else {

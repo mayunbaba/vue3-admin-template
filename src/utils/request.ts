@@ -36,6 +36,8 @@ service.interceptors.response.use(
       identityStore.logout();
     }
     ElMessage.error(data.msg || data.message);
+    // 这里reject的error的好处是，接口调用的时候不用去判断是否有error，回调在finally里面
+    return Promise.reject(error);
   },
 );
 

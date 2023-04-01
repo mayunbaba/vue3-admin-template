@@ -68,7 +68,6 @@ const {
 const rolesOptions = ref();
 const statusOptions = ref();
 api.roles.getRoles().then((res) => {
-  if (!res) return;
   const { data } = res.data;
   rolesOptions.value = data.map((item: any) => {
     return {
@@ -78,7 +77,6 @@ api.roles.getRoles().then((res) => {
   });
 });
 api.dict('status').then((res) => {
-  if (!res) return;
   statusOptions.value = res;
 });
 </script>

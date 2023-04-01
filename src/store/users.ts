@@ -32,7 +32,6 @@ export default defineStore('usersStore', () => {
       pageSize.value,
     );
     loading.value = false;
-    if (!res) return;
     users.value = res.data.data;
     return res;
   };
