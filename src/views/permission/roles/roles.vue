@@ -65,8 +65,6 @@ api.menus.getMenuTree().then((res) => {
 });
 function handleadd() {
   add();
-  updateTreeAttrs(menuTree.value, 'disabled', false);
-  menuTreeRef.value?.setCheckedKeys([]);
 }
 function hanldeEdit(row: any) {
   edit(row);
@@ -129,20 +127,22 @@ function handleSubmit() {
         <el-table-column prop="remarks" label="备注" />
         <el-table-column label="操作">
           <template #default="{ row }">
-            <el-button type="primary" link @click="hanldeEdit(row)">
-              编辑
-            </el-button>
-            <el-button type="primary" link @click="handleView(row)">
-              查看
-            </el-button>
-            <el-popconfirm
-              title="删除后将无法恢复，确定删除？"
-              @confirm="del(row)"
-            >
-              <template #reference>
-                <el-button type="danger" link>Delete</el-button>
-              </template>
-            </el-popconfirm>
+            <div v-show="row.id !== 1">
+              <el-button type="primary" link @click="hanldeEdit(row)">
+                编辑
+              </el-button>
+              <el-button type="primary" link @click="handleView(row)">
+                查看
+              </el-button>
+              <el-popconfirm
+                title="删除后将无法恢复，确定删除？"
+                @confirm="del(row)"
+              >
+                <template #reference>
+                  <el-button type="danger" link>Delete</el-button>
+                </template>
+              </el-popconfirm>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -176,6 +176,7 @@ function handleSubmit() {
         </el-form-item>
       </el-form>
       <el-tree
+        v-show="!dialogOpreation.includes('add')"
         :data="menuTree"
         :props="defaultProps"
         show-checkbox
