@@ -63,7 +63,12 @@ const {
         <el-table-column prop="title" label="菜单名称" />
         <el-table-column prop="route_name" label="菜单路径" />
         <el-table-column prop="api_route_name" label="权限标识" />
-        <el-table-column prop="hidden" label="隐藏" />
+        <el-table-column prop="hidden" label="隐藏">
+          <template #default="{ row }">
+            <el-tag v-if="row.hidden === 1" type="danger">是</el-tag>
+            <el-tag v-else type="success">否</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="icon" label="图标" />
         <el-table-column label="操作">
           <template #default="{ row }">
