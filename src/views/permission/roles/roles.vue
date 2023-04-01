@@ -63,6 +63,11 @@ const defaultProps = {
 api.menus.getMenuTree().then((res) => {
   menuTree.value = res.data;
 });
+function handleadd() {
+  add();
+  updateTreeAttrs(menuTree.value, 'disabled', false);
+  menuTreeRef.value?.setCheckedKeys([]);
+}
 function hanldeEdit(row: any) {
   edit(row);
   updateTreeAttrs(menuTree.value, 'disabled', false);
@@ -98,7 +103,7 @@ function handleSubmit() {
 <template>
   <ListPage>
     <template #add>
-      <el-button type="primary" @click="add">新增</el-button>
+      <el-button type="primary" @click="handleadd">新增</el-button>
     </template>
     <template #searchForm>
       <el-form :inline="true" :model="searchForm">
