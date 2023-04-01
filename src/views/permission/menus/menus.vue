@@ -4,9 +4,6 @@ import { usePagination } from '@/hooks/pagination';
 import api from '@/api';
 import { useEditForm } from '@/hooks/editForm';
 // 查询
-const searchFormInitData = {
-  keyword: '',
-};
 const {
   tableData,
   total,
@@ -16,10 +13,7 @@ const {
   search,
   handleCurrentChange,
   handleSizeChange,
-  reset,
-  searchForm,
 } = usePagination({
-  searchFormInitData,
   queryApi: api.menus.getMenuTree,
 });
 // 编辑、查看、新增
@@ -53,18 +47,7 @@ const {
 </script>
 
 <template>
-  <ListPage>
-    <template #searchForm>
-      <el-form :inline="true" :model="searchForm">
-        <el-form-item prop="keyword">
-          <el-input v-model="searchForm.keyword" />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="search">搜索</el-button>
-          <el-button @click="reset">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </template>
+  <ListPage class="menus-page">
     <template #table>
       <el-table
         :data="tableData"
@@ -156,3 +139,10 @@ const {
     </el-dialog>
   </ListPage>
 </template>
+<style lang="scss">
+.menus-page {
+  .search-wrap {
+    display: none;
+  }
+}
+</style>
