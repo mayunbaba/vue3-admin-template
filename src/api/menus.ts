@@ -14,14 +14,14 @@ export default {
   },
   // 更新菜单
   updateMenus: (menu: any) => {
-    return request('/menus', {
+    return request(`/menus/${menu.id}`, {
       method: 'PUT',
       data: menu,
     });
   },
   // 删除菜单
-  deleteMenus: (id: any) => {
-    return request(`/menus/${id}`, {
+  deleteMenus: (row: any) => {
+    return request(`/menus/${row.id}`, {
       method: 'DELETE',
     });
   },
