@@ -3,6 +3,7 @@ import ListPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
+import { updateTreeAttrs } from '@/utils/common';
 // 查询
 const searchFormInitData = {
   keyword: '',
@@ -57,17 +58,29 @@ const menuTreeRef = ref();
 const defaultProps = {
   children: 'children',
   label: 'title',
+  disabled: 'disabled',
 };
 api.menus.getMenuTree().then((res) => {
   menuTree.value = res.data;
 });
 function hanldeEdit(row: any) {
   edit(row);
+  updateTreeAttrs(menuTree.value, 'disabled', false);
   api.roles.getRoleMenus(row).then((res) => {
     const roleMenus = res.data;
     menuTreeRef.value.setCheckedNodes(roleMenus);
   });
 }
+function handleView(row: any) {
+  view(row);
+  // 禁用menuTree所有节点
+  updateTreeAttrs(menuTree.value, 'disabled', true);
+  api.roles.getRoleMenus(row).then((res) => {
+    const roleMenus = res.data;
+    menuTreeRef.value.setCheckedNodes(roleMenus);
+  });
+}
+
 function handleSubmit() {
   const checkedNodes = menuTreeRef.value.getCheckedNodes();
   const checkedKeys = checkedNodes.map((item: any) => item.id);
@@ -114,7 +127,9 @@ function handleSubmit() {
             <el-button type="primary" link @click="hanldeEdit(row)">
               编辑
             </el-button>
-            <el-button type="primary" link @click="view(row)"> 查看 </el-button>
+            <el-button type="primary" link @click="handleView(row)">
+              查看
+            </el-button>
             <el-popconfirm
               title="删除后将无法恢复，确定删除？"
               @confirm="del(row)"

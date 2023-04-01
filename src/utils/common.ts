@@ -10,4 +10,13 @@ const dialogTitleObj = {
   view: '查看',
 };
 
-export { getLabelByValue, dialogTitleObj };
+function updateTreeAttrs(tree: any[], attrs: string | number, value: any) {
+  tree.forEach((item: any) => {
+    item[attrs] = value;
+    if (item.children) {
+      updateTreeAttrs(item.children, attrs, value);
+    }
+  });
+}
+
+export { getLabelByValue, dialogTitleObj, updateTreeAttrs };
