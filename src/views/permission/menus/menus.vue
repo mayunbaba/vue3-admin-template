@@ -61,12 +61,18 @@ const {
         <!-- <el-table-column prop="id" width="50" /> -->
         <!-- <el-table-column type="selection" width="55" /> -->
         <el-table-column prop="title" label="菜单名称" />
-        <el-table-column prop="route_name" label="菜单路径" />
+        <el-table-column prop="route_name" label="前端路由" />
         <el-table-column prop="api_route_name" label="权限标识" />
+        <el-table-column prop="type" label="权限类型">
+          <template #default="{ row }">
+            <el-tag v-if="row.type === 1" type="danger">菜单</el-tag>
+            <el-tag v-else-if="row.type === 2" type="success">按钮</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="hidden" label="隐藏">
           <template #default="{ row }">
             <el-tag v-if="row.hidden === 1" type="danger">是</el-tag>
-            <el-tag v-else type="success">否</el-tag>
+            <el-tag v-else-if="row.hidden === 0" type="success">否</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="icon" label="图标" />
@@ -110,7 +116,7 @@ const {
         <el-form-item label="菜单名称" prop="title">
           <el-input v-model="dialogForm.title" placeholder="" clearable />
         </el-form-item>
-        <el-form-item label="菜单路径" prop="route_name">
+        <el-form-item label="前端路由" prop="route_name">
           <el-input v-model="dialogForm.route_name" placeholder="" clearable />
         </el-form-item>
         <el-form-item label="权限标识" prop="api_route_name">
