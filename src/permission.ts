@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css';
 
 const whiteList = ['Login', '404']; // no redirect whitelist
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const identityStore = useIdentityStore();
   // 页面转场动画
   NProgress.start();
@@ -13,8 +13,9 @@ router.beforeEach((to, from, next) => {
   // window.document.title = (to.meta.title as string) || 'Vue3 Admin';
   // 判断是否登录
   if (identityStore.token) {
+    await identityStore.getUserInfo();
+    identityStore.setMenus();
     next();
-    identityStore.getUserInfo();
   } else {
     // 未登录
     if (whiteList.includes(to.name as string)) {

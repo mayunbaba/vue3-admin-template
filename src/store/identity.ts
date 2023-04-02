@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import users from '@/api/users';
-import router from '@/router';
 
 export default defineStore(
   'identityStore',
@@ -9,6 +8,10 @@ export default defineStore(
     const user = ref({
       username: '',
       email: '',
+    });
+    const permission = ref({
+      menus: [],
+      buttons: [],
     });
     const token = ref('');
 
@@ -22,46 +25,27 @@ export default defineStore(
     // 获取用户信息
     const getUserInfo = async () => {
       const res: any = await users.getUserInfo();
-      const permission = res.data.menus;
-      delete res.data.menus;
+      const menus = res.data.menus;
       user.value = res.data;
-      const menusPermission = permission.filter((item: any) => item.type === 1);
-      const btnPermission = permission.filter((item: any) => item.type === 2);
-      console.log(permission, 'permission');
-      console.log(menusPermission, btnPermission);
-      // menusPermission.forEach((item: any) => {
-      //   const route = router
-      //     .getRoutes()
-      //     .find((route: any) => route.name === item.name);
-      //   if (!route) {
-      //     router.addRoute('Layout', {
-      //       path: item.path,
-      //       name: item.name,
-      //       component: () => import(`@/views${item.path}.vue`),
-      //     });
-      //   }
-      // });
-      console.log(router.getRoutes(), 'router.getRoutes');
+      // 菜单权限
+      const menusPermission = menus.filter((item: any) => item.route_path);
+      // 按钮权限
+      const buttonsPermission = menus.filter((item: any) => !item.route_path);
+      permission.value = {
+        menus: menusPermission,
+        buttons: buttonsPermission,
+      };
+      return permission.value;
+    };
 
-      // setTimeout(() => {
-      //   console.log(router, 'router.options.routes');
-      //   console.log(router.hasRoute('User'), 'router.hasRoute');
-      // }, 1000);
-      // console.log(router, 'router.options.routes');
-      // const asyncRoutes = router.options.routes.filter((item: any) => {
-      //   if (item.path === '/permission') {
-      //     item.children = item.children.filter((item: any) => {
-      //       if (menusPermission.includes(item.path)) {
-      //         return item;
-      //       }
-      //     });
-      //   }
-      //   if (menusPermission.includes(item.path)) {
-      //     return item;
-      //   }
-      // });
-      // router.addRoute(asyncRoutes);
-      // console.log(router.options.routes);
+    const setMenus = () => {
+      const menus = permission.value.menus;
+      const buttons = permission.value.buttons;
+      const menusMap = new Map();
+      menus.forEach((item: any) => {
+        menusMap.set(item.id, item);
+      });
+      console.log(menusMap, '动态添加路由未开发');
     };
 
     // 用户退出
@@ -80,6 +64,8 @@ export default defineStore(
       token,
       getUserInfo,
       logout,
+      permission,
+      setMenus,
     };
   },
   {

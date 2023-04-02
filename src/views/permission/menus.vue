@@ -61,7 +61,8 @@ const {
         <!-- <el-table-column prop="id" width="50" /> -->
         <!-- <el-table-column type="selection" width="55" /> -->
         <el-table-column prop="title" label="菜单名称" />
-        <el-table-column prop="route_name" label="前端路由" />
+        <el-table-column prop="route_path" label="前端路由" />
+        <el-table-column prop="route_name" label="前端路由名称" />
         <el-table-column prop="api_route_name" label="权限标识" />
         <el-table-column prop="type" label="权限类型">
           <template #default="{ row }">
@@ -116,7 +117,10 @@ const {
         <el-form-item label="菜单名称" prop="title">
           <el-input v-model="dialogForm.title" placeholder="" clearable />
         </el-form-item>
-        <el-form-item label="前端路由" prop="route_name">
+        <el-form-item label="前端路由" prop="route_path">
+          <el-input v-model="dialogForm.route_path" placeholder="" clearable />
+        </el-form-item>
+        <el-form-item label="前端路由名称" prop="route_name">
           <el-input v-model="dialogForm.route_name" placeholder="" clearable />
         </el-form-item>
         <el-form-item label="权限标识" prop="api_route_name">
