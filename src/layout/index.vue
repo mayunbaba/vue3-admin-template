@@ -1,11 +1,18 @@
 <script lang="ts" setup name="Layout">
-import Sidebar from './components/sidebar/index.vue';
+// import Sidebar from './components/sidebar/index.vue';
 import Header from './components/header.vue';
+
+// import { useRouter } from 'vue-router';
+
+// onMounted(() => {
+//   const Router = useRouter();
+//   console.log(Router.options.routes);
+// });
 </script>
 <template>
   <div class="layout-page">
     <div class="sidebar-empty"></div>
-    <Sidebar class="sidebar" />
+    <!-- <Sidebar class="sidebar" /> -->
     <div class="layout__main">
       <Header />
       <router-view />

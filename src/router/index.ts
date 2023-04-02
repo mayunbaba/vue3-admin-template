@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Layout from '@/layout/index.vue';
-import permissonManage from './modules/permissonManage';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,6 +14,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/dashboard',
+    name: 'Layout',
     component: Layout,
     children: [
       {
@@ -28,22 +28,21 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  {
-    path: '/scenic',
-    component: Layout,
-    children: [
-      {
-        path: '/scenic',
-        name: 'scenic',
-        component: () => import('@/views/scenic/scenic.vue'),
-        meta: {
-          title: '旅游景区',
-          iconName: 'Location',
-        },
-      },
-    ],
-  },
-  permissonManage,
+  // {
+  //   path: '/scenic',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: '/scenic',
+  //       name: 'scenic',
+  //       component: () => import('@/views/scenic/scenic.vue'),
+  //       meta: {
+  //         title: '旅游景区',
+  //         iconName: 'Location',
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: '/404',
     name: '404',
