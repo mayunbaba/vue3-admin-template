@@ -19,6 +19,8 @@ export default defineStore(
     const login = async (data: any) => {
       const res: any = await users.login(data);
       token.value = res.data.token;
+      // 防止用户使用上个账号的菜单权限
+      await getUserInfo();
       return res;
     };
 
@@ -35,17 +37,13 @@ export default defineStore(
         menus: menusPermission,
         buttons: buttonsPermission,
       };
-      return permission.value;
+      return res;
     };
 
-    const setMenus = () => {
-      const menus = permission.value.menus;
-      const buttons = permission.value.buttons;
-      const menusMap = new Map();
-      menus.forEach((item: any) => {
-        menusMap.set(item.id, item);
-      });
-      console.log(menusMap, '动态添加路由未开发');
+    const hasMenuPermission = (name: string) => {
+      return permission.value.menus.some(
+        (item: any) => item.route_name === name,
+      );
     };
 
     // 用户退出
@@ -55,7 +53,11 @@ export default defineStore(
         email: '',
       };
       token.value = '';
-      window.location.href = '';
+      permission.value = {
+        menus: [],
+        buttons: [],
+      };
+      // window.location.href = '';
     };
 
     return {
@@ -65,7 +67,7 @@ export default defineStore(
       getUserInfo,
       logout,
       permission,
-      setMenus,
+      hasMenuPermission,
     };
   },
   {
