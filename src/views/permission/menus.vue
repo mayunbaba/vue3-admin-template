@@ -61,9 +61,7 @@ const {
         <!-- <el-table-column prop="id" width="50" /> -->
         <!-- <el-table-column type="selection" width="55" /> -->
         <el-table-column prop="title" label="菜单名称" />
-        <el-table-column prop="route_path" label="前端路由" />
-        <el-table-column prop="route_name" label="前端路由名称" />
-        <el-table-column prop="api_route_name" label="权限标识" />
+        <el-table-column prop="route_name" label="前端标识" />
         <el-table-column prop="type" label="权限类型">
           <template #default="{ row }">
             <el-tag v-if="row.type === 1" type="danger">菜单</el-tag>
@@ -72,11 +70,16 @@ const {
         </el-table-column>
         <el-table-column prop="hidden" label="隐藏">
           <template #default="{ row }">
-            <el-tag v-if="row.hidden === 1" type="danger">是</el-tag>
-            <el-tag v-else-if="row.hidden === 0" type="success">否</el-tag>
+            <div v-if="row.type === 1">
+              <el-tag v-if="row.hidden === 1" type="danger">是</el-tag>
+              <el-tag v-else-if="row.hidden === 0" type="success">否</el-tag>
+            </div>
+            <div v-else></div>
           </template>
         </el-table-column>
+        <el-table-column prop="route_path" label="前端路由" />
         <el-table-column prop="icon" label="图标" />
+        <el-table-column prop="api_route_name" label="权限标识" />
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button type="primary" link @click="edit(row)">编辑</el-button>
@@ -117,18 +120,14 @@ const {
         <el-form-item label="菜单名称" prop="title">
           <el-input v-model="dialogForm.title" placeholder="" clearable />
         </el-form-item>
-        <el-form-item label="前端路由" prop="route_path">
-          <el-input v-model="dialogForm.route_path" placeholder="" clearable />
-        </el-form-item>
-        <el-form-item label="前端路由名称" prop="route_name">
+        <el-form-item label="前端标识" prop="route_name">
           <el-input v-model="dialogForm.route_name" placeholder="" clearable />
         </el-form-item>
-        <el-form-item label="权限标识" prop="api_route_name">
-          <el-input
-            v-model="dialogForm.api_route_name"
-            placeholder=""
-            clearable
-          />
+        <el-form-item label="权限类型" prop="type">
+          <el-select v-model="dialogForm.type" placeholder="请选择">
+            <el-option label="菜单" :value="1" />
+            <el-option label="按钮" :value="2" />
+          </el-select>
         </el-form-item>
         <el-form-item label="隐藏" prop="hidden">
           <el-switch
@@ -137,10 +136,24 @@ const {
             :inactive-value="0"
           />
         </el-form-item>
+        <el-form-item label="前端路由" prop="route_path">
+          <el-input v-model="dialogForm.route_path" placeholder="" clearable />
+        </el-form-item>
         <el-form-item label="图标" prop="icon">
           <el-input v-model="dialogForm.icon" placeholder="" clearable />
         </el-form-item>
+        <el-form-item label="权限标识" prop="api_route_name">
+          <el-input
+            v-model="dialogForm.api_route_name"
+            placeholder=""
+            clearable
+          />
+        </el-form-item>
+        <el-form-item label="排序" prop="sort">
+          <el-input v-model="dialogForm.sort" placeholder="" clearable />
+        </el-form-item>
       </el-form>
+
       <span
         slot="footer"
         class="dialog-footer"
