@@ -27,7 +27,7 @@ export default {
     },
     {
       path: '/permission/menus',
-      name: 'PermissionMenus',
+      name: 'Menu',
       component: () => import('@/views/permission/menus.vue'),
       meta: {
         title: '菜单管理',

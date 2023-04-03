@@ -3,11 +3,15 @@ import useIdentityStore from '@/store/identity';
 import router from '@/router';
 import 'nprogress/nprogress.css';
 
-const whiteList = ['Login']; // no redirect whitelist
+const whiteList = ['Login', '404']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
   // 页面转场动画
   NProgress.start();
+  if (whiteList.indexOf(to.name as string) !== -1) {
+    next();
+    return;
+  }
   // 用户是否已登录
   const hasToken = useIdentityStore().token;
   if (hasToken) {
@@ -30,18 +34,12 @@ router.beforeEach(async (to, from, next) => {
           useIdentityStore().logout();
         }
       } else {
-        // console.log('无权限访问');
-        // 死循环了
-        // next(`/login?redirect=${to.path}`);
+        console.log('无权限访问');
+        next('/404');
       }
     }
   } else {
-    // 未登录
-    if (whiteList.indexOf(to.name as string) !== -1) {
-      next();
-    } else {
-      next(`/login?redirect=${to.path}`);
-    }
+    next(`/login?redirect=${to.path}`);
   }
 });
 

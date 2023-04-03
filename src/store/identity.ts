@@ -57,7 +57,7 @@ export default defineStore(
         menus: [],
         buttons: [],
       };
-      // window.location.href = '';
+      window.location.href = '';
     };
 
     return {
