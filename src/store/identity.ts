@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import users from '@/api/users';
 import { listToTree } from '@/utils/common';
+import router from '@/router';
+import routesMap from '@/router/routesMap';
 
 export default defineStore(
   'identityStore',
@@ -51,8 +53,24 @@ export default defineStore(
         buttons: buttonsPermission,
       };
       treeMenu.value = listToTree(permission.value.menus);
+      // 添加路由
+      treeMenu.value.forEach((route: any) => addRoute('Layout', route));
+      console.log(router.getRoutes(), 'router.getRoutes()');
+      console.log(router.options.routes, 'router.options.routes');
       return res;
     };
+
+    function addRoute(parentName: string = 'Layout', route: any) {
+      // 动态路由必须先添加父路由
+      router.addRoute(parentName, {
+        path: route.path,
+        name: route.name,
+        component: routesMap[route.path as '/dashboard'],
+      });
+      if (route.children) {
+        route.children.forEach((item: any) => addRoute(route.name, item));
+      }
+    }
 
     const hasMenuPermission = (name: string) => {
       return permission.value.menus.some(

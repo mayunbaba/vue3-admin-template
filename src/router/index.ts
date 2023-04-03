@@ -19,37 +19,12 @@ const routes: Array<RouteRecordRaw> = [
     component: Layout,
     children: [
       {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/dashboard/dashboard.vue'),
-        meta: {
-          title: '首页',
-          iconName: 'HomeFilled',
-        },
+        path: '/404',
+        name: '404',
+        component: () => import('@/views/404.vue'),
+        hidden: true,
       },
     ],
-  },
-  permissonManage,
-  // {
-  //   path: '/scenic',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: '/scenic',
-  //       name: 'scenic',
-  //       component: () => import('@/views/scenic/scenic.vue'),
-  //       meta: {
-  //         title: '旅游景区',
-  //         iconName: 'Location',
-  //       },
-  //     },
-  //   ],
-  // },
-  {
-    path: '/404',
-    name: '404',
-    component: () => import('@/views/404.vue'),
-    hidden: true,
   },
 ];
 
