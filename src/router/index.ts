@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Layout from '@/layout/index.vue';
-import permissonManage from './modules/permissonManage';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -32,7 +31,5 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
-
-console.log(router.getRoutes());
 
 export default router;

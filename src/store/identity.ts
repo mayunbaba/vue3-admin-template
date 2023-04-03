@@ -17,7 +17,6 @@ export default defineStore(
       buttons: [],
     });
     const token = ref('');
-    const treeMenu = ref();
 
     // Actions
     const login = async (data: any) => {
@@ -32,45 +31,12 @@ export default defineStore(
     const getUserInfo = async () => {
       const res: any = await users.getUserInfo();
       const menus = res.data.menus;
+      delete res.data.menus;
       user.value = res.data;
-      // 菜单权限
-      const menusPermission = menus
-        .filter((item: any) => item.route_path)
-        .map((item: any) => {
-          return {
-            ...item,
-            path: item.route_path,
-            name: item.route_name,
-            meta: {
-              title: item.title,
-            },
-          };
-        });
-      // 按钮权限
-      const buttonsPermission = menus.filter((item: any) => !item.route_path);
-      permission.value = {
-        menus: menusPermission,
-        buttons: buttonsPermission,
-      };
-      treeMenu.value = listToTree(permission.value.menus);
-      // 添加路由
-      treeMenu.value.forEach((route: any) => addRoute('Layout', route));
-      console.log(router.getRoutes(), 'router.getRoutes()');
-      console.log(router.options.routes, 'router.options.routes');
+      permission.value.menus = menus.filter((item: any) => item.type === 1);
+      permission.value.buttons = menus.filter((item: any) => item.type === 2);
       return res;
     };
-
-    function addRoute(parentName: string = 'Layout', route: any) {
-      // 动态路由必须先添加父路由
-      router.addRoute(parentName, {
-        path: route.path,
-        name: route.name,
-        component: routesMap[route.path as '/dashboard'],
-      });
-      if (route.children) {
-        route.children.forEach((item: any) => addRoute(route.name, item));
-      }
-    }
 
     const hasMenuPermission = (name: string) => {
       return permission.value.menus.some(
@@ -89,7 +55,7 @@ export default defineStore(
         menus: [],
         buttons: [],
       };
-      window.location.href = '';
+      router.push('/login');
     };
 
     return {
@@ -100,7 +66,6 @@ export default defineStore(
       logout,
       permission,
       hasMenuPermission,
-      treeMenu,
     };
   },
   {

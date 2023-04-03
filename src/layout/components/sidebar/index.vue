@@ -2,11 +2,12 @@
 import NestMenu from './nestMenu.vue';
 import { RouteRecordRaw } from 'vue-router';
 import useIdentity from '@/store/identity';
+import { listToTree } from '@/utils/route';
 
 const collapge = ref(false);
 // 过滤掉hidden为true的路由
 const routes = computed(() => {
-  return useIdentity().treeMenu.filter(treeDeleteHidden);
+  return listToTree(useIdentity().permission.menus).filter(treeDeleteHidden);
 });
 
 // 如果只包含一个子路由，那么就不显示父路由
@@ -28,7 +29,7 @@ function filterSingleRoute(route: RouteRecordRaw) {
 }
 
 // 递归过滤掉hidden为true的路由
-function treeDeleteHidden(route: RouteRecordRaw) {
+function treeDeleteHidden(route: any) {
   if (route.hidden === true) {
     return false;
   }

@@ -4,7 +4,18 @@ export default {
   // 登录
   login: (data: any) => request.post('/users/login', data),
   // 获取用户信息
-  getUserInfo: () => request('/users/info'),
+  getUserInfo: () =>
+    request('/users/info').then((res: any) => {
+      const { menus } = res.data;
+      menus.map((menu: any) => {
+        menu.path = menu.route_path;
+        menu.name = menu.route_name;
+        menu.meta = {
+          title: menu.title,
+        };
+      });
+      return res;
+    }),
   // 查询列表
   getUsers: async (searchForm: any, currentPage: any, pageSize: any) => {
     const res: any = await request('/users', {
