@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import users from '@/api/users';
+import { listToTree } from '@/utils/common';
 
 export default defineStore(
   'identityStore',
@@ -14,6 +15,7 @@ export default defineStore(
       buttons: [],
     });
     const token = ref('');
+    const treeMenu = ref();
 
     // Actions
     const login = async (data: any) => {
@@ -30,13 +32,25 @@ export default defineStore(
       const menus = res.data.menus;
       user.value = res.data;
       // 菜单权限
-      const menusPermission = menus.filter((item: any) => item.route_path);
+      const menusPermission = menus
+        .filter((item: any) => item.route_path)
+        .map((item: any) => {
+          return {
+            ...item,
+            path: item.route_path,
+            name: item.route_name,
+            meta: {
+              title: item.title,
+            },
+          };
+        });
       // 按钮权限
       const buttonsPermission = menus.filter((item: any) => !item.route_path);
       permission.value = {
         menus: menusPermission,
         buttons: buttonsPermission,
       };
+      treeMenu.value = listToTree(permission.value.menus);
       return res;
     };
 
@@ -68,6 +82,7 @@ export default defineStore(
       logout,
       permission,
       hasMenuPermission,
+      treeMenu,
     };
   },
   {

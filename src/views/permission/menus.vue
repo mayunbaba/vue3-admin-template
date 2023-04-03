@@ -58,9 +58,9 @@ const {
         row-key="id"
         default-expand-all
       >
-        <!-- <el-table-column prop="id" width="50" /> -->
         <!-- <el-table-column type="selection" width="55" /> -->
         <el-table-column prop="title" label="菜单名称" />
+        <!-- <el-table-column prop="id" width="50" /> -->
         <el-table-column prop="route_name" label="前端标识" />
         <el-table-column prop="type" label="权限类型">
           <template #default="{ row }">

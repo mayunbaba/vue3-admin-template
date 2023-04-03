@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import router from '@/router';
 import NestMenu from './nestMenu.vue';
 import { RouteRecordRaw } from 'vue-router';
+import useIdentity from '@/store/identity';
 
 const collapge = ref(false);
 // 过滤掉hidden为true的路由
-const routes = router.options.routes.filter(treeDeleteHidden);
-routes.forEach(filterSingleRoute);
+const routes = computed(() => {
+  return useIdentity().treeMenu.filter(treeDeleteHidden);
+});
 
 // 如果只包含一个子路由，那么就不显示父路由
 function filterSingleRoute(route: RouteRecordRaw) {

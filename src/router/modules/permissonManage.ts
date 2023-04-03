@@ -9,14 +9,14 @@ export default {
     iconName: 'Lock',
   },
   children: [
-    {
-      path: '/permission/users',
-      name: 'Users',
-      component: () => import('@/views/permission/users.vue'),
-      meta: {
-        title: '用户管理',
-      },
-    },
+    // {
+    //   path: '/permission/users',
+    //   name: 'PermissionUsers',
+    //   component: () => import('@/views/permission/users.vue'),
+    //   meta: {
+    //     title: '用户管理',
+    //   },
+    // },
     {
       path: '/permission/roles',
       name: 'PermissionRoles',
@@ -27,7 +27,7 @@ export default {
     },
     {
       path: '/permission/menus',
-      name: 'Menu',
+      name: 'PermissionMenus',
       component: () => import('@/views/permission/menus.vue'),
       meta: {
         title: '菜单管理',
