@@ -17,6 +17,7 @@ export function usePagination({ searchFormInitData, queryApi }: any) {
   function query() {
     if (loading.value) return;
     loading.value = true;
+    tableData.value = [];
     queryApi(searchForm.value, currentPage.value, pageSize.value)
       .then((res: any) => {
         if (res) {

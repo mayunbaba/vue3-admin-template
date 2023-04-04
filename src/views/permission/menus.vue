@@ -3,6 +3,8 @@ import ListPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import api from '@/api';
 import { useEditForm } from '@/hooks/editForm';
+import Sortable from 'sortablejs';
+
 // 查询
 const {
   tableData,
@@ -44,10 +46,69 @@ const {
   search,
 });
 // =========================== 页面逻辑 ===========================
+function handleAdd(row?: any) {
+  add();
+  if (row) {
+    dialogForm.value.parent_id = row.id;
+  } else {
+    dialogForm.value.parent_id = 0;
+  }
+}
+
+const dragTable = ref();
+
+const initDropTable = () => {
+  const el = dragTable.value.$el.querySelector('.el-table__body tbody');
+  Sortable.create(el, {
+    handle: '.move-wrapper', //设置指定列作为拖拽
+    onEnd(evt: any) {
+      // console.log(evt, 'evt');
+      const { newIndex, oldIndex, item } = evt;
+      const handleId = item.classList[1].split('-')[1];
+      console.log(handleId, 'handleId');
+      // console.log(handleId, 'handleId');
+      // console.log(oldIndex, 'oldIndex');
+      // console.log(newIndex, 'newIndex');
+      // api.menus
+      //   .updateMenusSort({
+      //     id: handleId,
+      //     sort: newIndex,
+      //   })
+      //   .then(() => {
+      //     search();
+      //   });
+      console.log(oldIndex, newIndex);
+      const currRow = tableData.value?.splice(oldIndex, 1)[0];
+      tableData.value?.splice(newIndex, 0, currRow);
+      sortIndex();
+    },
+  });
+};
+
+onMounted(() => {
+  nextTick(() => {
+    initDropTable();
+  });
+});
+
+function sortIndex() {
+  tableData.value?.forEach((item: any, index: number) => {
+    console.log(item);
+    console.log(item.id, item.title);
+    // item.sort = index + 1;
+  });
+}
+
+function getRowClassName({ row }: { row: any }) {
+  return `id-${row.id} move-wrapper`;
+}
 </script>
 
 <template>
   <ListPage class="menus-page">
+    <template #add>
+      <el-button type="primary" @click="handleAdd()">新增</el-button>
+    </template>
     <template #table>
       <el-table
         :data="tableData"
@@ -57,10 +118,16 @@ const {
         element-loading-background="rgba(122, 122, 122, 0.8)"
         row-key="id"
         default-expand-all
+        ref="dragTable"
+        :row-class-name="getRowClassName"
       >
-        <!-- <el-table-column type="selection" width="55" /> -->
-        <el-table-column prop="title" label="菜单名称" />
-        <!-- <el-table-column prop="id" width="50" /> -->
+        <el-table-column type="index" width="55" />
+        <el-table-column prop="title" label="菜单名称">
+          <template #default="{ row }">
+            <span>{{ row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sort" width="55" />
         <el-table-column prop="route_name" label="前端标识" />
         <el-table-column prop="type" label="权限类型">
           <template #default="{ row }">
@@ -82,7 +149,11 @@ const {
         <el-table-column prop="api_route_name" label="权限标识" />
         <el-table-column label="操作">
           <template #default="{ row }">
+            <el-button type="primary" link @click="handleAdd(row)">
+              添加子菜单
+            </el-button>
             <el-button type="primary" link @click="edit(row)">编辑</el-button>
+
             <el-button type="primary" link @click="view(row)">查看</el-button>
             <el-popconfirm
               title="删除后将无法恢复，确定删除？"
@@ -149,9 +220,6 @@ const {
             clearable
           />
         </el-form-item>
-        <el-form-item label="排序" prop="sort">
-          <el-input v-model="dialogForm.sort" placeholder="" clearable />
-        </el-form-item>
       </el-form>
 
       <span
@@ -172,5 +240,8 @@ const {
   .search-wrap {
     display: none;
   }
+}
+.move-wrapper {
+  cursor: move;
 }
 </style>

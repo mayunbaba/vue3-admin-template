@@ -19,6 +19,12 @@ export default {
       data: menu,
     });
   },
+  // 更新菜单排序
+  updateMenusSort: (menu: any) => {
+    return request(`/menus/${menu.id}/${menu.sort}`, {
+      method: 'PUT',
+    });
+  },
   // 删除菜单
   deleteMenus: (row: any) => {
     return request(`/menus/${row.id}`, {
