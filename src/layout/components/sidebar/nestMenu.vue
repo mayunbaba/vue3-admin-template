@@ -16,7 +16,7 @@ defineProps({
     <template #title>
       <NestMenuItem
         :title="route.meta?.title || route.name"
-        :iconName="route.meta?.iconName"
+        :iconName="route.icon"
       />
     </template>
     <!-- 调用自身组件 -->
@@ -26,7 +26,7 @@ defineProps({
   <el-menu-item v-else :index="route.path">
     <NestMenuItem
       :title="route.meta?.title || route.name"
-      :iconName="route.meta?.iconName"
+      :iconName="route.icon"
     />
   </el-menu-item>
 </template>
