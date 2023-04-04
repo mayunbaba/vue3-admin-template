@@ -2,7 +2,10 @@ import NProgress from 'nprogress';
 import useIdentityStore from '@/store/identity';
 import router from '@/router';
 import 'nprogress/nprogress.css';
-import { generateRoutes } from '@/utils/route';
+import { generateRoutes } from './utils/route';
+
+// 每次刷新动态路由都会丢失，所以需要重新生成
+generateRoutes();
 
 const whiteList = ['Login', '404']; // no redirect whitelist
 
@@ -16,27 +19,15 @@ router.beforeEach(async (to, from, next) => {
   // 用户是否已登录
   const hasToken = useIdentityStore().token;
   if (hasToken) {
+    // 有token必然有用户信息
     if (to.path === '/login') {
       next({ path: '/' });
     } else {
-      // 判断当前用户是否已拉取完user_info信息，用户信息包含菜单权限
-      const hasUserInfo = useIdentityStore().user.username;
-      if (!hasUserInfo) {
-        // 获取用户信息
-        await useIdentityStore().getUserInfo();
-      }
       if (router.hasRoute(to.name as string)) {
-        // 已经添加过路由
         next();
       } else {
-        // 动态添加路由
-        generateRoutes(useIdentityStore().permission.menus);
-        try {
-          next(to);
-        } catch (error) {
-          console.log('页面不存在，或者无权限访问');
-          next('/404');
-        }
+        console.log('无权限或者页面不存在');
+        next('/404');
       }
     }
   } else {

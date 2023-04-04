@@ -1,5 +1,6 @@
 <script lang="ts" setup name="Login">
 import useIdentityStore from '@/store/identity';
+import { generateRoutes } from '@/utils/route';
 import { useRouter } from 'vue-router';
 
 const identityStore = useIdentityStore();
@@ -7,10 +8,19 @@ const router = useRouter();
 const username = ref('admin');
 const password = ref('abc888888');
 async function login() {
-  const res = await identityStore.login({
+  await identityStore.login({
     username: username.value,
     password: password.value,
   });
+  // 获取用户信息包含菜单权限
+  await identityStore.getUserInfo();
+  // 生成路由
+  generateRoutes();
+  const redirect = router.currentRoute.value.query.redirect;
+  if (redirect) {
+    router.replace({ path: redirect as string });
+    return;
+  }
   router.replace({ path: '/' });
 }
 </script>

@@ -1,5 +1,6 @@
 import router from '@/router';
 import routesMap from '@/router/routesMap';
+import useIdentityStore from '@/store/identity';
 
 interface TreeNode {
   id: number;
@@ -29,9 +30,26 @@ function listToTree(list: TreeNode[]): TreeNode[] {
 }
 
 // 生成路由
-function generateRoutes(routes: any) {
-  console.log(routes, 'routes');
-  const treeMenu = listToTree(routes);
+function generateRoutes() {
+  let identityStore;
+  let menus;
+  try {
+    // 从store中获取
+    identityStore = useIdentityStore();
+    menus = identityStore.permission.menus;
+  } catch (error) {
+    try {
+      // 从sessionStorage中获取
+      identityStore = JSON.parse(
+        sessionStorage.getItem('identityStore') as string,
+      );
+      menus = identityStore.permission.menus;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  }
+  const treeMenu = listToTree(menus);
   treeMenu.forEach((route: any) => addRoute(route, 'Layout'));
 }
 
