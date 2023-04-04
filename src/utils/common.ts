@@ -19,4 +19,15 @@ function updateTreeAttrs(tree: any[], attrs: string | number, value: any) {
   });
 }
 
-export { getLabelByValue, dialogTitleObj, updateTreeAttrs };
+function treeToList(tree: any[]) {
+  const list: any[] = [];
+  tree.forEach((item: any) => {
+    list.push(item);
+    if (item.children) {
+      list.push(...treeToList(item.children));
+    }
+  });
+  return list;
+}
+
+export { getLabelByValue, dialogTitleObj, updateTreeAttrs, treeToList };
