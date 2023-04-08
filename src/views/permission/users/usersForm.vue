@@ -27,7 +27,7 @@ const dialogFormRules: any = reactive({
   ],
 });
 
-function submitForm() {
+function handleSubmit() {
   dialogFormRef.value.validate((valid: any) => {
     if (valid) {
       emits('submit', props.dialogForm);
@@ -118,7 +118,7 @@ api.dict('status').then((res) => {
       v-if="!dialogOpreation.includes('view')"
     >
       <el-button @click="emits('update:dialogVisible', false)">取 消</el-button>
-      <el-button type="primary" :loading="loadingDialog" @click="submitForm">
+      <el-button type="primary" :loading="loadingDialog" @click="handleSubmit">
         确 定
       </el-button>
     </span>

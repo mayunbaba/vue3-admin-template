@@ -39,9 +39,10 @@ const tableCloumns = [
     type: 'operation',
   },
 ];
-// 编辑、查看、新增
+// 弹窗逻辑
 const dialogFormInitData = {
   status: 1,
+  roles: [],
 };
 
 const {
@@ -50,7 +51,6 @@ const {
   dialogOpreation,
   dialogForm,
   add,
-  del,
   edit,
   view,
   submit,
@@ -59,7 +59,6 @@ const {
   dialogFormInitData,
   addApi: api.users.addUser,
   editApi: api.users.updateUser,
-  delApi: api.users.deleteUser,
   search: () => {
     tableRef.value.search();
   },

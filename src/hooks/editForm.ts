@@ -5,7 +5,6 @@ export function useEditForm({
   viewApi,
   addApi,
   editApi,
-  delApi,
   search,
 }: any) {
   const loading = ref(false);
@@ -23,13 +22,6 @@ export function useEditForm({
     dialogForm.value = {
       ...dialogFormInitData,
     };
-  }
-  function del(row: any) {
-    delApi(row).then((res: any) => {
-      if (res) {
-        search();
-      }
-    });
   }
   function edit(row: any) {
     dialogVisible.value = true;
@@ -82,7 +74,6 @@ export function useEditForm({
     edit,
     view,
     add,
-    del,
     submit,
     loadingDialog: loading,
   };
