@@ -86,12 +86,12 @@ api.dict('status').then((res) => {
   <Table
     :searchFormInitData="searchFormInitData"
     :queryApi="api.users.getUsers"
+    :delApi="api.users.deleteUser"
     :tableCloumns="tableCloumns"
     ref="tableRef"
     @add="add"
     @edit="edit"
     @view="view"
-    @del="del"
   >
     <!-- 搜索框 -->
     <template #searchForm="{ searchForm }">

@@ -1,4 +1,4 @@
-export function usePagination({ searchFormInitData, queryApi }: any) {
+export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
   // 分页相关
   const total = ref(0);
   const pageSize = ref(10);
@@ -40,6 +40,20 @@ export function usePagination({ searchFormInitData, queryApi }: any) {
       });
   }
 
+  function del(row: any) {
+    loading.value = true;
+    delApi(row)
+      .then((res: any) => {
+        loading.value = false;
+        if (res) {
+          query();
+        }
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
+
   function handleCurrentChange(page: number) {
     currentPage.value = page;
     query();
@@ -62,6 +76,7 @@ export function usePagination({ searchFormInitData, queryApi }: any) {
     currentPage,
     loading,
     search,
+    del,
     handleCurrentChange,
     handleSizeChange,
     reset,

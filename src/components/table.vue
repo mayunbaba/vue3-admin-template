@@ -4,11 +4,12 @@ import { usePagination } from '@/hooks/pagination';
 const props = defineProps<{
   searchFormInitData: any;
   queryApi: any;
+  delApi: any;
   tableCloumns: any;
 }>(); // 传入的参数
 
 // 编辑、查看、新增
-const emits = defineEmits(['add', 'view', 'del', 'edit']);
+const emits = defineEmits(['add', 'view', 'edit']);
 
 // 查询
 const {
@@ -18,6 +19,7 @@ const {
   currentPage,
   loading,
   search,
+  del,
   handleCurrentChange,
   handleSizeChange,
   reset,
@@ -25,6 +27,7 @@ const {
 } = usePagination({
   searchFormInitData: props.searchFormInitData,
   queryApi: props.queryApi,
+  delApi: props.delApi,
 });
 
 function formatTableValue(val: any) {
@@ -91,7 +94,7 @@ defineExpose({
                 </el-button>
                 <el-popconfirm
                   title="删除后将无法恢复，确定删除？"
-                  @confirm="emits('del', row)"
+                  @confirm="del(row)"
                 >
                   <template #reference>
                     <el-button type="danger" link>Delete</el-button>
