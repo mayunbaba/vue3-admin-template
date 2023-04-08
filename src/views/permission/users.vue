@@ -83,25 +83,15 @@ api.dict('status').then((res) => {
 
 <template>
   <Table
-    :searchFormInitData="searchFormInitData"
-    :queryApi="api.users.getUsers"
-    :delApi="api.users.deleteUser"
-    :tableCloumns="tableCloumns"
+    :search-form-init-data="searchFormInitData"
+    :query-api="api.users.getUsers"
+    :del-api="api.users.deleteUser"
+    :table-cloumns="tableCloumns"
     ref="tableRef"
     @add="add"
     @edit="edit"
     @view="view"
   >
-    <!-- 搜索框 -->
-    <template #searchForm="{ searchForm }">
-      <el-form-item label="关键字" prop="keyword">
-        <el-input v-model="searchForm.keyword" />
-      </el-form-item>
-    </template>
-    <!-- 新增按钮 -->
-    <template #add>
-      <el-button type="primary" @click="add">新增</el-button>
-    </template>
     <!-- 替换默认内容 -->
     <template #status="{ row }">
       <el-tag
@@ -121,10 +111,10 @@ api.dict('status').then((res) => {
   <!-- 查看、编辑、新增弹窗 -->
   <el-dialog v-model="dialogVisible" center :title="dialogTitle + '用户'">
     <usersForm
-      v-model:dialogVisible="dialogVisible"
-      :dialogOpreation="dialogOpreation"
-      :dialogForm="dialogForm"
-      :loadingDialog="loadingDialog"
+      v-model:dialog-visible="dialogVisible"
+      :dialog-opreation="dialogOpreation"
+      :dialog-form="dialogForm"
+      :loading-dialog="loadingDialog"
       @submit="submit"
     />
   </el-dialog>

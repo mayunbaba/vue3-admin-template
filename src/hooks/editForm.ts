@@ -58,6 +58,8 @@ export function useEditForm({
 
   function getDetail(row: any) {
     if (viewApi) {
+      // 多赋值一次，是为了在编辑页面共用row的数据
+      dialogForm.value = { ...row };
       viewApi(row).then((res: any) => {
         dialogForm.value = res.data;
       });

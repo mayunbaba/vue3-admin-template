@@ -30,7 +30,7 @@ const dialogFormRules: any = reactive({
 function handleSubmit() {
   dialogFormRef.value.validate((valid: any) => {
     if (valid) {
-      emits('submit', props.dialogForm);
+      emits('submit');
     }
   });
 }

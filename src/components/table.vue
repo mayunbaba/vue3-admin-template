@@ -46,7 +46,11 @@ defineExpose({
 <template>
   <div class="list-page">
     <el-form :inline="true" :model="searchForm" class="search-wrap">
-      <slot name="searchForm" :searchForm="searchForm"></slot>
+      <slot name="searchForm" :searchForm="searchForm">
+        <el-form-item label="" prop="keyword">
+          <el-input v-model="searchForm.keyword" />
+        </el-form-item>
+      </slot>
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
         <el-button @click="reset">重置</el-button>
