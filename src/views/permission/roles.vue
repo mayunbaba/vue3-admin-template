@@ -3,7 +3,7 @@ import ListPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import api from '@/api';
-import { updateTreeAttrs } from '@/utils/common';
+import { updateTreeAttrs } from '@/utils/tree';
 // 查询
 const searchFormInitData = {
   keyword: '',

@@ -1,33 +1,7 @@
 import router from '@/router';
 import routesMap from '@/router/routesMap';
 import useIdentityStore from '@/store/identity';
-
-interface TreeNode {
-  id: number;
-  parent_id: number;
-  children?: TreeNode[];
-}
-
-function listToTree(list: TreeNode[]): TreeNode[] {
-  const map: Record<number, TreeNode> = {};
-  const roots: TreeNode[] = [];
-
-  // First pass: create a map of all nodes
-  for (const node of list) {
-    map[node.id] = { ...node, children: [] };
-  }
-
-  // Second pass: link child nodes to parent nodes
-  for (const node of list) {
-    const parent = map[node.parent_id];
-    if (parent) {
-      parent.children?.push(map[node.id]);
-    } else {
-      roots.push(map[node.id]);
-    }
-  }
-  return roots;
-}
+import { listToTree } from './tree';
 
 // 生成路由
 function generateRoutes() {
@@ -65,4 +39,4 @@ function addRoute(route: any, parentName: string = 'Layout') {
   }
 }
 
-export { generateRoutes, listToTree };
+export { generateRoutes };

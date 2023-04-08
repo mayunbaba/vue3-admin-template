@@ -2,7 +2,7 @@
 import NestMenu from './nestMenu.vue';
 import { RouteRecordRaw } from 'vue-router';
 import useIdentity from '@/store/identity';
-import { listToTree } from '@/utils/route';
+import { listToTree } from '@/utils/tree';
 
 const collapge = ref(false);
 // 过滤掉hidden为true的路由

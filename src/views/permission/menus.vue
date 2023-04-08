@@ -64,10 +64,6 @@ function handleSortClose() {
 function handleNodeDrop(Node: any) {
   // 方案一：每一层及从1开始排序
   treeAddSort(tableData.value);
-  // 方案二：最直观的排序，按照123456789排序，直观，但是不够灵活
-  //   treeToList(tableData.value).forEach((item: any, index: number) => {
-  //     item.sort = index + 1;
-  //   });
 }
 
 function treeAddSort(list: any) {
