@@ -26,3 +26,37 @@ body {
 .mb-20 {
   margin-bottom: 20px;
 }
+
+// 列表页
+.list-page {
+  padding: 0px 20px;
+}
+
+.shadow {
+  border-radius: 5px;
+  box-shadow: var(--el-box-shadow-light);
+}
+
+.search-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  padding: 20px;
+  padding-bottom: 0;
+  @extend .shadow;
+
+  .el-form-item__content {
+    width: 170px;
+  }
+}
+
+.table-wrap {
+  box-sizing: border-box;
+  margin: 20px 0;
+  padding: 20px;
+  @extend .shadow;
+}
+
+.pagination-wrap {
+  margin-top: 20px;
+}

@@ -1,7 +1,6 @@
 import { dialogTitleObj } from '@/utils/common';
 
 export function useEditForm({
-  dialogFormRef,
   dialogFormInitData,
   viewApi,
   addApi,
@@ -21,7 +20,6 @@ export function useEditForm({
   function add() {
     dialogVisible.value = true;
     dialogOpreation.value = 'add';
-    dialogFormRef.value?.resetFields();
     dialogForm.value = {
       ...dialogFormInitData,
     };
@@ -36,34 +34,26 @@ export function useEditForm({
   function edit(row: any) {
     dialogVisible.value = true;
     dialogOpreation.value = 'edit';
-    dialogFormRef.value?.resetFields();
     getDetail(row);
   }
   function view(row: any) {
     dialogVisible.value = true;
     dialogOpreation.value = 'view';
-    dialogFormRef.value?.resetFields();
     getDetail(row);
   }
   function submit() {
-    dialogFormRef.value.validate((valid: boolean, fields: any) => {
-      if (valid) {
-        if (loading.value) return;
-        loading.value = true;
-        addOrEdit()
-          .then((res: any) => {
-            if (res) {
-              dialogVisible.value = false;
-              search();
-            }
-          })
-          .finally(() => {
-            loading.value = false;
-          });
-      } else {
-        console.log('error submit!', fields);
-      }
-    });
+    if (loading.value) return;
+    loading.value = true;
+    addOrEdit()
+      .then((res: any) => {
+        if (res) {
+          dialogVisible.value = false;
+          search();
+        }
+      })
+      .finally(() => {
+        loading.value = false;
+      });
   }
 
   function addOrEdit() {
