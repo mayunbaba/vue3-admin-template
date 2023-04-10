@@ -3,6 +3,28 @@ import api from '@/api';
 import { getLabelByValue } from '@/utils/common';
 import Table from '@/components/table.vue';
 import usersForm from './users/usersForm.vue';
+
+// 字典
+const rolesOptions = ref();
+const statusOptions = ref();
+api.roles.getRoles().then((res) => {
+  const { data } = res.data;
+  rolesOptions.value = data.map((item: any) => {
+    return {
+      label: item.name,
+      value: item.id,
+    };
+  });
+});
+api.dict('status').then((res: any) => {
+  statusOptions.value = res.map((item: any) => {
+    return {
+      label: item.label,
+      value: item.value,
+    };
+  });
+});
+
 // 表格需要数据
 const tableRef = ref();
 const searchFormInitData = {
@@ -12,6 +34,7 @@ const tableCloumns = [
   {
     label: '用户名',
     prop: 'username',
+    sortable: 'custom',
   },
   {
     label: '昵称',
@@ -28,33 +51,18 @@ const tableCloumns = [
   {
     label: '状态',
     prop: 'status',
+    filters: statusOptions,
   },
   {
     label: '角色',
     prop: 'roles',
+    filters: rolesOptions,
   },
   {
     fixed: 'right',
     type: 'operation',
   },
 ];
-
-// =========================== 页面逻辑 ===========================
-// 字典
-const rolesOptions = ref();
-const statusOptions = ref();
-api.roles.getRoles().then((res) => {
-  const { data } = res.data;
-  rolesOptions.value = data.map((item: any) => {
-    return {
-      label: item.name,
-      value: item.id,
-    };
-  });
-});
-api.dict('status').then((res) => {
-  statusOptions.value = res;
-});
 </script>
 
 <template>

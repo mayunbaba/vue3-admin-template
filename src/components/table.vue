@@ -28,11 +28,19 @@ const {
   delApi: props.delApi,
 });
 
-const tableCloumnsShow = ref(
-  props.tableCloumns
-    .filter((item: any) => item.prop)
-    .map((item: any) => item.prop),
+// 列设置
+const tableCloumnsSettings = ref(
+  props.tableCloumns.filter((item: any) => item.prop),
 );
+const tableCloumnsShow = ref(
+  tableCloumnsSettings.value.map((item: any) => item.prop),
+);
+// 排序
+function handleSortChange({ prop, order }: any) {
+  console.log(prop, order);
+  // 调用后端排序接口
+}
+// 自带的筛选功能不支持接口排序且ui不美观，功能单一，所以这里自己实现
 
 // 弹窗
 const { dialog, handleAdd, handleEdit, handleView } = useDialog();
@@ -72,8 +80,8 @@ defineExpose({
         <template #dropdown>
           <el-dropdown-menu>
             <el-checkbox-group v-model="tableCloumnsShow">
-              <template v-for="item in tableCloumns" :key="item.prop">
-                <el-dropdown-item v-if="item.prop">
+              <template v-for="(item, index) in tableCloumnsSettings">
+                <el-dropdown-item v-if="item.prop" :key="index">
                   <el-checkbox :label="item.prop">
                     {{ item.label }}
                   </el-checkbox>
@@ -90,6 +98,7 @@ defineExpose({
         :data="tableData"
         border
         v-loading="loading"
+        @sort-change="handleSortChange"
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
         row-key="id"
@@ -141,6 +150,7 @@ defineExpose({
             :width="cloumn.width"
             :formatter="cloumn.formatter"
             :fixed="cloumn.fixed"
+            :sortable="cloumn.sortable"
           >
             <template #default="{ row }">
               <!-- 插槽带默认内容，传入内容可以被替换 -->
