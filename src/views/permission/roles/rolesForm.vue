@@ -26,12 +26,6 @@ api.menus.getMenuTree().then((res) => {
   menuTree.value = res.data;
 });
 
-function checkAll() {
-  menuTree.value.forEach((item: any) => {
-    menuTreeRef.value.setChecked(item.id, true, true);
-  });
-}
-
 function afterOpenDialog() {
   // 开启弹窗时重置表单
   formRef.value?.resetFields();
@@ -39,13 +33,9 @@ function afterOpenDialog() {
   api.roles
     .getRoleMenus(props.form)
     .then((res) => {
-      if (props.form.id == 1) {
-        checkAll();
-      } else {
-        const roleMenus = res.data;
-        const checkedKeys = roleMenus.map((item: any) => item.id);
-        menuTreeRef.value.setCheckedKeys(checkedKeys);
-      }
+      const roleMenus = res.data;
+      const checkedKeys = roleMenus.map((item: any) => item.id);
+      menuTreeRef.value.setCheckedKeys(checkedKeys);
     })
     .then(() => {
       updateTreeAttrs(menuTree.value, 'disabled', props.operation === 'view');
