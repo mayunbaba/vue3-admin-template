@@ -44,6 +44,7 @@ function checkAll() {
 function afterOpenDialog() {
   // 开启弹窗时重置表单
   formRef.value?.resetFields();
+  if (props.operation === 'add') return;
   api.roles
     .getRoleMenus(props.form)
     .then((res) => {
