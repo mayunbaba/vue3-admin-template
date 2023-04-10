@@ -29,14 +29,11 @@ const formRules: any = reactive({
 async function handleSubmit() {
   const valid = await formRef.value.validate();
   if (valid) {
-    console.log(props.form);
-    let requestApi;
-    if (props.operation.includes('add')) {
-      requestApi = api.users.addUser(props.form);
-    } else if (props.operation.includes('edit')) {
-      requestApi = api.users.updateUser(props.form);
-    }
-    await requestApi;
+    const requestApi = {
+      add: api.users.addUser,
+      edit: api.users.updateUser,
+    }[props.operation as 'add' | 'edit'];
+    await requestApi(props.form);
     emits('update:modelValue', false);
     emits('afterSubmit');
   }
@@ -45,14 +42,14 @@ async function handleSubmit() {
 watch(
   () => props.modelValue,
   (val) => {
-    // 开启弹窗时重置表单
     if (val) {
+      // 开启弹窗时重置表单
       formRef.value?.resetFields();
-    }
-    // 新增时默认数据
-    if (props.operation.includes('add')) {
-      props.form.status = 1;
-      props.form.roles = [];
+      // 新增时默认数据
+      if (props.operation.includes('add')) {
+        props.form.status = 1;
+        props.form.roles = [];
+      }
     }
   },
   { immediate: true },

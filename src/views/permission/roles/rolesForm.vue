@@ -2,16 +2,15 @@
 import api from '@/api';
 import { updateTreeAttrs } from '@/utils/tree';
 const props = defineProps<{
-  dialogOpreation: any;
-  dialogForm: any;
-  loadingDialog: any;
-  dialogVisible: boolean;
+  operation: any;
+  form: any;
+  modelValue: boolean;
 }>(); // 传入的参数
 
-const emits = defineEmits(['update:dialogVisible', 'submit']); // 传出的参数
+const emits = defineEmits(['update:modelValue', 'afterSubmit']); // 传出的参数
 
-const dialogFormRef = ref();
-const dialogFormRules: any = reactive({
+const formRef = ref();
+const formRules: any = reactive({
   name: [
     { required: true, message: '请输入角色', trigger: 'blur' },
     {
@@ -21,20 +20,22 @@ const dialogFormRules: any = reactive({
       trigger: 'blur',
     },
   ],
+  remarks: [{ required: true, message: '请输入备注', trigger: 'blur' }],
 });
 
 watch(
-  () => props.dialogVisible,
+  () => props.modelValue,
   (val) => {
     if (val) {
-      dialogFormRef.value?.resetFields();
+      // 开启弹窗时重置表单
+      formRef.value?.resetFields();
       nextTick(() => {
-        console.log(props.dialogForm);
-        if (props.dialogOpreation === 'edit') {
-          hanldeEdit(props.dialogForm);
-        } else if (props.dialogOpreation === 'view') {
-          handleView(props.dialogForm);
-        }
+        // 开启弹出框后的回调，修改树形控件的disabled属性，并获取角色权限
+        const afterOpenDialog = {
+          edit: afterHanldeEdit,
+          view: afterHandleView,
+        }[props.operation as 'edit' | 'view'];
+        afterOpenDialog?.(props.form);
       });
     }
   },
@@ -52,14 +53,14 @@ api.menus.getMenuTree().then((res) => {
   menuTree.value = res.data;
 });
 
-function hanldeEdit(row: any) {
+function afterHanldeEdit(row: any) {
   updateTreeAttrs(menuTree.value, 'disabled', false);
   api.roles.getRoleMenus(row).then((res) => {
     const roleMenus = res.data;
     menuTreeRef.value.setCheckedNodes(roleMenus);
   });
 }
-function handleView(row: any) {
+function afterHandleView(row: any) {
   // 禁用menuTree所有节点
   updateTreeAttrs(menuTree.value, 'disabled', true);
   api.roles.getRoleMenus(row).then((res) => {
@@ -67,42 +68,53 @@ function handleView(row: any) {
     menuTreeRef.value.setCheckedNodes(roleMenus);
   });
 }
-function handleSubmit() {
-  dialogFormRef.value.validate((valid: any) => {
-    if (valid) {
-      const checkedNodes = menuTreeRef.value.getCheckedNodes();
-      const checkedKeys = checkedNodes.map((item: any) => item.id);
-      api.roles
-        .updateRoleMenus({
-          id: props.dialogForm.id,
-          menu_ids: checkedKeys,
-        })
-        .then(() => {
-          emits('submit');
-        });
-    }
+
+async function beforeSubmit() {
+  // 因为更改用户角色和修改用户角色的接口不一样，所以需要在提交前处理一下
+  const checkedNodes = menuTreeRef.value.getCheckedNodes();
+  const checkedKeys = checkedNodes.map((item: any) => item.id);
+  await api.roles.updateRoleMenus({
+    id: props.form.id,
+    menu_ids: checkedKeys,
   });
+}
+
+async function handleSubmit() {
+  const valid = await formRef.value.validate();
+  if (valid) {
+    if (props.operation === 'edit') {
+      await beforeSubmit();
+    }
+    const requestApi = {
+      add: api.roles.addRole,
+      edit: api.roles.updateRole,
+    }[props.operation as 'add' | 'edit'];
+    console.log(requestApi);
+    await requestApi(props.form);
+    emits('update:modelValue', false);
+    emits('afterSubmit');
+  }
 }
 </script>
 
 <template>
   <div>
     <el-form
-      ref="dialogFormRef"
-      :model="dialogForm"
+      ref="formRef"
+      :model="form"
       label-width="80px"
-      :rules="dialogFormRules"
-      :disabled="dialogOpreation.includes('view')"
+      :rules="formRules"
+      :disabled="operation.includes('view')"
     >
       <el-form-item label="角色" prop="name">
-        <el-input v-model="dialogForm.name" placeholder="" clearable />
+        <el-input v-model="form.name" placeholder="" clearable />
       </el-form-item>
-      <el-form-item label="备注" prop="nickname">
-        <el-input v-model="dialogForm.remarks" placeholder="" clearable />
+      <el-form-item label="备注" prop="remarks">
+        <el-input v-model="form.remarks" placeholder="" clearable />
       </el-form-item>
     </el-form>
     <el-tree
-      v-show="!dialogOpreation.includes('add')"
+      v-show="!operation.includes('add')"
       :data="menuTree"
       :props="defaultProps"
       show-checkbox
@@ -114,12 +126,10 @@ function handleSubmit() {
     <span
       slot="footer"
       class="dialog-footer"
-      v-if="!dialogOpreation.includes('view')"
+      v-if="!operation.includes('view')"
     >
-      <el-button @click="emits('update:dialogVisible', false)">取 消</el-button>
-      <el-button type="primary" :loading="loadingDialog" @click="handleSubmit">
-        确 定
-      </el-button>
+      <el-button @click="emits('update:modelValue', false)">取 消</el-button>
+      <el-button type="primary" @click="handleSubmit"> 确 定 </el-button>
     </span>
   </div>
 </template>
