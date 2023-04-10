@@ -15,16 +15,6 @@ const formRules: any = reactive({
   remarks: [{ required: true, message: '请输入备注', trigger: 'blur' }],
 });
 
-watch(
-  () => props.modelValue,
-  (val) => {
-    if (val) {
-      afterOpenDialog();
-    }
-  },
-  { immediate: true },
-);
-// =========================== 页面逻辑 ===========================
 const menuTree = ref([]);
 const menuTreeRef = ref();
 const defaultProps = {
@@ -37,8 +27,9 @@ api.menus.getMenuTree().then((res) => {
 });
 
 function checkAll() {
-  const checkedKeys = menuTree.value.map((item: any) => item.id);
-  menuTreeRef.value.setCheckedKeys(checkedKeys);
+  menuTree.value.forEach((item: any) => {
+    menuTreeRef.value.setChecked(item.id, true, true);
+  });
 }
 
 function afterOpenDialog() {
@@ -67,7 +58,7 @@ async function beforeSubmit() {
   const checkedKeys = checkedNodes.map((item: any) => item.id);
   await api.roles.updateRoleMenus({
     id: props.form.id,
-    menu_ids: checkedKeys,
+    menu_ids: [...checkedKeys],
   });
 }
 
@@ -86,6 +77,16 @@ async function handleSubmit() {
     emits('afterSubmit');
   }
 }
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val) {
+      afterOpenDialog();
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
