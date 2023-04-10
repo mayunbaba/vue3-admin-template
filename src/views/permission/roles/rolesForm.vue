@@ -34,7 +34,10 @@ function afterOpenDialog() {
     .getRoleMenus(props.form)
     .then((res) => {
       const roleMenus = res.data;
-      const checkedKeys = roleMenus.map((item: any) => item.id);
+      // 只勾选type为2的节点，type为1的节点是菜单，不需要勾选
+      const checkedKeys = roleMenus
+        .filter((item: any) => item.type === 2)
+        .map((item: any) => item.id);
       menuTreeRef.value.setCheckedKeys(checkedKeys);
     })
     .then(() => {
@@ -43,11 +46,12 @@ function afterOpenDialog() {
 }
 
 async function beforeSubmit() {
-  // 因为更改用户角色和修改用户角色的接口不一样，所以需要在提交前处理一下
+  // 把半选中的节点也加入到选中的节点中，这样后端才能正确的更新菜单
   const checkedKeys = menuTreeRef.value.getCheckedKeys();
+  const halfCheckedKeys = menuTreeRef.value.getHalfCheckedKeys();
   await api.roles.updateRoleMenus({
     id: props.form.id,
-    menu_ids: [...checkedKeys],
+    menu_ids: [...checkedKeys, ...halfCheckedKeys],
   });
 }
 
