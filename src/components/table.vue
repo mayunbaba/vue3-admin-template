@@ -147,7 +147,7 @@ defineExpose({
       :close-on-click-modal="false"
       :close-on-press-escape="false"
     >
-      <slot name="dialogContent" :dialog="dialog"></slot>
+      <slot name="dialogContent" :dialog="dialog" :search="search"></slot>
     </el-dialog>
   </div>
 </template>

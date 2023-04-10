@@ -41,12 +41,12 @@ const tableCloumns = [
       ref="tableRef"
     >
       <!-- 查看、编辑、新增弹窗 -->
-      <template #dialogContent="{ dialog }">
+      <template #dialogContent="{ dialog, search }">
         <rolesForm
           v-model="dialog.visible"
           :operation="dialog.operation"
           :form="dialog.form"
-          @afterSubmit="tableRef.search"
+          @afterSubmit="search"
         />
       </template>
     </Table>

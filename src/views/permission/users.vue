@@ -80,12 +80,12 @@ api.dict('status').then((res) => {
       >
       </el-tag>
     </template>
-    <template #dialogContent="{ dialog }">
+    <template #dialogContent="{ dialog, search }">
       <usersForm
         v-model="dialog.visible"
         :operation="dialog.operation"
         :form="dialog.form"
-        @afterSubmit="tableRef.search"
+        @afterSubmit="search"
       />
     </template>
   </Table>

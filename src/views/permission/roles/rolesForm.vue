@@ -11,15 +11,7 @@ const emits = defineEmits(['update:modelValue', 'afterSubmit']); // 传出的参
 
 const formRef = ref();
 const formRules: any = reactive({
-  name: [
-    { required: true, message: '请输入角色', trigger: 'blur' },
-    {
-      min: 4,
-      max: 20,
-      message: '用户名长度在 4 到 20 个字符',
-      trigger: 'blur',
-    },
-  ],
+  name: [{ required: true, message: '请输入角色', trigger: 'blur' }],
   remarks: [{ required: true, message: '请输入备注', trigger: 'blur' }],
 });
 
@@ -45,7 +37,8 @@ api.menus.getMenuTree().then((res) => {
 });
 
 function checkAll() {
-  menuTreeRef.value.setCheckedKeys(menuTree.value.map((item: any) => item.id));
+  const checkedKeys = menuTree.value.map((item: any) => item.id);
+  menuTreeRef.value.setCheckedKeys(checkedKeys);
 }
 
 function afterOpenDialog() {
@@ -60,7 +53,6 @@ function afterOpenDialog() {
         const roleMenus = res.data;
         const checkedKeys = roleMenus.map((item: any) => item.id);
         menuTreeRef.value.setCheckedKeys(checkedKeys);
-        // menuTreeRef.value.setCheckedNodes(roleMenus);
       }
     })
     .then(() => {
