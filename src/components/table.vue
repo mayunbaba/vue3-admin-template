@@ -28,6 +28,12 @@ const {
   delApi: props.delApi,
 });
 
+const tableCloumnsShow = ref(
+  props.tableCloumns
+    .filter((item: any) => item.prop)
+    .map((item: any) => item.prop),
+);
+
 // 弹窗
 const { dialog, handleAdd, handleEdit, handleView } = useDialog();
 
@@ -58,6 +64,25 @@ defineExpose({
       </el-form-item>
     </el-form>
     <div class="table-wrap">
+      <el-dropdown :hide-on-click="false">
+        <el-button type="primary">
+          列设置
+          <el-icon class="el-icon--right"><arrow-down /></el-icon>
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-checkbox-group v-model="tableCloumnsShow">
+              <template v-for="item in tableCloumns" :key="item.prop">
+                <el-dropdown-item v-if="item.prop">
+                  <el-checkbox :label="item.prop">
+                    {{ item.label }}
+                  </el-checkbox>
+                </el-dropdown-item>
+              </template>
+            </el-checkbox-group>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <slot name="add">
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </slot>
@@ -110,7 +135,7 @@ defineExpose({
             </template>
           </el-table-column>
           <el-table-column
-            v-else
+            v-else-if="tableCloumnsShow.includes(cloumn.prop)"
             :prop="cloumn.prop"
             :label="cloumn.label"
             :width="cloumn.width"
