@@ -27,16 +27,7 @@ watch(
   () => props.modelValue,
   (val) => {
     if (val) {
-      // 开启弹窗时重置表单
-      formRef.value?.resetFields();
-      nextTick(() => {
-        // 开启弹出框后的回调，修改树形控件的disabled属性，并获取角色权限
-        const afterOpenDialog = {
-          edit: afterHanldeEdit,
-          view: afterHandleView,
-        }[props.operation as 'edit' | 'view'];
-        afterOpenDialog?.(props.form);
-      });
+      afterOpenDialog();
     }
   },
   { immediate: true },
@@ -53,20 +44,28 @@ api.menus.getMenuTree().then((res) => {
   menuTree.value = res.data;
 });
 
-function afterHanldeEdit(row: any) {
-  updateTreeAttrs(menuTree.value, 'disabled', false);
-  api.roles.getRoleMenus(row).then((res) => {
-    const roleMenus = res.data;
-    menuTreeRef.value.setCheckedNodes(roleMenus);
-  });
+function checkAll() {
+  menuTreeRef.value.setCheckedKeys(menuTree.value.map((item: any) => item.id));
 }
-function afterHandleView(row: any) {
-  // 禁用menuTree所有节点
-  updateTreeAttrs(menuTree.value, 'disabled', true);
-  api.roles.getRoleMenus(row).then((res) => {
-    const roleMenus = res.data;
-    menuTreeRef.value.setCheckedNodes(roleMenus);
-  });
+
+function afterOpenDialog() {
+  // 开启弹窗时重置表单
+  formRef.value?.resetFields();
+  api.roles
+    .getRoleMenus(props.form)
+    .then((res) => {
+      if (props.form.id == 1) {
+        checkAll();
+      } else {
+        const roleMenus = res.data;
+        const checkedKeys = roleMenus.map((item: any) => item.id);
+        menuTreeRef.value.setCheckedKeys(checkedKeys);
+        // menuTreeRef.value.setCheckedNodes(roleMenus);
+      }
+    })
+    .then(() => {
+      updateTreeAttrs(menuTree.value, 'disabled', props.operation === 'view');
+    });
 }
 
 async function beforeSubmit() {
@@ -89,7 +88,6 @@ async function handleSubmit() {
       add: api.roles.addRole,
       edit: api.roles.updateRole,
     }[props.operation as 'add' | 'edit'];
-    console.log(requestApi);
     await requestApi(props.form);
     emits('update:modelValue', false);
     emits('afterSubmit');
