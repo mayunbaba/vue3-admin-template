@@ -1,29 +1,62 @@
 <script lang="ts" setup>
-import ListPage from '@/components/listPage.vue';
-import { usePagination } from '@/hooks/pagination';
 import api from '@/api';
 import { useEditForm } from '@/hooks/editForm';
+import Table from '@/components/table.vue';
 
-// 查询
-const {
-  tableData,
-  total,
-  pageSize,
-  currentPage,
-  loading,
-  search,
-  handleCurrentChange,
-  handleSizeChange,
-} = usePagination({
-  queryApi: api.menus.getMenuTree,
-});
-// 编辑、查看、新增
-const dialogFormRef = ref();
+// 表格需要数据
+const tableRef = ref();
+const searchFormInitData = {
+  keyword: '',
+};
+const tableCloumns = [
+  {
+    label: '菜单名称',
+    prop: 'title',
+  },
+  {
+    label: '前端标识',
+    prop: 'route_name',
+  },
+  {
+    label: '权限类型',
+    prop: 'type',
+  },
+  {
+    label: '隐藏',
+    prop: 'hidden',
+  },
+  {
+    label: '排序',
+    prop: 'sort',
+  },
+  {
+    label: '前端路由',
+    prop: 'route_path',
+  },
+  {
+    label: '图标',
+    prop: 'icon',
+  },
+  {
+    label: '权限标识',
+    prop: 'api_route_name',
+  },
+  {
+    label: '创建时间',
+    prop: 'create_time',
+  },
+  {
+    label: '更新时间',
+    prop: 'update_time',
+  },
+  {
+    fixed: 'right',
+    type: 'operation',
+  },
+];
+
+// 弹窗逻辑
 const dialogFormInitData = {};
-const dialogFormRules: any = reactive({
-  title: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
-  route_name: [{ required: true, message: '请输入菜单路径', trigger: 'blur' }],
-});
 const {
   dialogVisible,
   dialogTitle,
@@ -33,16 +66,21 @@ const {
   edit,
   view,
   submit,
-  del,
   loadingDialog,
 } = useEditForm({
-  dialogFormRef,
   dialogFormInitData,
   addApi: api.menus.addMenus,
   editApi: api.menus.updateMenus,
-  delApi: api.menus.deleteMenus,
   viewApi: api.menus.getMenu,
-  search,
+  search: () => {
+    tableRef.value.search();
+  },
+});
+// 编辑、查看、新增
+const dialogFormRef = ref();
+const dialogFormRules: any = reactive({
+  title: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
+  route_name: [{ required: true, message: '请输入菜单路径', trigger: 'blur' }],
 });
 // =========================== 页面逻辑 ===========================
 function handleAdd(row?: any) {
@@ -77,14 +115,24 @@ function treeAddSort(list: any) {
 </script>
 
 <template>
-  <ListPage class="menus-page">
-    <template #add>
+  <div class="menus-page">
+    <Table
+      :search-form-init-data="searchFormInitData"
+      :query-api="api.menus.getMenuTree"
+      :del-api="api.menus.deleteMenus"
+      :table-cloumns="tableCloumns"
+      ref="tableRef"
+      @add="add"
+      @edit="edit"
+      @view="view"
+    ></Table>
+    <div>
       <el-button type="primary" @click="handleAdd()">新增</el-button>
       <el-button type="primary" @click="sortDialogVisible = true"
         >排序</el-button
       >
-    </template>
-    <template #table>
+    </div>
+    <div>
       <el-table
         :data="tableData"
         border
@@ -138,8 +186,8 @@ function treeAddSort(list: any) {
           </template>
         </el-table-column>
       </el-table>
-    </template>
-    <template #pagination>
+    </div>
+    <div>
       <el-pagination
         v-if="total > 0"
         layout="prev, pager, next, sizes, ->, total"
@@ -150,7 +198,7 @@ function treeAddSort(list: any) {
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
-    </template>
+    </div>
     <!-- 查看、编辑、新增弹窗 -->
     <el-dialog v-model="dialogVisible" center :title="dialogTitle">
       <el-form
@@ -224,7 +272,7 @@ function treeAddSort(list: any) {
         />
       </template>
     </el-drawer>
-  </ListPage>
+  </div>
 </template>
 <style lang="scss">
 .menus-page {

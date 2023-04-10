@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import api from '@/api';
-import { useEditForm } from '@/hooks/editForm';
 import { getLabelByValue } from '@/utils/common';
 import Table from '@/components/table.vue';
 import usersForm from './users/usersForm.vue';
@@ -39,30 +38,7 @@ const tableCloumns = [
     type: 'operation',
   },
 ];
-// 弹窗逻辑
-const dialogFormInitData = {
-  status: 1,
-  roles: [],
-};
 
-const {
-  dialogVisible,
-  dialogTitle,
-  dialogOpreation,
-  dialogForm,
-  add,
-  edit,
-  view,
-  submit,
-  loadingDialog,
-} = useEditForm({
-  dialogFormInitData,
-  addApi: api.users.addUser,
-  editApi: api.users.updateUser,
-  search: () => {
-    tableRef.value.search();
-  },
-});
 // =========================== 页面逻辑 ===========================
 // 字典
 const rolesOptions = ref();
@@ -88,9 +64,6 @@ api.dict('status').then((res) => {
     :del-api="api.users.deleteUser"
     :table-cloumns="tableCloumns"
     ref="tableRef"
-    @add="add"
-    @edit="edit"
-    @view="view"
   >
     <!-- 替换默认内容 -->
     <template #status="{ row }">
@@ -107,15 +80,13 @@ api.dict('status').then((res) => {
       >
       </el-tag>
     </template>
+    <template #dialogContent="{ dialog }">
+      <usersForm
+        v-model="dialog.visible"
+        :operation="dialog.operation"
+        :form="dialog.form"
+        @afterSubmit="tableRef.search"
+      />
+    </template>
   </Table>
-  <!-- 查看、编辑、新增弹窗 -->
-  <el-dialog v-model="dialogVisible" center :title="dialogTitle + '用户'">
-    <usersForm
-      v-model:dialog-visible="dialogVisible"
-      :dialog-opreation="dialogOpreation"
-      :dialog-form="dialogForm"
-      :loading-dialog="loadingDialog"
-      @submit="submit"
-    />
-  </el-dialog>
 </template>

@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import api from '@/api';
 const props = defineProps<{
-  dialogOpreation: any;
-  dialogForm: any;
-  loadingDialog: any;
-  dialogVisible: boolean;
+  operation: any;
+  form: any;
+  modelValue: boolean;
 }>(); // 传入的参数
 
-const emits = defineEmits(['update:dialogVisible', 'submit']); // 传出的参数
+const emits = defineEmits(['update:modelValue', 'afterSubmit']); // 传出的参数
 
-const dialogFormRef = ref();
-const dialogFormRules: any = reactive({
+const formRef = ref();
+const formRules: any = reactive({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     {
@@ -27,19 +26,33 @@ const dialogFormRules: any = reactive({
   ],
 });
 
-function handleSubmit() {
-  dialogFormRef.value.validate((valid: any) => {
-    if (valid) {
-      emits('submit');
+async function handleSubmit() {
+  const valid = await formRef.value.validate();
+  if (valid) {
+    console.log(props.form);
+    let requestApi;
+    if (props.operation.includes('add')) {
+      requestApi = api.users.addUser(props.form);
+    } else if (props.operation.includes('edit')) {
+      requestApi = api.users.updateUser(props.form);
     }
-  });
+    await requestApi;
+    emits('update:modelValue', false);
+    emits('afterSubmit');
+  }
 }
 
 watch(
-  () => props.dialogVisible,
+  () => props.modelValue,
   (val) => {
+    // 开启弹窗时重置表单
     if (val) {
-      dialogFormRef.value?.resetFields();
+      formRef.value?.resetFields();
+    }
+    // 新增时默认数据
+    if (props.operation.includes('add')) {
+      props.form.status = 1;
+      props.form.roles = [];
     }
   },
   { immediate: true },
@@ -65,17 +78,17 @@ api.dict('status').then((res) => {
 <template>
   <div>
     <el-form
-      ref="dialogFormRef"
-      :model="dialogForm"
+      ref="formRef"
+      :model="form"
       label-width="80px"
-      :rules="dialogFormRules"
-      :disabled="dialogOpreation.includes('view')"
+      :rules="formRules"
+      :disabled="operation.includes('view')"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="dialogForm.username" placeholder="" clearable />
+        <el-input v-model="form.username" clearable />
       </el-form-item>
       <el-form-item label="启用状态" prop="status">
-        <el-select v-model="dialogForm.status" placeholder="">
+        <el-select v-model="form.status">
           <el-option
             v-for="item in statusOptions"
             :key="item.value"
@@ -85,7 +98,7 @@ api.dict('status').then((res) => {
         </el-select>
       </el-form-item>
       <el-form-item label="角色" prop="roles">
-        <el-select v-model="dialogForm.roles" placeholder="" multiple>
+        <el-select v-model="form.roles" multiple>
           <el-option
             v-for="item in rolesOptions"
             :key="item.value"
@@ -95,32 +108,30 @@ api.dict('status').then((res) => {
         </el-select>
       </el-form-item>
       <el-form-item label="昵称" prop="nickname">
-        <el-input v-model="dialogForm.nickname" placeholder="" clearable />
+        <el-input v-model="form.nickname" clearable />
       </el-form-item>
       <el-form-item label="手机号" prop="mobile">
-        <el-input v-model="dialogForm.mobile" placeholder="" clearable />
+        <el-input v-model="form.mobile" clearable />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="dialogForm.email" placeholder="" clearable />
+        <el-input v-model="form.email" clearable />
       </el-form-item>
 
       <el-form-item
         label="密码"
-        v-if="dialogOpreation.includes('add')"
+        v-if="operation.includes('add')"
         prop="password"
       >
-        <el-input v-model="dialogForm.password" placeholder="" clearable />
+        <el-input v-model="form.password" clearable />
       </el-form-item>
     </el-form>
     <span
       slot="footer"
       class="dialog-footer"
-      v-if="!dialogOpreation.includes('view')"
+      v-if="!operation.includes('view')"
     >
-      <el-button @click="emits('update:dialogVisible', false)">取 消</el-button>
-      <el-button type="primary" :loading="loadingDialog" @click="handleSubmit">
-        确 定
-      </el-button>
+      <el-button @click="emits('update:modelValue', false)">取 消</el-button>
+      <el-button type="primary" @click="handleSubmit"> 确 定 </el-button>
     </span>
   </div>
 </template>

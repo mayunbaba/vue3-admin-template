@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { usePagination } from '@/hooks/pagination';
+import { useDialog } from '@/hooks/dialog';
 
 const props = defineProps<{
   searchFormInitData: any;
@@ -7,9 +8,6 @@ const props = defineProps<{
   delApi: any;
   tableCloumns: any;
 }>(); // 传入的参数
-
-// 编辑、查看、新增
-const emits = defineEmits(['add', 'view', 'edit']);
 
 // 查询
 const {
@@ -29,6 +27,9 @@ const {
   queryApi: props.queryApi,
   delApi: props.delApi,
 });
+
+// 弹窗
+const { dialog, handleAdd, handleEdit, handleView } = useDialog();
 
 function formatTableValue(val: any) {
   if (val === null || val === undefined || val.length === 0) {
@@ -58,7 +59,7 @@ defineExpose({
     </el-form>
     <div class="table-wrap">
       <slot name="add">
-        <el-button type="primary" @click="emits('add')">新增</el-button>
+        <el-button type="primary" @click="handleAdd">新增</el-button>
       </slot>
       <el-table
         :data="tableData"
@@ -66,6 +67,7 @@ defineExpose({
         v-loading="loading"
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
+        row-key="id"
       >
         <template v-for="cloumn in tableCloumns">
           <el-table-column
@@ -90,10 +92,10 @@ defineExpose({
           >
             <template #default="{ row }">
               <slot name="operation" :row="row">
-                <el-button type="primary" link @click="emits('edit', row)">
+                <el-button type="primary" link @click="handleEdit(row)">
                   编辑
                 </el-button>
-                <el-button type="primary" link @click="emits('view', row)">
+                <el-button type="primary" link @click="handleView(row)">
                   查看
                 </el-button>
                 <el-popconfirm
@@ -138,5 +140,14 @@ defineExpose({
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
+    <el-dialog
+      v-model="dialog.visible"
+      :title="dialog.title"
+      width="50%"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+    >
+      <slot name="dialogContent" :dialog="dialog"></slot>
+    </el-dialog>
   </div>
 </template>
