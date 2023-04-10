@@ -44,8 +44,7 @@ function afterOpenDialog() {
 
 async function beforeSubmit() {
   // 因为更改用户角色和修改用户角色的接口不一样，所以需要在提交前处理一下
-  const checkedNodes = menuTreeRef.value.getCheckedNodes();
-  const checkedKeys = checkedNodes.map((item: any) => item.id);
+  const checkedKeys = menuTreeRef.value.getCheckedKeys();
   await api.roles.updateRoleMenus({
     id: props.form.id,
     menu_ids: [...checkedKeys],
