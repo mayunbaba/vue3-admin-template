@@ -40,6 +40,15 @@ function handleSortChange({ prop, order }: any) {
   console.log(prop, order);
   // 调用后端排序接口
 }
+// checkbox
+const multipleSelection = ref();
+function handleSelectionChange(val: any) {
+  console.log(val, '选中行的完整数据');
+  multipleSelection.value = val;
+}
+
+// 单选
+const singleSelect = ref();
 // 自带的筛选功能不支持接口排序且ui不美观，功能单一，所以这里自己实现
 
 // 弹窗
@@ -57,6 +66,8 @@ defineExpose({
   search,
   dialog,
   tableData,
+  multipleSelection,
+  singleSelect,
 });
 </script>
 
@@ -105,16 +116,23 @@ defineExpose({
         border
         v-loading="loading"
         @sort-change="handleSortChange"
+        @selection-change="handleSelectionChange"
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
         default-expand-all
         row-key="id"
+        class="table"
       >
         <template v-for="cloumn in tableCloumns">
           <el-table-column
             v-if="cloumn.type === 'selection'"
             type="selection"
           ></el-table-column>
+          <el-table-column v-else-if="cloumn.type === 'radio'" width="50">
+            <template #default="{ row }">
+              <el-radio v-model="singleSelect" :label="row.id">&nbsp;</el-radio>
+            </template>
+          </el-table-column>
           <el-table-column
             v-else-if="cloumn.type === 'index'"
             type="index"

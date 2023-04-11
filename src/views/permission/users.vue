@@ -32,6 +32,12 @@ const searchFormInitData = {
 };
 const tableCloumns = [
   {
+    type: 'selection',
+  },
+  {
+    type: 'radio',
+  },
+  {
     label: '用户名',
     prop: 'username',
   },
@@ -66,6 +72,8 @@ const tableCloumns = [
 </script>
 
 <template>
+  {{ tableRef?.multipleSelection }}
+  {{ tableRef?.singleSelect }}
   <Table
     :search-form-init-data="searchFormInitData"
     :query-api="api.users.getUsers"

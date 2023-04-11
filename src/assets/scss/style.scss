@@ -68,6 +68,13 @@ body {
   margin: 20px 0;
   padding: 20px;
   @extend .shadow;
+  .table {
+    .el-radio {
+      .el-radio__label {
+        display: none;
+      }
+    }
+  }
 }
 
 .pagination-wrap {
