@@ -58,6 +58,7 @@ const tableCloumns = [
 // =========================== 页面逻辑 ===========================
 function handleSort() {
   const dialog = tableRef.value.dialog;
+  dialog.uiType = 'drawer';
   dialog.title = '菜单排序';
   dialog.operation = 'sort';
   dialog.visible = true;

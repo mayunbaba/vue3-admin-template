@@ -26,6 +26,16 @@ body {
   justify-content: center;
 }
 
+// 抽屉底部按钮样式
+.el-drawer {
+  position: relative;
+  .dialog-footer {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+  }
+}
+
 .mb-20 {
   margin-bottom: 20px;
 }

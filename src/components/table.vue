@@ -183,6 +183,7 @@ defineExpose({
       @current-change="handleCurrentChange"
     />
     <el-dialog
+      v-if="dialog.uiType === 'dialog'"
       v-model="dialog.visible"
       :title="dialog.title"
       width="50%"
@@ -197,5 +198,20 @@ defineExpose({
         :tableData="tableData"
       ></slot>
     </el-dialog>
+    <el-drawer
+      v-else-if="dialog.uiType === 'drawer'"
+      v-model="dialog.visible"
+      :title="dialog.title"
+      :with-header="false"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+    >
+      <slot
+        name="dialogContent"
+        :dialog="dialog"
+        :search="search"
+        :tableData="tableData"
+      ></slot>
+    </el-drawer>
   </div>
 </template>

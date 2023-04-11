@@ -36,18 +36,20 @@ function close() {
 }
 </script>
 <template>
-  <el-tree
-    :data="tableData"
-    draggable
-    default-expand-all
-    node-key="id"
-    class="mb-20"
-    :allow-drop="allowDrop"
-    :props="{
-      children: 'children',
-      label: 'title',
-    }"
-  />
+  <div>
+    <el-tree
+      :data="tableData"
+      draggable
+      default-expand-all
+      node-key="id"
+      class="mb-20"
+      :allow-drop="allowDrop"
+      :props="{
+        children: 'children',
+        label: 'title',
+      }"
+    />
+  </div>
   <span slot="footer" class="dialog-footer">
     <el-button @click="close">取 消</el-button>
     <el-button type="primary" @click="handleSubmit"> 确 定 </el-button>

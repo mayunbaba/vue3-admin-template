@@ -4,11 +4,13 @@ export function useDialog() {
     visible: false,
     title: '',
     operation: '',
+    uiType: 'dialog',
     loading: false,
     form: {},
   });
 
   function handleAdd() {
+    dialog.uiType = 'dialog';
     dialog.title = '新增';
     dialog.operation = 'add';
     dialog.form = {};
@@ -16,6 +18,7 @@ export function useDialog() {
   }
 
   function handleEdit(row: any) {
+    dialog.uiType = 'dialog';
     dialog.title = '编辑';
     dialog.operation = 'edit';
     dialog.form = { ...row };
@@ -23,6 +26,7 @@ export function useDialog() {
   }
 
   function handleView(row: any) {
+    dialog.uiType = 'dialog';
     dialog.title = '查看';
     dialog.operation = 'view';
     dialog.form = { ...row };
