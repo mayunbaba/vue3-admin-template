@@ -35,20 +35,38 @@ const tableCloumnsSettings = ref(
 const tableCloumnsShow = ref(
   tableCloumnsSettings.value.map((item: any) => item.prop),
 );
+function headerDragend(newWidth: any, oldWidth: any, column: any, event: any) {
+  console.log(
+    column.property,
+    'column.property',
+    column.realWidth,
+    'column.realWidth',
+    '存储列宽到本地',
+  );
+}
+
+function handleSaveCloumnsSettings(val: any) {
+  console.log(val, '保存列设置');
+}
+
+function resetCloumnsSettings() {
+  console.log('重置列设置');
+}
 // 排序
 function handleSortChange({ prop, order }: any) {
-  console.log(prop, order);
+  console.log(prop, order, '调用后端排序接口');
   // 调用后端排序接口
 }
+
 // checkbox
 const multipleSelection = ref();
 function handleSelectionChange(val: any) {
-  console.log(val, '选中行的完整数据');
   multipleSelection.value = val;
 }
 
 // 单选
 const singleSelect = ref();
+
 // 自带的筛选功能不支持接口排序且ui不美观，功能单一，所以这里自己实现
 
 // 弹窗
@@ -90,25 +108,31 @@ defineExpose({
           <el-button type="primary" @click="handleAdd">新增</el-button>
         </slot>
         <slot name="btnGroup"> </slot>
-        <el-dropdown :hide-on-click="false" class="last-one">
-          <el-button type="primary">
-            列设置
-            <el-icon class="el-icon--right"><arrow-down /></el-icon>
+        <div class="last-one">
+          <el-dropdown :hide-on-click="false">
+            <el-button type="primary">
+              列设置
+              <el-icon class="el-icon--right"><arrow-down /></el-icon>
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-checkbox-group v-model="tableCloumnsShow">
+                  <template v-for="(item, index) in tableCloumnsSettings">
+                    <el-dropdown-item v-if="item.prop" :key="index">
+                      <el-checkbox :label="item.prop">
+                        {{ item.label }}
+                      </el-checkbox>
+                    </el-dropdown-item>
+                  </template>
+                </el-checkbox-group>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+          <el-button type="primary" @click="handleSaveCloumnsSettings">
+            保存列设置
           </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-checkbox-group v-model="tableCloumnsShow">
-                <template v-for="(item, index) in tableCloumnsSettings">
-                  <el-dropdown-item v-if="item.prop" :key="index">
-                    <el-checkbox :label="item.prop">
-                      {{ item.label }}
-                    </el-checkbox>
-                  </el-dropdown-item>
-                </template>
-              </el-checkbox-group>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+          <el-button @click="resetCloumnsSettings">重置列设置</el-button>
+        </div>
       </div>
 
       <el-table
@@ -117,6 +141,7 @@ defineExpose({
         v-loading="loading"
         @sort-change="handleSortChange"
         @selection-change="handleSelectionChange"
+        @header-dragend="headerDragend"
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
         default-expand-all

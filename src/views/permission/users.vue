@@ -72,8 +72,6 @@ const tableCloumns = [
 </script>
 
 <template>
-  {{ tableRef?.multipleSelection }}
-  {{ tableRef?.singleSelect }}
   <Table
     :search-form-init-data="searchFormInitData"
     :query-api="api.users.getUsers"
