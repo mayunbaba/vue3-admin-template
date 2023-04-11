@@ -6,35 +6,37 @@ const props = defineProps<{
 
 const emits = defineEmits(['update:modelValue', 'afterSubmit']); // 传出的参数
 
-function handleNodeDrop(Node: any) {
-  // 方案一：每一层及从1开始排序
-  // treeAddSort(tableData.value);
-  console.log('拖拽', props.tableData);
+function allowDrop(draggingNode: any, dropNode: any, type: any) {
+  // 按钮类型不允许添加子节点
+  if (type === 'inner' && dropNode.data.type === 2) {
+    return false;
+  }
+  return true;
 }
 
-function treeAddSort(list: any) {
+function treeAddSort(list: any, parent_id = 0) {
   list.forEach((item: any, index: number) => {
     item.sort = index + 1;
+    item.parent_id = parent_id;
     if (item.children) {
-      treeAddSort(item.children);
+      treeAddSort(item.children, item.id);
     }
   });
 }
 
 function handleSubmit() {
+  treeAddSort(props.tableData);
   // emits('update:modelValue', false);
   // emits('afterSubmit');
 }
 </script>
 <template>
-  <el-tree :data="tableData" node-key="id" />
   <el-tree
     :data="tableData"
     draggable
     default-expand-all
     node-key="id"
-    @node-drop="handleNodeDrop"
-    :expand-on-click-node="false"
+    :allow-drop="allowDrop"
     :props="{
       children: 'children',
       label: 'title',

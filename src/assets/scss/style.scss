@@ -16,6 +16,9 @@ body {
   * {
     box-sizing: inherit;
   }
+  .el-tree {
+    box-sizing: content-box;
+  }
 }
 
 .dialog-footer {

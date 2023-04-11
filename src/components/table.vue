@@ -104,6 +104,7 @@ defineExpose({
         @sort-change="handleSortChange"
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
+        default-expand-all
         row-key="id"
       >
         <template v-for="cloumn in tableCloumns">
@@ -184,6 +185,7 @@ defineExpose({
       width="50%"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
+      draggable
     >
       <slot name="dialogContent" :dialog="dialog" :search="search"></slot>
     </el-dialog>
