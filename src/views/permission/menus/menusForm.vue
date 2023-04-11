@@ -19,6 +19,7 @@ async function handleSubmit() {
   if (valid) {
     const requestApi = {
       add: api.menus.addMenus,
+      addSub: api.menus.addMenus,
       edit: api.menus.updateMenus,
     }[props.operation as 'add' | 'edit'];
     await requestApi(props.form);
@@ -34,8 +35,10 @@ watch(
       // 开启弹窗时重置表单
       formRef.value?.resetFields();
       // 新增时默认数据
-      if (props.operation.includes('add')) {
+      if (props.operation === 'add') {
         props.form.parent_id = 0;
+        props.form.sort = 0;
+      } else if (props.operation === 'addSub') {
         props.form.sort = 0;
       }
     }

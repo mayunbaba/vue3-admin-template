@@ -41,6 +41,7 @@ const tableCloumns = [
   {
     fixed: 'right',
     type: 'operation',
+    width: 240,
   },
 ];
 // =========================== 页面逻辑 ===========================
@@ -49,6 +50,15 @@ function handleSort() {
   dialog.uiType = 'drawer';
   dialog.title = '菜单排序';
   dialog.operation = 'sort';
+  dialog.visible = true;
+}
+
+function handleAddSub(row: any) {
+  const dialog = tableRef.value.dialog;
+  dialog.uiType = 'dialog';
+  dialog.title = '添加子菜单';
+  dialog.operation = 'addSub';
+  dialog.form.parent_id = row.id;
   dialog.visible = true;
 }
 </script>
@@ -75,6 +85,11 @@ function handleSort() {
           <el-tag v-else-if="row.hidden === 0" type="success">否</el-tag>
         </div>
         <div v-else>--</div>
+      </template>
+      <template #operationBehind="{ row }">
+        <el-button v-if="row.type === 1" type="text" @click="handleAddSub(row)"
+          >添加子菜单</el-button
+        >
       </template>
       <!-- 弹窗 -->
       <template #dialogContent="{ dialog, search, tableData }">

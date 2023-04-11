@@ -132,11 +132,12 @@ defineExpose({
             :fixed="cloumn.fixed"
           >
             <template #default="{ row }">
+              <slot name="operationFront" :row="row"></slot>
               <slot name="operation" :row="row">
-                <el-button type="primary" link @click="handleEdit(row)">
+                <el-button type="text" @click="handleEdit(row)" class="edit">
                   编辑
                 </el-button>
-                <el-button type="primary" link @click="handleView(row)">
+                <el-button type="text" @click="handleView(row)" class="view">
                   查看
                 </el-button>
                 <el-popconfirm
@@ -144,10 +145,11 @@ defineExpose({
                   @confirm="del(row)"
                 >
                   <template #reference>
-                    <el-button type="danger" link>Delete</el-button>
+                    <el-button type="danger" link class="del">Delete</el-button>
                   </template>
                 </el-popconfirm>
               </slot>
+              <slot name="operationBehind" :row="row"></slot>
             </template>
           </el-table-column>
           <el-table-column
