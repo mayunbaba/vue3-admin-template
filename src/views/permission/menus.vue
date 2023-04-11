@@ -41,7 +41,7 @@ const tableCloumns = [
   {
     fixed: 'right',
     type: 'operation',
-    width: 240,
+    width: 260,
   },
 ];
 // =========================== 页面逻辑 ===========================
@@ -87,7 +87,11 @@ function handleAddSub(row: any) {
         <div v-else>--</div>
       </template>
       <template #operationBehind="{ row }">
-        <el-button v-if="row.type === 1" type="text" @click="handleAddSub(row)"
+        <el-button
+          v-if="row.type === 1"
+          type="primary"
+          link
+          @click="handleAddSub(row)"
           >添加子菜单</el-button
         >
       </template>

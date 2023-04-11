@@ -32,12 +32,6 @@ const searchFormInitData = {
 };
 const tableCloumns = [
   {
-    type: 'selection',
-  },
-  {
-    type: 'radio',
-  },
-  {
     label: '用户名',
     prop: 'username',
   },
@@ -66,7 +60,7 @@ const tableCloumns = [
   {
     fixed: 'right',
     type: 'operation',
-    width: 160,
+    width: 180,
   },
 ];
 </script>

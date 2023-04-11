@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { usePagination } from '@/hooks/pagination';
 import { useDialog } from '@/hooks/dialog';
+import { useRoute } from 'vue-router';
+import { localStorage } from '@/utils/storage';
 
 const props = defineProps<{
   searchFormInitData: any;
@@ -9,6 +11,19 @@ const props = defineProps<{
   tableCloumns: any;
 }>(); // 传入的参数
 
+// 获取列宽数据
+const route = useRoute();
+const routeName = route.name as string;
+const storageData = localStorage.get(routeName) || {
+  tableCloumnsWidth: {},
+  tableCloumnsShow: [],
+};
+const { tableCloumnsWidth } = storageData;
+props.tableCloumns.forEach((item: any) => {
+  if (tableCloumnsWidth[item.prop]) {
+    item.width = tableCloumnsWidth[item.prop];
+  }
+});
 // 查询
 const {
   tableData,
@@ -32,25 +47,33 @@ const {
 const tableCloumnsSettings = ref(
   props.tableCloumns.filter((item: any) => item.prop),
 );
-const tableCloumnsShow = ref(
-  tableCloumnsSettings.value.map((item: any) => item.prop),
-);
-function headerDragend(newWidth: any, oldWidth: any, column: any, event: any) {
-  console.log(
-    column.property,
-    'column.property',
-    column.realWidth,
-    'column.realWidth',
-    '存储列宽到本地',
+const tableCloumnsShow = ref();
+if (storageData.tableCloumnsShow.length > 0) {
+  tableCloumnsShow.value = storageData.tableCloumnsShow;
+} else {
+  tableCloumnsShow.value = tableCloumnsSettings.value.map(
+    (item: any) => item.prop,
   );
 }
-
-function handleSaveCloumnsSettings(val: any) {
-  console.log(val, '保存列设置');
+watch(
+  () => tableCloumnsShow.value,
+  (val) => {
+    storageData.tableCloumnsShow = val;
+    localStorage.set(routeName, storageData);
+  },
+);
+function headerDragend(newWidth: any, oldWidth: any, column: any, event: any) {
+  storageData.tableCloumnsWidth[column.property] = column.realWidth;
+  localStorage.set(routeName, storageData);
 }
 
 function resetCloumnsSettings() {
-  console.log('重置列设置');
+  storageData.tableCloumnsWidth = {};
+  // 重复赋值，watch依然会触发，顺带保存了tableCloumnsShow
+  tableCloumnsShow.value = tableCloumnsSettings.value.map(
+    (item: any) => item.prop,
+  );
+  location.reload();
 }
 // 排序
 function handleSortChange({ prop, order }: any) {
@@ -128,9 +151,6 @@ defineExpose({
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <el-button type="primary" @click="handleSaveCloumnsSettings">
-            保存列设置
-          </el-button>
           <el-button @click="resetCloumnsSettings">重置列设置</el-button>
         </div>
       </div>
@@ -146,6 +166,7 @@ defineExpose({
         element-loading-background="rgba(122, 122, 122, 0.8)"
         default-expand-all
         row-key="id"
+        ref="table"
         class="table"
       >
         <template v-for="cloumn in tableCloumns">
@@ -177,10 +198,20 @@ defineExpose({
             <template #default="{ row }">
               <slot name="operationFront" :row="row"></slot>
               <slot name="operation" :row="row">
-                <el-button type="text" @click="handleEdit(row)" class="edit">
+                <el-button
+                  link
+                  type="primary"
+                  @click="handleEdit(row)"
+                  class="edit"
+                >
                   编辑
                 </el-button>
-                <el-button type="text" @click="handleView(row)" class="view">
+                <el-button
+                  link
+                  type="primary"
+                  @click="handleView(row)"
+                  class="view"
+                >
                   查看
                 </el-button>
                 <el-popconfirm
