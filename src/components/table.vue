@@ -74,29 +74,32 @@ defineExpose({
       </el-form-item>
     </el-form>
     <div class="table-wrap">
-      <el-dropdown :hide-on-click="false">
-        <el-button type="primary">
-          列设置
-          <el-icon class="el-icon--right"><arrow-down /></el-icon>
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-checkbox-group v-model="tableCloumnsShow">
-              <template v-for="(item, index) in tableCloumnsSettings">
-                <el-dropdown-item v-if="item.prop" :key="index">
-                  <el-checkbox :label="item.prop">
-                    {{ item.label }}
-                  </el-checkbox>
-                </el-dropdown-item>
-              </template>
-            </el-checkbox-group>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-      <slot name="add">
-        <el-button type="primary" @click="handleAdd">新增</el-button>
-      </slot>
-      <slot name="btnGroup"> </slot>
+      <div class="mb-20 flex">
+        <slot name="add">
+          <el-button type="primary" @click="handleAdd">新增</el-button>
+        </slot>
+        <slot name="btnGroup"> </slot>
+        <el-dropdown :hide-on-click="false" class="last-one">
+          <el-button type="primary">
+            列设置
+            <el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-checkbox-group v-model="tableCloumnsShow">
+                <template v-for="(item, index) in tableCloumnsSettings">
+                  <el-dropdown-item v-if="item.prop" :key="index">
+                    <el-checkbox :label="item.prop">
+                      {{ item.label }}
+                    </el-checkbox>
+                  </el-dropdown-item>
+                </template>
+              </el-checkbox-group>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+
       <el-table
         :data="tableData"
         border

@@ -29,6 +29,11 @@ function handleSubmit() {
   // emits('update:modelValue', false);
   // emits('afterSubmit');
 }
+
+function close() {
+  emits('update:modelValue', false);
+  emits('afterSubmit');
+}
 </script>
 <template>
   <el-tree
@@ -36,6 +41,7 @@ function handleSubmit() {
     draggable
     default-expand-all
     node-key="id"
+    class="mb-20"
     :allow-drop="allowDrop"
     :props="{
       children: 'children',
@@ -43,7 +49,7 @@ function handleSubmit() {
     }"
   />
   <span slot="footer" class="dialog-footer">
-    <el-button @click="emits('update:modelValue', false)">取 消</el-button>
+    <el-button @click="close">取 消</el-button>
     <el-button type="primary" @click="handleSubmit"> 确 定 </el-button>
   </span>
 </template>
