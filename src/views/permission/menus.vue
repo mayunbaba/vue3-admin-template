@@ -56,9 +56,7 @@ const tableCloumns = [
   },
 ];
 // =========================== 页面逻辑 ===========================
-const tableData = ref();
 function handleSort() {
-  tableData.value = tableRef.value.tableData;
   const dialog = tableRef.value.dialog;
   dialog.title = '菜单排序';
   dialog.operation = 'sort';
@@ -90,7 +88,7 @@ function handleSort() {
         <div v-else>--</div>
       </template>
       <!-- 弹窗 -->
-      <template #dialogContent="{ dialog, search }">
+      <template #dialogContent="{ dialog, search, tableData }">
         <sortMenus
           v-if="dialog.operation === 'sort'"
           v-model="dialog.visible"

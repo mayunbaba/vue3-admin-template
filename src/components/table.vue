@@ -190,7 +190,12 @@ defineExpose({
       :close-on-press-escape="false"
       draggable
     >
-      <slot name="dialogContent" :dialog="dialog" :search="search"></slot>
+      <slot
+        name="dialogContent"
+        :dialog="dialog"
+        :search="search"
+        :tableData="tableData"
+      ></slot>
     </el-dialog>
   </div>
 </template>
