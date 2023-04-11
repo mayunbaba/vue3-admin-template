@@ -34,7 +34,6 @@ const tableCloumns = [
   {
     label: '用户名',
     prop: 'username',
-    sortable: 'custom',
   },
   {
     label: '昵称',

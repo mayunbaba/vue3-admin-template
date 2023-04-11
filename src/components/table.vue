@@ -55,6 +55,8 @@ function formatTableValue(val: any) {
 
 defineExpose({
   search,
+  dialog,
+  tableData,
 });
 </script>
 
@@ -94,6 +96,7 @@ defineExpose({
       <slot name="add">
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </slot>
+      <slot name="btnGroup"> </slot>
       <el-table
         :data="tableData"
         border
