@@ -21,8 +21,9 @@ export default {
   },
   // 更新菜单排序
   updateMenusSort: (menu: any) => {
-    return request(`/menus/${menu.id}/${menu.sort}`, {
-      method: 'PUT',
+    return request(`/menus/sort`, {
+      method: 'POST',
+      data: menu,
     });
   },
   // 删除菜单

@@ -27,10 +27,6 @@ const tableCloumns = [
     prop: 'hidden',
   },
   {
-    label: '排序',
-    prop: 'sort',
-  },
-  {
     label: '前端路由',
     prop: 'route_path',
   },
@@ -41,14 +37,6 @@ const tableCloumns = [
   {
     label: '权限标识',
     prop: 'api_route_name',
-  },
-  {
-    label: '创建时间',
-    prop: 'create_time',
-  },
-  {
-    label: '更新时间',
-    prop: 'update_time',
   },
   {
     fixed: 'right',

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import api from '@/api';
+import { treeToList } from '@/utils/tree';
+
 const props = defineProps<{
   modelValue: boolean;
   tableData: any;
@@ -26,8 +29,21 @@ function treeAddSort(list: any, parent_id = 0) {
 
 function handleSubmit() {
   treeAddSort(props.tableData);
-  // emits('update:modelValue', false);
-  // emits('afterSubmit');
+  const list = treeToList(props.tableData);
+  const menus = list.map((item) => {
+    return {
+      id: item.id,
+      sort: item.sort,
+      parent_id: item.parent_id,
+    };
+  });
+  api.menus
+    .updateMenusSort({
+      menus,
+    })
+    .then(() => {
+      close();
+    });
 }
 
 function close() {
