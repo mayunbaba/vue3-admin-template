@@ -69,6 +69,11 @@ body {
   padding: 20px;
   @extend .shadow;
   .table {
+    thead {
+      .cell {
+        white-space: nowrap;
+      }
+    }
     .el-radio {
       .el-radio__label {
         display: none;

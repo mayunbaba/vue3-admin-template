@@ -73,7 +73,6 @@ function resetCloumnsSettings() {
   tableCloumnsShow.value = tableCloumnsSettings.value.map(
     (item: any) => item.prop,
   );
-  location.reload();
 }
 // 排序
 function handleSortChange({ prop, order }: any) {
@@ -234,6 +233,7 @@ defineExpose({
             :formatter="cloumn.formatter"
             :fixed="cloumn.fixed"
             :sortable="cloumn.sortable"
+            show-overflow-tooltip
           >
             <template #default="{ row }">
               <!-- 插槽带默认内容，传入内容可以被替换 -->

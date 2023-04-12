@@ -21,10 +21,12 @@ const tableCloumns = [
   {
     label: '权限类型',
     prop: 'type',
+    width: 100,
   },
   {
     label: '隐藏',
     prop: 'hidden',
+    width: 65,
   },
   {
     label: '前端路由',

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import listPage from '@/components/listPage.vue';
 import { usePagination } from '@/hooks/pagination';
 import { useEditForm } from '@/hooks/editForm';
 import district from '@/utils/district';
@@ -50,7 +49,6 @@ const {
   dialogOpreation,
   dialogForm,
   add,
-  del,
   edit,
   view,
   submit,
@@ -140,20 +138,6 @@ watch(
         <el-table-column prop="province" label="省" />
         <el-table-column prop="city" label="市" />
         <el-table-column prop="address" label="地址" />
-        <el-table-column label="操作">
-          <template #default="{ row }">
-            <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
-            <el-button type="primary" link @click="view(row)"> 查看 </el-button>
-            <el-popconfirm
-              title="删除后将无法恢复，确定删除？"
-              @confirm="del(row)"
-            >
-              <template #reference>
-                <el-button type="danger" link>Delete</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
       </el-table>
     </template>
     <template #pagination>

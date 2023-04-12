@@ -27,7 +27,7 @@ const tableCloumns = [
   {
     fixed: 'right',
     type: 'operation',
-    width: 160,
+    width: 180,
   },
 ];
 </script>
