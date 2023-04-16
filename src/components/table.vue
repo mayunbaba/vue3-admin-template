@@ -12,19 +12,6 @@ const props = defineProps<{
   selection: boolean;
 }>(); // 传入的参数
 
-// 获取列宽数据
-const route = useRoute();
-const routeName = route.name as string;
-const storageData = localStorage.get(routeName) || {
-  tableCloumnsWidth: {},
-  tableCloumnsShow: [],
-};
-const { tableCloumnsWidth } = storageData;
-props.tableCloumns.forEach((item: any) => {
-  if (tableCloumnsWidth[item.prop]) {
-    item.width = tableCloumnsWidth[item.prop];
-  }
-});
 // 查询
 const {
   tableData,
@@ -47,7 +34,21 @@ const {
   delApi: props.delApi,
 });
 
-// 列设置
+// 列设置开始 ======================
+// 设置列宽
+const route = useRoute();
+const routeName = route.name as string;
+const storageData = localStorage.get(routeName) || {
+  tableCloumnsWidth: {},
+  tableCloumnsShow: [],
+};
+const { tableCloumnsWidth } = storageData;
+props.tableCloumns.forEach((item: any) => {
+  if (tableCloumnsWidth[item.prop]) {
+    item.width = tableCloumnsWidth[item.prop];
+  }
+});
+// 设置列显示
 const tableCloumnsSettings = ref(
   props.tableCloumns.filter((item: any) => item.prop),
 );
@@ -79,6 +80,8 @@ function resetCloumnsSettings() {
   );
   location.reload();
 }
+// 列设置结束 ======================
+
 // 排序
 function handleSortChange({ prop, order }: any) {
   console.log(prop, order, '调用后端排序接口');
@@ -87,8 +90,6 @@ function handleSortChange({ prop, order }: any) {
 
 // 单选
 const singleSelect = ref();
-
-// 自带的筛选功能不支持接口排序且ui不美观，功能单一，所以这里自己实现
 
 // 弹窗
 const { dialog, handleAdd, handleEdit, handleView } = useDialog();
