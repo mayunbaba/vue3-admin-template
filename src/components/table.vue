@@ -40,6 +40,7 @@ const {
   searchForm,
   multipleSelection,
   handleSelectionChange,
+  elTableRef,
 } = usePagination({
   searchFormInitData: props.searchFormInitData,
   queryApi: props.queryApi,
@@ -172,9 +173,8 @@ defineExpose({
         element-loading-text="Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
         default-expand-all
+        ref="elTableRef"
         row-key="id"
-        ref="table"
-        class="table"
       >
         <el-table-column
           v-if="selection"
