@@ -6,6 +6,12 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
   const loading = ref(false);
   const tableData = ref();
   const searchForm = ref({ ...searchFormInitData });
+  // checkbox
+  const multipleSelection = ref();
+
+  function handleSelectionChange(val: any) {
+    multipleSelection.value = val;
+  }
 
   search();
 
@@ -46,6 +52,7 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
       .then((res: any) => {
         loading.value = false;
         if (res) {
+          multipleSelection.value = [];
           query();
         }
       })
@@ -81,5 +88,7 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
     handleSizeChange,
     reset,
     searchForm,
+    multipleSelection,
+    handleSelectionChange,
   };
 }

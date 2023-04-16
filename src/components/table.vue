@@ -9,6 +9,7 @@ const props = defineProps<{
   queryApi: any;
   delApi: any;
   tableCloumns: any;
+  selection: boolean;
 }>(); // 传入的参数
 
 // 获取列宽数据
@@ -37,6 +38,8 @@ const {
   handleSizeChange,
   reset,
   searchForm,
+  multipleSelection,
+  handleSelectionChange,
 } = usePagination({
   searchFormInitData: props.searchFormInitData,
   queryApi: props.queryApi,
@@ -81,12 +84,6 @@ function handleSortChange({ prop, order }: any) {
   // 调用后端排序接口
 }
 
-// checkbox
-const multipleSelection = ref();
-function handleSelectionChange(val: any) {
-  multipleSelection.value = val;
-}
-
 // 单选
 const singleSelect = ref();
 
@@ -104,10 +101,7 @@ function formatTableValue(val: any) {
 }
 
 defineExpose({
-  search,
   dialog,
-  tableData,
-  multipleSelection,
   singleSelect,
 });
 </script>
@@ -130,6 +124,19 @@ defineExpose({
         <slot name="add">
           <el-button type="primary" @click="handleAdd">新增</el-button>
         </slot>
+        <el-popconfirm
+          title="删除后将无法恢复，确定删除？"
+          @confirm="del(multipleSelection)"
+        >
+          <template #reference>
+            <el-button type="danger" :disabled="!multipleSelection?.length">
+              批量删除
+            </el-button>
+          </template>
+        </el-popconfirm>
+        <el-button type="primary" link>
+          已选择{{ multipleSelection?.length || 0 }}条
+        </el-button>
         <slot name="btnGroup"> </slot>
         <div class="last-one">
           <el-dropdown :hide-on-click="false">
@@ -169,12 +176,13 @@ defineExpose({
         ref="table"
         class="table"
       >
+        <el-table-column
+          v-if="selection"
+          type="selection"
+          :reserve-selection="true"
+        ></el-table-column>
         <template v-for="cloumn in tableCloumns">
-          <el-table-column
-            v-if="cloumn.type === 'selection'"
-            type="selection"
-          ></el-table-column>
-          <el-table-column v-else-if="cloumn.type === 'radio'" width="50">
+          <el-table-column v-if="cloumn.type === 'radio'" width="50">
             <template #default="{ row }">
               <el-radio v-model="singleSelect" :label="row.id">&nbsp;</el-radio>
             </template>
@@ -216,7 +224,7 @@ defineExpose({
                 </el-button>
                 <el-popconfirm
                   title="删除后将无法恢复，确定删除？"
-                  @confirm="del(row)"
+                  @confirm="del([row])"
                 >
                   <template #reference>
                     <el-button type="danger" link class="del">Delete</el-button>
