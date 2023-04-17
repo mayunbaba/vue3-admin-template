@@ -71,6 +71,7 @@ const tableCloumns = [
     :query-api="api.users.getUsers"
     :del-api="api.users.deleteUser"
     :table-cloumns="tableCloumns"
+    :selection="true"
     ref="tableRef"
   >
     <!-- 替换默认内容 -->

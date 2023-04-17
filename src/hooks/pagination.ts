@@ -6,6 +6,13 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
   const loading = ref(false);
   const tableData = ref();
   const searchForm = ref({ ...searchFormInitData });
+  // checkbox
+  const elTableRef = ref();
+  const multipleSelection = ref();
+
+  function handleSelectionChange(val: any) {
+    multipleSelection.value = val;
+  }
 
   search();
 
@@ -18,6 +25,8 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
     if (loading.value) return;
     loading.value = true;
     tableData.value = [];
+    elTableRef.value?.clearSelection(); // 清空选中
+    multipleSelection.value = []; // 清空选中
     queryApi(searchForm.value, currentPage.value, pageSize.value)
       .then((res: any) => {
         if (res) {
@@ -81,5 +90,8 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
     handleSizeChange,
     reset,
     searchForm,
+    multipleSelection,
+    handleSelectionChange,
+    elTableRef,
   };
 }

@@ -33,5 +33,7 @@ export default {
   // 修改
   updateUser: (data: any) => request.put(`/users/${data.id}`, data),
   // 删除
-  deleteUser: (data: any) => request.delete(`/users/${data.id}`),
+  deleteUser: (datas: any) => {
+    return request.delete(`/users/${datas[0].id}`);
+  },
 };
