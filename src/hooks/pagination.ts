@@ -25,8 +25,6 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
     if (loading.value) return;
     loading.value = true;
     tableData.value = [];
-    elTableRef.value?.clearSelection(); // 清空选中
-    multipleSelection.value = []; // 清空选中
     queryApi(searchForm.value, currentPage.value, pageSize.value)
       .then((res: any) => {
         if (res) {
@@ -49,13 +47,15 @@ export function usePagination({ searchFormInitData, queryApi, delApi }: any) {
       });
   }
 
-  function del(row: any) {
+  function del(rows: any) {
     loading.value = true;
-    delApi(row)
+    delApi(rows)
       .then((res: any) => {
         loading.value = false;
         if (res) {
           query();
+          elTableRef.value?.clearSelection(); // 清空选中
+          multipleSelection.value = []; // 清空选中
         }
       })
       .finally(() => {

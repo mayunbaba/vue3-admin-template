@@ -27,8 +27,8 @@ export default {
     });
   },
   // 删除菜单
-  deleteMenus: (row: any) => {
-    return request(`/menus/${row.id}`, {
+  deleteMenus: (rows: any) => {
+    return request(`/menus/${rows[0].id}`, {
       method: 'DELETE',
     });
   },
